@@ -43,6 +43,22 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+
+        $this->loadComponent('Auth', [
+            'authorize' => ['Controller'],
+            'authenticate' => [
+                'Form' => [
+                    'fields'=>[
+                        'username' => 'email',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ]
+        ]);
     }
 
     /**
@@ -60,10 +76,25 @@ class AppController extends Controller
         }
 
 
-
-        $this->viewBuilder()->theme('AdminLTE');
+        if (!$this->Auth->user())
+        {
+            $this->viewBuilder()->layout('login');
+        }
+        else
+        {
+            $this->viewBuilder()->theme('AdminLTE');
+        }
 
         $this->set('theme');
 
     }
+
+
+    public function isAuthorized($user){
+        // Admin can access every action
+        return true;
+    }
+
+
+
 }

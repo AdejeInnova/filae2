@@ -223,10 +223,3 @@ Type::build('datetime')
 
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
-Configure::write('Theme', [
-    'title' => 'AdminLTE',
-    'logo' => [
-        'mini' => '<b>A</b>LT',
-        'large' => '<b>Admin</b>LTE'
-    ]
-]);
