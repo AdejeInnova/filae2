@@ -44,7 +44,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 
-        /*$this->loadComponent('Auth', [
+        $this->loadComponent('Auth', [
             'authorize' => ['Controller'],
             'authenticate' => [
                 'Form' => [
@@ -58,7 +58,7 @@ class AppController extends Controller
                 'controller' => 'Users',
                 'action' => 'login'
             ]
-        ]);*/
+        ]);
     }
 
     /**
@@ -76,16 +76,14 @@ class AppController extends Controller
         }
 
 
-        $this->viewBuilder()->theme('AdminLTE');
-
-        /*if (!$this->Auth->user())
+        if (!$this->Auth->user())
         {
             $this->viewBuilder()->layout('login');
         }
         else
         {
             $this->viewBuilder()->theme('AdminLTE');
-        }*/
+        }
 
         $this->set('theme');
 
