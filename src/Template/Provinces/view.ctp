@@ -25,8 +25,12 @@
                 <div class="box-body">
                     <h4><?= __('Name')?></h4>
                     <?php
-
                     echo $province->name;
+                    ?>
+
+                    <h4><?= __('Region')?></h4>
+                    <?php
+                    echo $province->region->name;
                     ?>
                 </div>
                 <!-- /.box-body -->
