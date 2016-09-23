@@ -57,6 +57,21 @@ class AppController extends Controller
             'loginAction' => [
                 'controller' => 'Users',
                 'action' => 'login'
+            ],
+            /*
+             * Cuando hay hay error llamamos al método authError que nos redirigirá a la accion Home
+             * */
+            'authError'=>'Ingrese bien los datos',
+            'loginError' => [
+                'controller' => 'Users',
+                'action' => 'home'
+            ],
+            /*
+             * Cuando nos desconectamos nos redirige al login
+             * */
+            'logoutRedirect' => [
+                'controller' => 'Users',
+                    'action' => 'login'
             ]
         ]);
     }
@@ -87,6 +102,11 @@ class AppController extends Controller
 
         $this->set('theme');
 
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        $this->set('current_user', $this->Auth->user());
     }
 
 

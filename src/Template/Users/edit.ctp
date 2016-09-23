@@ -37,7 +37,7 @@
             echo $this->Form->input('tos_date');
             echo $this->Form->input('active');
             echo $this->Form->input('is_superuser');
-            echo $this->Form->input('role');
+            echo $this->Form->input('role', ['options' => ['CDTCA' => 'CDTCA', 'EMMA' => 'EMMA']]);
           ?>
           </div>
           <!-- /.box-body -->

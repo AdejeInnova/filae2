@@ -1,12 +1,13 @@
 <ul class="sidebar-menu">
-    <li class="header">MAIN NAVIGATION</li>
+    <li class="header">Menú Principal</li>
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-dashboard"></i> <span><?= __('Config')?></span> <i class="fa fa-angle-left pull-right"></i>
+            <i class="fa fa-dashboard"></i> <span><?= __('Configuración')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regions')?></a></li>
-            <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provinces')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/users'); ?>"><i class="fa fa-circle-o"></i> <?= __('Usuarios')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regiones')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provincias')?></a></li>
         </ul>
     </li>
 

@@ -28,24 +28,24 @@
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
             <tr>
-              <th><?= $this->Paginator->sort('id') ?></th>
               <th><?= $this->Paginator->sort('username') ?></th>
               <th><?= $this->Paginator->sort('email') ?></th>
               <th><?= $this->Paginator->sort('password') ?></th>
               <th><?= $this->Paginator->sort('first_name') ?></th>
               <th><?= $this->Paginator->sort('last_name') ?></th>
-              <th><?= $this->Paginator->sort('token') ?></th>
+              <th><?= $this->Paginator->sort('is_superuser') ?></th>
+              <th><?= $this->Paginator->sort('role') ?></th>
               <th><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($users as $user): ?>
               <tr>
-                <td><?= h($user->id) ?></td>
                 <td><?= h($user->username) ?></td>
                 <td><?= h($user->email) ?></td>
                 <td><?= h($user->password) ?></td>
                 <td><?= h($user->first_name) ?></td>
                 <td><?= h($user->last_name) ?></td>
-                <td><?= h($user->token) ?></td>
+                <td><?= h($user->is_superuser) ?></td>
+                <td><?= h($user->role) ?></td>
                 <td class="actions" style="white-space:nowrap">
                   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id], ['class'=>'btn btn-primary btn-xs']) ?>
                   <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $user->id], ['confirm' => __('Confirm to delete this entry?'), 'class'=>'btn btn-danger btn-xs']) ?>

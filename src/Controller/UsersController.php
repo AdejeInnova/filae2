@@ -118,15 +118,31 @@ class UsersController extends AppController
             if ($user){
                 $this->Auth->setUser($user);
                 return $this->redirect($this->Auth->redirectUrl());
+            }else{
+                //User not Indentify
+                $this->Flash->error('Usuario ó Password incorrectos.', ['key' => 'auth']);
+
             }
-            //User not Indentify
-            $this->Flash->error('Usuario / password incorrecto.');
+
         }
 
-        if ($this->Auth->user()){
-            $this->redirect(['controller' => 'Pages', 'action' =>'home']);
-        }
     }
+
+    /**
+     * Creamos el Home de redirección despues del Login
+     */
+
+    public function home(){
+
+        $this->render();
+    }
+    /**
+     *
+     * Creamos la función para autorizar a ciertos usuarios a ver editar o crear
+     *
+     */
+
+
 
     /**
      * logout method
