@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Application Controller
@@ -27,6 +28,16 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+
+    public $sites = [
+        'CDTCA' => 'CDTCA',
+        'EMMA' => 'EMMA'
+    ];
+    public $roles = [
+        'Administrador' => 'Administrador',
+        'Técnico' => 'Técnico',
+        'Usuario' => 'Usuario'
+    ];
 
     /**
      * Initialization hook method.
@@ -52,6 +63,7 @@ class AppController extends Controller
                         'username' => 'email',
                         'password' => 'password'
                     ]
+                    //'finder' => 'auth' //Aquí creamos el finder auth para logueo de usuarios activos
                 ]
             ],
             'loginAction' => [
@@ -107,14 +119,21 @@ class AppController extends Controller
     public function beforeFilter(Event $event)
     {
         $this->set('current_user', $this->Auth->user());
+        $this->Auth->allow(['index', 'logout','display', 'login']);
+        $this->Auth->deny(['controller'=>'users']);
     }
 
 
-    public function isAuthorized($user){
-        // Admin can access every action
-        return true;
-    }
+    public function isAuthorized($user)
+    {
+        if (is_bool($user['is_superuser']) && $user['is_superuser'] === true) {
+            return true;
+        }
 
+        // Default deny
+        return false;
+
+    }
 
 
 }

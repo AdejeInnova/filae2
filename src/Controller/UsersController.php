@@ -11,6 +11,27 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
+    public function isAuthorized($user)
+    {
+
+        switch ($user['role']){
+            case 'Usuario':
+                switch ($this->request->action){
+                    case 'index':
+                    case 'view':
+                        return true;
+                        break;
+                }
+                break;
+
+        }
+
+
+        // Default deny
+        return parent::isAuthorized($user);
+
+    }
+
     /**
      * Index method
      *
@@ -58,6 +79,8 @@ class UsersController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'User'));
             }
         }
+        $this->set('roles', $this->roles );
+        $this->set('sites', $this->sites );
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
@@ -83,6 +106,9 @@ class UsersController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'User'));
             }
         }
+
+        $this->set('roles', $this->roles );
+        $this->set('sites', $this->sites );
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }

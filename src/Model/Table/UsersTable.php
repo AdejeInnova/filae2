@@ -123,5 +123,26 @@ class UsersTable extends Table
 
         return $rules;
     }
+
+    /**
+     * Creamos la consulta del finder Atuh para que solo se logueen los usuarios activos.
+     *
+     *
+     *
+    public function findAuth(\Cake\ORM\Query $query, array $options){
+
+    $query
+    ->select(['id', 'first_name', 'last_name', 'email', 'password', 'role'])
+    ->select(['Users.active' =>1]);
+
+    return $query;
+
+    }
+     *
+     */
+
+
+
+
    
 }
