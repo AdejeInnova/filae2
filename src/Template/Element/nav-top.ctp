@@ -132,12 +132,14 @@
                             <a href="#" class="btn btn-default btn-flat">Profile</a>
                         </div>
                         <div class="pull-right">
-                            <ul>
-                                <li class="btn btn-default btn-flat">
-                                    <?=  $this->Html->link('Salir', ['controller' => 'Users', 'action' => 'logout' ]) ?>
-                                </li>
-                            </ul>
-
+                                    <?=
+                                        $this->Html->link(
+                                            'Salir',
+                                            ['controller' => 'Users', 'action' => 'logout' ],
+                                            [
+                                                'class' => 'btn btn-default btn-flat'
+                                            ])
+                                    ?>
                         </div>
                     </li>
                 </ul>
