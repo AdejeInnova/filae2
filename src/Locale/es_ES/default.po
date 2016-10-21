@@ -1,0 +1,98 @@
+## Template index.ctp
+msgid "New"
+msgstr "Nuevo"
+
+msgid "List of"
+msgstr "Lista de"
+
+msgid "Fill in to start search"
+msgstr "Rellene el campo para comenzar la busqueda"
+
+msgid "Filter"
+msgstr "Buscar"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Confirm to delete this entry?"
+msgstr "Confirme para eliminar el registro"
+
+## Template add.ctp
+msgid "Add"
+msgstr "Agregar"
+
+msgid "Back"
+msgstr "Volver"
+
+msgid "Form"
+msgstr "Formulario"
+
+msgid "Save"
+msgstr "Guardar"
+
+## Template edit.ctp
+
+msgid "Edit"
+msgstr "Editar"
+
+
+## Controller
+
+msgid "The {0} has been saved."
+msgstr "{0} ha sido guardado."
+
+msgid "The {0} could not be saved. Please, try again."
+msgstr "{0} No ha podido ser guardad, por favor, inténtelo de nuevo.."
+
+msgid "The {0} has been deleted."
+msgstr "{0} ha sido eliminado."
+
+msgid "The {0} could not be deleted. Please, try again."
+msgstr "{0} no se puede eliminar. Por favor, intentelo de nuevo."
+
+## Login
+
+msgid "Sign in to start your session"
+msgstr "Inicie sesión para comenzar"
+
+msgid "OR"
+msgstr "O"
+
+msgid "Sign in using Facebook"
+msgstr "Inicie sesión usando Facebook"
+
+msgid "Sign in using Google+"
+msgstr "Inicie sesión usando Google+"
+
+msgid "I forgot my password"
+msgstr "He olvidado mi contraseña"
+
+msgid "Register a new membership"
+msgstr "Regístrese como nuevo miembro"
+
+msgid "Remember Me"
+msgstr "Recuérdame"
+
+msgid "Sign In"
+msgstr "Iniciar sesión"
+
+msgid "Username or password is incorrect"
+msgstr "Usuario o contraseña incorrectos"
+
+## Elements
+
+msgid "Alert"
+msgstr "Alerta"
+
+
+## Helpers
+
+msgid "Click here to change the file."
+msgstr "Clique aquí para cambiar el arquivo."
+

@@ -11,26 +11,6 @@ use App\Controller\AppController;
 class UsersController extends AppController
 {
 
-    public function isAuthorized($user)
-    {
-
-        switch ($user['role']){
-            case 'Usuario':
-                switch ($this->request->action){
-                    case 'index':
-                    case 'view':
-                        return true;
-                        break;
-                }
-                break;
-
-        }
-
-
-        // Default deny
-        return parent::isAuthorized($user);
-
-    }
 
     /**
      * Index method
