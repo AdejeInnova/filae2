@@ -8,6 +8,16 @@
             <li><a href="<?php echo $this->Url->build('/users'); ?>"><i class="fa fa-circle-o"></i> <?= __('Usuarios')?></a></li>
             <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regiones')?></a></li>
             <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provincias')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Documentos')?></a></li>
+        </ul>
+    </li>
+
+    <li class="treeview">
+        <a href="#">
+            <i class="fa fa-dashboard"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="<?php echo $this->Url->build('/companies'); ?>"><i class="fa fa-circle-o"></i> <?= __('Empresas')?></a></li>
         </ul>
     </li>
 
@@ -154,3 +164,4 @@
     <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
     <li><a href="<?php echo $this->Url->build('/pages/debug'); ?>"><i class="fa fa-bug"></i> Debug</a></li>
 </ul>
+
