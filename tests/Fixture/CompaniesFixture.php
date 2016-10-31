@@ -57,6 +57,10 @@ class CompaniesFixture extends TestFixture
             'address_id' => 1,
             'created' => '2016-10-31 18:16:11',
             'modified' => '2016-10-31 18:16:11'
+=======
+            'created' => '2016-10-21 14:03:08',
+            'modified' => '2016-10-21 14:03:08'
+>>>>>>> origin
         ],
     ];
 }
