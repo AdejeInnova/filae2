@@ -28,24 +28,24 @@
         <div class="box-body table-responsive no-padding">
           <table class="table table-hover">
             <tr>
-              <th><?= $this->Paginator->sort('id') ?></th>
+              <th class="hidden-xs"><?= $this->Paginator->sort('id') ?></th>
               <th><?= $this->Paginator->sort('name') ?></th>
-              <th><?= $this->Paginator->sort('tradename') ?></th>
-              <th><?= $this->Paginator->sort('idcard_id') ?></th>
+              <th class="hidden-xs"><?= $this->Paginator->sort('tradename') ?></th>
+              <th class="hidden-xs"><?= $this->Paginator->sort('idcard_id') ?></th>
               <th><?= $this->Paginator->sort('identity_card') ?></th>
-              <th><?= $this->Paginator->sort('company_id') ?></th>
-              <th><?= $this->Paginator->sort('address_id') ?></th>
+              <th class="hidden-xs"><?= $this->Paginator->sort('company_id') ?></th>
+              <th class="hidden-xs"><?= $this->Paginator->sort('address_id') ?></th>
               <th><?= __('Actions') ?></th>
             </tr>
             <?php foreach ($companies as $company): ?>
               <tr>
-                <td><?= $this->Number->format($company->id) ?></td>
+                <td class="hidden-xs"><?= $this->Number->format($company->id) ?></td>
                 <td><?= h($company->name) ?></td>
-                <td><?= h($company->tradename) ?></td>
-                <td><?= $company->has('idcard') ? $this->Html->link($company->idcard->name, ['controller' => 'Idcards', 'action' => 'view', $company->idcard->id]) : '' ?></td>
+                <td class="hidden-xs"><?= h($company->tradename) ?></td>
+                <td class="hidden-md"><?= $company->has('idcard') ? $this->Html->link($company->idcard->name, ['controller' => 'Idcards', 'action' => 'view', $company->idcard->id]) : '' ?></td>
                 <td><?= h($company->identity_card) ?></td>
-                <td><?= $this->Number->format($company->company_id) ?></td>
-                <td><?= $company->has('address') ? $this->Html->link($company->address->id, ['controller' => 'Addresses', 'action' => 'view', $company->address->id]) : '' ?></td>
+                <td class="hidden-xs"><?= $this->Number->format($company->company_id) ?></td>
+                <td class="hidden-xs"><?= $company->has('address') ? $this->Html->link($company->address->id, ['controller' => 'Addresses', 'action' => 'view', $company->address->id]) : '' ?></td>
                 <td class="actions" style="white-space:nowrap">
                   <?= $this->Html->link(__('Edit'), ['action' => 'edit', $company->id], ['class'=>'btn btn-primary btn-xs']) ?>
                   <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $company->id], ['confirm' => __('Confirm to delete this entry?'), 'class'=>'btn btn-danger btn-xs']) ?>

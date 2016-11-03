@@ -19,7 +19,7 @@ class AddressesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Roads', 'Towns', 'People']
+            'contain' => ['Roads', 'Towns', 'Persons']
         ];
         $addresses = $this->paginate($this->Addresses);
 
@@ -37,7 +37,7 @@ class AddressesController extends AppController
     public function view($id = null)
     {
         $address = $this->Addresses->get($id, [
-            'contain' => ['Roads', 'Towns', 'People', 'Companies', 'Sedes']
+            'contain' => ['Roads', 'Towns', 'Persons', 'Companies', 'Sedes']
         ]);
 
         $this->set('address', $address);
@@ -63,8 +63,8 @@ class AddressesController extends AppController
         }
         $roads = $this->Addresses->Roads->find('list', ['limit' => 200]);
         $towns = $this->Addresses->Towns->find('list', ['limit' => 200]);
-        $people = $this->Addresses->People->find('list', ['limit' => 200]);
-        $this->set(compact('address', 'roads', 'towns', 'people'));
+        $persons = $this->Addresses->Persons->find('list', ['limit' => 200]);
+        $this->set(compact('address', 'roads', 'towns', 'persons'));
         $this->set('_serialize', ['address']);
     }
 
@@ -91,8 +91,8 @@ class AddressesController extends AppController
         }
         $roads = $this->Addresses->Roads->find('list', ['limit' => 200]);
         $towns = $this->Addresses->Towns->find('list', ['limit' => 200]);
-        $people = $this->Addresses->People->find('list', ['limit' => 200]);
-        $this->set(compact('address', 'roads', 'towns', 'people'));
+        $persons = $this->Addresses->Persons->find('list', ['limit' => 200]);
+        $this->set(compact('address', 'roads', 'towns', 'persons'));
         $this->set('_serialize', ['address']);
     }
 
