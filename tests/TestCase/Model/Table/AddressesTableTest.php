@@ -31,7 +31,15 @@ class AddressesTableTest extends TestCase
         'app.cores',
         'app.people',
         'app.companies',
-        'app.sedes'
+        'app.idcards',
+        'app.persons',
+        'app.cnaes',
+        'app.contacts',
+        'app.sedes',
+        'app.communications',
+        'app.communications_companies',
+        'app.networks',
+        'app.companies_networks'
     ];
 
     /**

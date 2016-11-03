@@ -18,6 +18,8 @@
         </a>
         <ul class="treeview-menu">
             <li><a href="<?php echo $this->Url->build('/companies'); ?>"><i class="fa fa-circle-o"></i> <?= __('Empresas')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/addresses'); ?>"><i class="fa fa-circle-o"></i> <?= __('Direcciones')?></a></li>
+
         </ul>
     </li>
 

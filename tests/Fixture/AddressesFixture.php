@@ -71,8 +71,8 @@ class AddressesFixture extends TestFixture
             'person_id' => 1,
             'core' => 'Lorem ipsum dolor sit amet',
             'postcode' => 1,
-            'created' => '2016-10-31 18:14:37',
-            'modified' => '2016-10-31 18:14:37'
+            'created' => '2016-10-31 18:55:04',
+            'modified' => '2016-10-31 18:55:04'
         ],
     ];
 }
