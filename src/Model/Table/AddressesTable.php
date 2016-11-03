@@ -52,7 +52,7 @@ class AddressesTable extends Table
             'foreignKey' => 'town_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('People', [
+        $this->belongsTo('Persons', [
             'foreignKey' => 'person_id',
             'joinType' => 'INNER'
         ]);
@@ -126,7 +126,7 @@ class AddressesTable extends Table
     {
         $rules->add($rules->existsIn(['road_id'], 'Roads'));
         $rules->add($rules->existsIn(['town_id'], 'Towns'));
-        $rules->add($rules->existsIn(['person_id'], 'People'));
+        $rules->add($rules->existsIn(['person_id'], 'Persons'));
 
         return $rules;
     }
