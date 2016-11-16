@@ -18,6 +18,10 @@ use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 
+use Cake\Core\Configure;
+use Cake\Core\Exception\MissingPluginException;
+use Cake\Core\Plugin;
+
 /**
  * Application Controller
  *
@@ -112,7 +116,7 @@ class AppController extends Controller
             $this->viewBuilder()->theme('AdminLTE');
         }
 
-        $this->set('theme');
+        $this->set('theme', Configure::read('Theme'));
 
     }
 

@@ -36,6 +36,10 @@ msgstr "Formulario"
 msgid "Save"
 msgstr "Guardar"
 
+msgid "Person"
+msgstr "Persona"
+
+
 ## Template edit.ctp
 
 msgid "Edit"
@@ -95,4 +99,21 @@ msgstr "Alerta"
 
 msgid "Click here to change the file."
 msgstr "Clique aquí para cambiar el arquivo."
+
+
+## Companies -> template index.ctp
+
+msgid "Companies"
+msgstr "Empresas"
+
+msgid "Company"
+msgstr "Empresa"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Tradename"
+msgstr "Nombre Comercial"
+
+
 
