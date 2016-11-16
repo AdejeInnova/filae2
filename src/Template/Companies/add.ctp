@@ -24,17 +24,7 @@
         <!-- form start -->
         <?= $this->Form->create($company, array('role' => 'form')) ?>
           <div class="box-body">
-          <?php
-            echo $this->Form->input('name');
-            echo $this->Form->input('tradename');
-            echo $this->Form->input('idcard_id', ['options' => $idcards]);
-            echo $this->Form->input('identity_card');
-            echo $this->Form->input('description');
-            echo $this->Form->input('company_id');
-            echo $this->Form->input('address_id', ['options' => $addresses, 'empty' => true]);
-            echo $this->Form->input('communications._ids', ['options' => $communications]);
-            echo $this->Form->input('networks._ids', ['options' => $networks]);
-          ?>
+            <?= $this->element('companies/fields') ?>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
