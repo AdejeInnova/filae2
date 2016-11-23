@@ -49,8 +49,15 @@ class ImagesTable extends Table
             'photo' => [
                 'dir' => 'photo_dir',
                 'thumbnailSizes' => [
-                    'square' => ['w' => 100, 'h' => 100],
-                    'large' => ['w' => 250, 'h' => 250]
+                    'square' => [
+                        'w' => 100,
+                        'h' => 100,
+                        'fit' => true
+                    ],
+                    'large' => [
+                        'w' => 250,
+                        'h' => 250
+                    ]
                 ]
             ]
         ]);

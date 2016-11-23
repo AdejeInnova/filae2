@@ -38,7 +38,30 @@
             <!-- Profile Image -->
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img src="/filae2/admin_l_t_e/img/user4-128x128.jpg" class="profile-user-img img-responsive img-circle" alt="User profile picture">
+
+                    <?php
+                        $profile = false;
+                        foreach ($company->images as $image){
+                            if ($image->profile){
+                                $profile = true;
+                                echo $this->Html->image(
+                                    '/files/images/photo/' . $image->get('photo_dir') . '/square_' . $image->get('photo'),
+                                    [
+                                        'class' => ['profile-user-img', 'img-responsive', 'img-circle']
+                                    ]
+                                );
+                            }
+                        }
+
+                        if (!$profile){
+                            echo $this->Html->image(
+                                'no_img_profile.png',
+                                [
+                                    'class' => ['profile-user-img', 'img-responsive', 'img-circle']
+                                ]
+                            );
+                        }
+                    ?>
                     <h3 class="profile-username text-center"><?= $company->tradename ?></h3>
 
                     <p class="text-muted text-center"><?= $company->name ?></p>

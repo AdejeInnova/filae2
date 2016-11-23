@@ -17,7 +17,7 @@ switch ($controller){
 
                 <script>
                     var images = <?php echo json_encode($images); ?>;
-
+                    var profile_id = <?php echo $profile_id;?>
                     //Bootstrapt-fileinput
                     $("#images").fileinput({
                         uploadUrl: '<?= $this->Url->build(); ?>', // you must set a valid URL here else you will get an error
@@ -32,7 +32,7 @@ switch ($controller){
                         //overwriteInitial: true,
                         maxFileSize: 1000,
                         maxFilesNum: 10,
-                        //deleteUrl: '<?= $this->Url->build(['controller' => 'companies', 'action' => 'deleteimage']); ?>',
+                        deleteUrl: '<?= $this->Url->build(['controller' => 'companies', 'action' => 'deleteimage']); ?>',
                         slugCallback: function(filename) {
                             return filename.replace('(', '_').replace(']', '_');
                         },
@@ -50,46 +50,47 @@ switch ($controller){
                             '</div>',
                             actions: '<div class="file-actions">\n' +
                             '    <div class="file-footer-buttons">\n' +
-                            '       {upload} {delete} {zoom} {other}' +
+                            '       {delete} {zoom} {other}' +
                             '    </div>\n' +
                             '    <div class="file-upload-indicator" title="{indicatorTitle}">{indicator}</div>\n' +
                             '    <div class="clearfix"></div>\n' +
                             '</div>'
                         },
-                        otherActionButtons:  '<button type="button" class="btn btn-xs btn-default btn-edit" {dataKey}><i class="glyphicon glyphicon-user"></i></button>'
-
-
-                    }).on('fileuploaded', function(event, data, previewId, index) {
-                        var form = data.form, files = data.files, extra = data.extra,
-                            response = data.response, reader = data.reader;
-                            console.log(response);
-                            //$(location).attr('href', '<= $this->Url->build(); ?>')
+                        otherActionButtons:  '<button type="button" class="btn btn-xs btn-default btn-profile" {dataKey} caption="{caption}"><i class="glyphicon glyphicon-user"></i></button>'
+                    }).on('filebatchuploadcomplete', function(event, files, extra) {
+                        $(location).attr('href', '<?= $this->Url->build(); ?>');
                     });
 
 
-                    $(".btn-edit").on("click", function() {
+                    $(".btn-profile").on("click", function() {
                         var key = $(this).data('key');
                         $('#key_profile').attr('value',key);
-                        
-                        console.log(id);
-                        alert(id);
 
-                        /*
                         $.ajax({
-
                             type: 'POST',
-                            url: '<?= $this->Url->build(['action' => 'profile']);?>',
+                            url: '<?= $this->Url->build();?>',
                             data: {
                                 images: {
-                                    id:key,
-                                    profile:true
+                                    0: {
+                                        id: key,
+                                        profile: '1'
+                                    }
                                 }
-                            }
-                        })*/
+                            },
+                            error: function(data){
+                                alert(data);
+                            },
+                            success: function(data){
+                                $(location).attr('href', '<?= $this->Url->build(); ?>');
 
-                        // you can use the key in your ajax actions or using data-key
-                        // trace back to the preview container DOM and its children
+                                //change icon to the button -> glyphicon-ok
+                                /*$('.btn-profile i').removeClass('glyphicon-ok').addClass('glyphicon-user');
+                                $('.btn-profile[data-key=' + key + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');*/
+                            }
+                        });
                     });
+
+                    $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
 
 
 

@@ -80,46 +80,28 @@ class CompaniesController extends AppController
      */
     public function edit($id = null)
     {
-
         $company = $this->Companies->get($id, [
             'contain' => ['Communications', 'Networks', 'Images']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            /*debug($this->request);
-            die();*/
-
-            debug($this->request);
-
             $company = $this->Companies->patchEntity($company, $this->request->data);
             $message = $company->dirty('images')?false:true;
 
-            debug($company);
-            die();
-
             if ($this->Companies->save($company)) {
-
-
-                if ($message) {
+                if ($message){
                     $this->Flash->success(__('The {0} has been saved.', 'Company'));
                     return $this->redirect(['action' => 'edit', $id]);
                 }
-
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
         }
 
-
         $images = [];
         $captions = [];
+        $profile = 0;
         foreach ($company->images as $data):
-
-            /**
-                 * initialPreviewConfig: [
-                 *  {caption: "Moon.jpg", size: 930321, width: "120px", key: 1, showDelete: false},
-                 *  {caption: "Earth.jpg", size: 1218822, width: "120px", key: 2, showZoom: false}
-                ]*/
             $file = '/files/images/photo/' . $data->get('photo_dir') . '/' . $data->get('photo');
 
             array_push($captions, [
@@ -134,11 +116,16 @@ class CompaniesController extends AppController
 
             array_push($images, '/filae2' . $file);
 
+            if ($data->profile){
+                $profile = $data->id;
+            }
+
         endforeach;
 
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
 
         $this->set('images', $images);
+        $this->set('profile_id', $profile);
         $this->set('captions', $captions);
         $this->set(compact('company', 'idcards'));
         $this->set('_serialize', ['company']);
