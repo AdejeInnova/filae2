@@ -23,9 +23,15 @@ msgstr "Eliminar"
 msgid "Confirm to delete this entry?"
 msgstr "Confirme para eliminar el registro"
 
+msgid "List of"
+msgstr "Listado de"
+
+msgid "Idcards"
+msgstr "Documentos"
+
 ## Template add.ctp
 msgid "Add"
-msgstr "Agregar"
+msgstr "Añadir"
 
 msgid "Back"
 msgstr "Volver"
@@ -39,11 +45,22 @@ msgstr "Guardar"
 msgid "Person"
 msgstr "Persona"
 
-
 ## Template edit.ctp
 
 msgid "Edit"
 msgstr "Editar"
+
+msgid "About"
+msgstr "Acerca de"
+
+msgid "Location"
+msgstr "Localización"
+
+msgid "Notes"
+msgstr "Notas"
+
+msgid "Gallery"
+msgstr "Galería"
 
 
 ## Controller

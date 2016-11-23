@@ -1,47 +1,166 @@
+<!-- Content Header (Page header) -->
 <section class="content-header">
-  <h1>
-    Company
-    <small><?= __('Edit') ?></small>
-  </h1>
-  <ol class="breadcrumb">
-    <li>
-    <?= $this->Html->link('<i class="fa fa-dashboard"></i> '.__('Back'), ['action' => 'index'], ['escape' => false]) ?>
-    </li>
-  </ol>
+    <h1>
+        <?= __('Company') ?>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <?= $this->Html->link(
+                '<i class="fa fa-dashboard"></i> Home',
+                [
+                    'controller' => 'pages',
+                    'action' => 'display',
+                    'home'
+                ],
+                [
+                    'escape' => false
+                ]
+            ); ?>
+        </li>
+        <li>
+            <?= $this->Html->link(
+                __('Companies'),
+                [
+                    'controller' => 'companies',
+                    'action' => 'index'
+                ]
+            ); ?>
+        </li>
+        <li class="active"><?= __('Edit') ?></li>
+    </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-12">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?= __('Form') ?></h3>
+
+    <div class="row">
+        <div class="col-md-3">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <div class="box-body box-profile">
+                    <img src="/filae2/admin_l_t_e/img/user4-128x128.jpg" class="profile-user-img img-responsive img-circle" alt="User profile picture">
+                    <h3 class="profile-username text-center"><?= $company->tradename ?></h3>
+
+                    <p class="text-muted text-center"><?= $company->name ?></p>
+                    <p class="text-muted text-center"><?= $company->identity_card ?></p>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <!-- About Me Box -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= __('About') ?></h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+
+                    <p class="text-muted">
+                        B.S. in Computer Science from the University of Tennessee at Knoxville
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-map-marker margin-r-5"></i> <?= __('Location') ?></strong>
+
+                    <p class="text-muted">Malibu, California</p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
+
+                    <p>
+                        <span class="label label-danger">UI Design</span>
+                        <span class="label label-success">Coding</span>
+                        <span class="label label-info">Javascript</span>
+                        <span class="label label-warning">PHP</span>
+                        <span class="label label-primary">Node.js</span>
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fa fa-file-text-o margin-r-5"></i> <?= __('Notes')?></strong>
+
+                    <p><?= h($company->description) ?></p>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
         </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <?= $this->Form->create($company, array('role' => 'form')) ?>
-          <div class="box-body">
-          <?php
-            echo $this->Form->input('name');
-            echo $this->Form->input('tradename');
-            echo $this->Form->input('idcard_id', ['options' => $idcards]);
-            echo $this->Form->input('identity_card');
-            echo $this->Form->input('description');
-            echo $this->Form->input('company_id');
-            echo $this->Form->input('address_id', ['options' => $addresses, 'empty' => true]);
-            echo $this->Form->input('communications._ids', ['options' => $communications]);
-            echo $this->Form->input('networks._ids', ['options' => $networks]);
-          ?>
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            <?= $this->Form->button(__('Save')) ?>
-          </div>
-        <?= $this->Form->end() ?>
-      </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#media" data-toggle="tab">Media</a></li>
+                    <li><a href="#settings" data-toggle="tab">Datos</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="active tab-pane" id="media">
+                            <div class="box-body">
+                                <?= $this->Form->create(null,['type' => 'file']);?>
+                                <?= $this->Form->input('key_profile',
+                                    [
+                                        'type' => 'hidden',
+                                        'id' => 'key_profile'
+                                    ]) ?>
+                                    <div class="form-group">
+                                        <input id="images" type="file" multiple class="file" data-overwrite-initial="false">
+                                    </div>
+                                <?= $this->Form->end();?>
+                            </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane" id="settings">
+                        <?php
+                        $this->Form->templates([
+                            'inputContainer' => '<div class="form-group"><label class="col-sm-2 control-label">{{label}}</label><div class="col-sm-10">{{content}}</div></div>'
+                        ]);
+
+                        echo $this->Form->create($company, [
+                            'role' => 'form',
+                            'class' => 'form-horizontal'
+                        ]);
+                            echo $this->Form->input('name');
+                            echo $this->Form->input('tradename');
+                            echo $this->Form->input('idcard_id', ['options' => $idcards]);
+                            echo $this->Form->input('identity_card');
+                            echo $this->Form->input('description',['label' => __('Notes')]);
+                            echo $this->Form->input('company_id');
+                            ?>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <?= $this->Form->button(__('Save')) ?>
+                            </div>
+                        </div>
+
+                        <?= $this->Form->end() ?>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+            <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
     </div>
-  </div>
+    <!-- /.row -->
+
 </section>
+<!-- /.content -->
+
+
+<?php
+//Carga de Styles y Scripts necesarios para la view.
+
+$this->start('css');
+echo $this->element('styles');
+$this->end();
+
+$this->start('scriptBotton');
+echo $this->element('scripts');
+$this->end();
+?>

@@ -224,14 +224,17 @@ Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Configure::write('Theme', [
     'title' => 'Filae-2',
+    'folder' => ROOT,
     'logo' => [
         'mini' => '<b>F</b>ilae',
         'large' => '<b>Filae</b>2'
     ],
     'login' => [
         'show_remember' => true,
-        'show_register' => true,
-        'show_social' => true
+        'show_register' => false,
+        'show_social' => false
     ]
 ]);
+
+Plugin::load('Proffer');
 

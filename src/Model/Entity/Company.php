@@ -40,6 +40,7 @@ class Company extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false
+        'id' => false,
+        'images' => true
     ];
 }

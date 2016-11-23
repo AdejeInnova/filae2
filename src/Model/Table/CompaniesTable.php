@@ -6,6 +6,10 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+// Include use statements at the top of your file.
+use Cake\Event\Event;
+use ArrayObject;
+
 /**
  * Companies Model
  *
@@ -13,7 +17,7 @@ use Cake\Validation\Validator;
  * @property \Cake\ORM\Association\BelongsTo $Companies
  * @property \Cake\ORM\Association\BelongsTo $Addresses
  * @property \Cake\ORM\Association\HasMany $Cnaes
- * @property \Cake\ORM\Association\HasMany $Companies
+ * @property \Cake\ORM\Association\HasMany $Companie
  * @property \Cake\ORM\Association\HasMany $Contacts
  * @property \Cake\ORM\Association\HasMany $Sedes
  * @property \Cake\ORM\Association\BelongsToMany $Communications
@@ -59,17 +63,22 @@ class CompaniesTable extends Table
             'foreignKey' => 'address_id'
         ]);
         $this->hasMany('Cnaes', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'companie_id'
         ]);
         $this->hasMany('Companies', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'companie_id'
         ]);
         $this->hasMany('Contacts', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'companie_id'
         ]);
         $this->hasMany('Sedes', [
-            'foreignKey' => 'company_id'
+            'foreignKey' => 'companie_id'
         ]);
+
+        $this->hasMany('Images', [
+            'foreignKey' => 'companie_id'
+        ]);
+
         $this->belongsToMany('Communications', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'communication_id',
@@ -126,4 +135,16 @@ class CompaniesTable extends Table
 
         return $rules;
     }
+
+
+    // In a table or behavior class
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        if (isset($data['file_data'])) {
+            $data['images'] = [0 =>['photo' => $data['file_data']]];
+        }
+    }
+
+
+
 }

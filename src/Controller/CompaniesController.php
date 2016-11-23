@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Network\Http\Client;
+use GeoAPI;
 
 /**
  * Companies Controller
@@ -78,23 +80,67 @@ class CompaniesController extends AppController
      */
     public function edit($id = null)
     {
+
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks']
+            'contain' => ['Communications', 'Networks', 'Images']
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
+            /*debug($this->request);
+            die();*/
+
+            debug($this->request);
+
             $company = $this->Companies->patchEntity($company, $this->request->data);
+            $message = $company->dirty('images')?false:true;
+
+            debug($company);
+            die();
+
             if ($this->Companies->save($company)) {
-                $this->Flash->success(__('The {0} has been saved.', 'Company'));
-                return $this->redirect(['action' => 'index']);
+
+
+                if ($message) {
+                    $this->Flash->success(__('The {0} has been saved.', 'Company'));
+                    return $this->redirect(['action' => 'edit', $id]);
+                }
+
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
         }
+
+
+        $images = [];
+        $captions = [];
+        foreach ($company->images as $data):
+
+            /**
+                 * initialPreviewConfig: [
+                 *  {caption: "Moon.jpg", size: 930321, width: "120px", key: 1, showDelete: false},
+                 *  {caption: "Earth.jpg", size: 1218822, width: "120px", key: 2, showZoom: false}
+                ]*/
+            $file = '/files/images/photo/' . $data->get('photo_dir') . '/' . $data->get('photo');
+
+            array_push($captions, [
+                'caption' => $data->get('photo'),
+                'size' => filesize(WWW_ROOT . $file),
+                'width' => '120px',
+                'key' => $data->get('id'),
+                'extra' => [
+                    'id' => $data->get('id')
+                ]
+            ]);
+
+            array_push($images, '/filae2' . $file);
+
+        endforeach;
+
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
-        $addresses = $this->Companies->Addresses->find('list', ['limit' => 200]);
-        $communications = $this->Companies->Communications->find('list', ['limit' => 200]);
-        $networks = $this->Companies->Networks->find('list', ['limit' => 200]);
-        $this->set(compact('company', 'idcards', 'addresses', 'communications', 'networks'));
+
+        $this->set('images', $images);
+        $this->set('captions', $captions);
+        $this->set(compact('company', 'idcards'));
         $this->set('_serialize', ['company']);
     }
 
@@ -116,4 +162,50 @@ class CompaniesController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+
+    public function deleteimage(){
+        $this->request->allowMethod(['post', 'delete']);
+
+        $this->loadModel('Images');
+
+        //Key
+        $key = $this->request->data['key'];
+
+        //Image
+        $image = $this->Images->get($key);
+
+        //company_id
+        $company_id = $image->companie_id;
+
+        //Delete image reg
+        if (!$this->Images->delete($image)) {
+            $this->Flash->error(__('Could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'edit', $company_id]);
+
+    }
+
+
+    public function geophp(){
+        $geoapi = new GeoAPI(); //Nueva instancia de la librería
+
+        $geoapi->setConfig("url", "http://apiv1.geoapi.es/");
+        $geoapi->setConfig("type", "JSON");
+        $geoapi->setConfig("key", "84ebd10c6201ad1935e0ff67794587927a69f0cf613e7675c7856772bdf17f14");
+        $geoapi->setConfig("sandbox", 0);
+
+        //Todas las comunidades
+        $comunidades = $geoapi->comunidades([]);
+        //debug($comunidades);
+
+        $provincias = $geoapi->provincias([
+            'CCOM' => '05'
+        ]);
+        debug($provincias);
+
+        die();
+    }
+
 }
