@@ -168,7 +168,19 @@
             </div>
             <!-- /.nav-tabs-custom -->
         </div>
-        <!-- /.col -->
+        <!-- /.box-header -->
+        <!-- form start -->
+        <?= $this->Form->create($company, array('role' => 'form')) ?>
+          <div class="box-body">
+            <?= $this->element('companies/fields') ?>
+
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <?= $this->Form->button(__('Save')) ?>
+          </div>
+        <?= $this->Form->end() ?>
+      </div>
     </div>
     <!-- /.row -->
 
