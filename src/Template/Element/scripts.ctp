@@ -98,7 +98,7 @@ switch ($controller){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');
                         //Bootstrapt-wysihtml5
-                        //$('#description').wysihtml5();
+                        $('#description').wysihtml5();
 
                     });
 
