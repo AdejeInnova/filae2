@@ -63,11 +63,11 @@ class CompaniesController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
         }
+
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
-        $addresses = $this->Companies->Addresses->find('list', ['limit' => 200]);
-        $communications = $this->Companies->Communications->find('list', ['limit' => 200]);
-        $networks = $this->Companies->Networks->find('list', ['limit' => 200]);
-        $this->set(compact('company', 'idcards', 'addresses', 'communications', 'networks'));
+        $companies = $this->Companies->find('list', ['limit' => 200]);
+
+        $this->set(compact('company', 'idcards', 'addresses', 'companies'));
         $this->set('_serialize', ['company']);
     }
 
@@ -123,11 +123,12 @@ class CompaniesController extends AppController
         endforeach;
 
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
+        $companies = $this->Companies->find('list', ['limit' => 200]);
 
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards'));
+        $this->set(compact('company', 'idcards', 'companies'));
         $this->set('_serialize', ['company']);
     }
 

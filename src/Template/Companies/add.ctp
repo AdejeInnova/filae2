@@ -1,39 +1,60 @@
 <section class="content-header">
-  <h1>
-    <?= __('Company') ?>
-    <small><?= __('Add') ?></small>
-  </h1>
-  <ol class="breadcrumb">
-    <li>
-    <?= $this->Html->link('<i class="fa fa-dashboard"></i> '.__('Back'), ['action' => 'index'], ['escape' => false]) ?>
-    </li>
-  </ol>
+    <h1>
+        <?= __('Company') ?>
+        <small><?= __('Add') ?></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li>
+            <?= $this->Html->link('<i class="fa fa-dashboard"></i> '.__('Back'), ['action' => 'index'], ['escape' => false]) ?>
+        </li>
+    </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <div class="row">
-    <!-- left column -->
-    <div class="col-md-12">
-      <!-- general form elements -->
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title"><?= __('Form') ?></h3>
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <!-- /.box-header -->
+                <!-- form start -->
+                <div class="box-body">
+                <?php
+                $this->Form->templates([
+                    'inputContainer' => '<div class="form-group"><label class="col-sm-2 control-label">{{label}}</label><div class="col-sm-10">{{content}}</div></div>'
+                ]);
+
+                echo $this->Form->create($company, [
+                    'role' => 'form',
+                    'class' => 'form-horizontal',
+                    'novalidate' => true
+                ]);
+                echo $this->Form->input('tradename', ['label' => __('Tradename') . '*']);
+
+                echo $this->Form->input('name', ['label' => __('Razón Social')]);
+                echo $this->Form->input('idcard_id', [
+                    'options' => $idcards
+                ]);
+                echo $this->Form->input('identity_card');
+                echo $this->Form->input('description',['label' => __('Notes')]);
+                echo $this->Form->input('company_id', [
+                    'options' => $companies,
+                    'empty' => true,
+                    'label' => __('Parent Company')
+                ]);
+                ?>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <?= $this->Form->button(__('Save')) ?>
+                    </div>
+                </div>
+
+                <?= $this->Form->end() ?>
+                </div>
+            </div>
         </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <?= $this->Form->create($company, array('role' => 'form')) ?>
-          <div class="box-body">
-            <?= $this->element('companies/fields') ?>
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer">
-            <?= $this->Form->button(__('Save')) ?>
-          </div>
-        <?= $this->Form->end() ?>
-      </div>
     </div>
-  </div>
 </section>
 
 <?php

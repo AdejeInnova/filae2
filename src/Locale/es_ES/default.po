@@ -29,6 +29,12 @@ msgstr "Listado de"
 msgid "Idcards"
 msgstr "Documentos"
 
+msgid "Idcard"
+msgstr "Tipo Documento"
+
+msgid "Identity Card"
+msgstr "Documento"
+
 ## Template add.ctp
 msgid "Add"
 msgstr "Añadir"
@@ -61,6 +67,9 @@ msgstr "Notas"
 
 msgid "Gallery"
 msgstr "Galería"
+
+msgid "Parent Company"
+msgstr "Empresa Padre"
 
 
 ## Controller

@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+
 // Include use statements at the top of your file.
 use Cake\Event\Event;
 use ArrayObject;
@@ -97,6 +98,7 @@ class CompaniesTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
+
     public function validationDefault(Validator $validator)
     {
         $validator
@@ -104,21 +106,26 @@ class CompaniesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->allowEmpty('name');
 
         $validator
-            ->allowEmpty('tradename');
+            ->requirePresence('tradename', 'create')
+            ->notEmpty('tradename');
 
-        $validator
-            ->requirePresence('identity_card', 'create')
-            ->notEmpty('identity_card');
+        $validator->notEmpty('identity_card', 'Campo requerido',function($context){
+            if (isset($context['data']['idcard_id']) && $context['data']['idcard_id']== 6){
+                return false;
+            }else{
+                return true;
+            }
+        });
 
         $validator
             ->allowEmpty('description');
 
         return $validator;
     }
+
 
     /**
      * Returns a rules checker object that will be used for validating
@@ -130,8 +137,17 @@ class CompaniesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['idcard_id'], 'Idcards'));
+        $rules->add($rules->isUnique(['identity_card']));
+        $rules->add(function ($entity, $options){
+            return $this->validarDocument($entity);
+        },'identity_card', [
+            'errorField' => 'identity_card',
+            'message' => 'Campo no válido'
+        ]);
+
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
         $rules->add($rules->existsIn(['address_id'], 'Addresses'));
+
 
         return $rules;
     }
@@ -145,7 +161,6 @@ class CompaniesTable extends Table
         }
     }
 
-
     public function afterSave($event, $entity, $options){
         if (isset($entity['images'][0]['profile']) && ($entity['images'][0]['profile'] == '1')) {
             $q = $this->Companies->Images->query();
@@ -155,6 +170,28 @@ class CompaniesTable extends Table
                 ->execute();
         }
     }
+
+
+    public function validarDocument($entity){
+        switch ($entity['idcard_id']){
+            case '1': //NIF
+                return false;
+                break;
+            case '2': //NIE
+                return false;
+                break;
+            case '3': //CIF
+                return false;
+                break;
+            case '4':
+                return false;
+                break;
+            case '6':
+                return true;
+                break;
+        }
+    }
+
 
 
 

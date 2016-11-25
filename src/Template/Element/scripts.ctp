@@ -3,12 +3,23 @@
 $controller = $this->request->params['controller'];
 $action = $this->request->params['action'];
 
-
 switch ($controller){
     case 'Companies':
         switch ($action){
-            case 'edit':
             case 'add':
+                ?>
+                <!-- plugin wysihtml5 -->
+                <script src="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+                <script>
+                    $(document).ready(function(){
+                        //Bootstrapt-wysihtml5
+                        $('#description').wysihtml5();
+                    });
+                </script>
+            <?php
+
+            break;
+            case 'edit':
                 ?>
                 <!-- plugin wysihtml5 -->
                 <script src="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
@@ -18,16 +29,13 @@ switch ($controller){
                 <script>
                     var images = <?php echo json_encode($images); ?>;
                     var profile_id = <?php echo $profile_id;?>
+
                     //Bootstrapt-fileinput
                     $("#images").fileinput({
                         uploadUrl: '<?= $this->Url->build(); ?>', // you must set a valid URL here else you will get an error
                         initialPreview: images,
                         initialPreviewAsData: true,
                         initialPreviewConfig: <?php echo json_encode($captions); ?>,
-                        /*initialPreviewConfig: [
-                            {caption: "Moon.jpg", size: 930321, width: "120px", key: 1, showDelete: false},
-                            {caption: "Earth.jpg", size: 1218822, width: "120px", key: 2, showZoom: false}
-                        ],*/
                         allowedFileExtensions : ['jpg', 'png','gif'],
                         //overwriteInitial: true,
                         maxFileSize: 1000,
@@ -56,11 +64,10 @@ switch ($controller){
                             '    <div class="clearfix"></div>\n' +
                             '</div>'
                         },
-                        otherActionButtons:  '<button type="button" class="btn btn-xs btn-default btn-profile" {dataKey} caption="{caption}"><i class="glyphicon glyphicon-user"></i></button>'
+                        otherActionButtons:  '<button type="button" class="btn btn-xs btn-default btn-profile" {dataKey}><i class="glyphicon glyphicon-user"></i></button>'
                     }).on('filebatchuploadcomplete', function(event, files, extra) {
                         $(location).attr('href', '<?= $this->Url->build(); ?>');
                     });
-
 
                     $(".btn-profile").on("click", function() {
                         var key = $(this).data('key');
@@ -82,10 +89,6 @@ switch ($controller){
                             },
                             success: function(data){
                                 $(location).attr('href', '<?= $this->Url->build(); ?>');
-
-                                //change icon to the button -> glyphicon-ok
-                                /*$('.btn-profile i').removeClass('glyphicon-ok').addClass('glyphicon-user');
-                                $('.btn-profile[data-key=' + key + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');*/
                             }
                         });
                     });

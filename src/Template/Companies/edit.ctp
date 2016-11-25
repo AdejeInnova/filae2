@@ -145,14 +145,15 @@
 
                         echo $this->Form->create($company, [
                             'role' => 'form',
-                            'class' => 'form-horizontal'
+                            'class' => 'form-horizontal',
+                            'novalidate' => true
                         ]);
-                            echo $this->Form->input('name');
                             echo $this->Form->input('tradename');
+                            echo $this->Form->input('name', ['label' => __('Razón Social')]);
                             echo $this->Form->input('idcard_id', ['options' => $idcards]);
                             echo $this->Form->input('identity_card');
                             echo $this->Form->input('description',['label' => __('Notes')]);
-                            echo $this->Form->input('company_id');
+                            echo $this->Form->input('company_id', ['label' => __('Parent Company')]);
                             ?>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
