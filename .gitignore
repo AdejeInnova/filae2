@@ -3,5 +3,4 @@
 /tmp/*
 /logs/*
 /.idea/*
-/config/Migrations/20161013132450_Initial.php
 .DS_Store
