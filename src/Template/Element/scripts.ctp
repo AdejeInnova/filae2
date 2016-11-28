@@ -17,8 +17,7 @@ switch ($controller){
                     });
                 </script>
             <?php
-
-            break;
+                break;
             case 'edit':
                 ?>
                 <!-- plugin wysihtml5 -->

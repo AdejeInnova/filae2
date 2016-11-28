@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Network\Http\Client;
 use GeoAPI;
+use App\Utility\NifCifNie;
 
 /**
  * Companies Controller
@@ -194,6 +195,50 @@ class CompaniesController extends AppController
         debug($provincias);
 
         die();
+    }
+
+    public function test()
+    {
+        //require_once(ROOT .DS. "Vendor" . DS  . "MyClass" . DS . "MyClass.php");
+
+        $obj = new NifCifNie;
+        //$document = '45704797W'; //NIF
+        $document = '54668427A';
+        $document = '46299827E';
+        //$document = 'A38353801'; //CIF
+        //$document = 'Y0189739A'; //NIE
+
+        echo 'isValidIdNumber: </br>';
+        debug($obj->isValidIdNumber($document));
+
+        echo 'isValidNIF: </br>';
+        debug($obj->isValidNIF($document));
+
+        echo 'isValidNIE: </br>';
+        debug($obj->isValidNIE($document));
+
+        echo 'isValidCIF: </br>';
+        debug($obj->isValidCIF($document));
+
+        echo 'isValidNIFFormat </br>';
+        debug($obj->isValidNIFFormat($document));
+
+        echo 'isValidNIEFormat </br>';
+        debug($obj->isValidNIEFormat($document));
+
+        echo 'isValidCIFFormat </br>';
+        debug($obj->isValidCIFFormat($document));
+
+        echo 'getNIFCheckDigit </br>';
+        debug($obj->getNIFCheckDigit($document));
+
+        echo 'getCIFCheckDigit </br>';
+        debug($obj->getCIFCheckDigit($document));
+
+        echo 'getIdType </br>';
+        debug($obj->getIdType($document));
+
+        exit;
     }
 
 }

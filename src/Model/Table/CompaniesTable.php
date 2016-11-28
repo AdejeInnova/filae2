@@ -10,6 +10,8 @@ use Cake\Validation\Validator;
 // Include use statements at the top of your file.
 use Cake\Event\Event;
 use ArrayObject;
+use App\Utility\NifCifNie;
+
 
 /**
  * Companies Model
@@ -156,6 +158,12 @@ class CompaniesTable extends Table
     // In a table or behavior class
     public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
     {
+        //Si selecciona Sin Documento el valor del documento es vacío.
+        if (isset($data['idcard_id']) && isset($data['identity_card']) && ($data['idcard_id'] == 6)){
+            $data['identity_card'] = null;
+        }
+
+
         if (isset($data['file_data'])) {
             $data['images'] = [0 =>['photo' => $data['file_data']]];
         }
@@ -173,20 +181,19 @@ class CompaniesTable extends Table
 
 
     public function validarDocument($entity){
+        $obj = new NifCifNie;
+
         switch ($entity['idcard_id']){
             case '1': //NIF
-                return false;
+                return $obj->isValidNIF($entity['identity_card']);
                 break;
             case '2': //NIE
-                return false;
+                return $obj->isValidNIE($entity['identity_card']);
                 break;
             case '3': //CIF
-                return false;
+                return $obj->isValidCIF($entity['identity_card']);
                 break;
-            case '4':
-                return false;
-                break;
-            case '6':
+            case '6': //Sin Documento
                 return true;
                 break;
         }
