@@ -116,38 +116,27 @@
         <div class="col-md-9">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#media" data-toggle="tab">Media</a></li>
-                    <li><a href="#settings" data-toggle="tab">Datos</a></li>
+                    <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab">Datos</a></li>
+                    <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
                 </ul>
                 <div class="tab-content">
-                    <div class="active tab-pane" id="media">
-                            <div class="box-body">
-                                <?= $this->Form->create(null,['type' => 'file']);?>
-                                <?= $this->Form->input('key_profile',
-                                    [
-                                        'type' => 'hidden',
-                                        'id' => 'key_profile'
-                                    ]) ?>
-                                    <div class="form-group">
-                                        <input id="images" type="file" multiple class="file" data-overwrite-initial="false">
-                                    </div>
-                                <?= $this->Form->end();?>
-                            </div>
-
-                    </div>
-                    <!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="settings">
+                    <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
                         <?php
                         $this->Form->templates([
                             'inputContainer' => '<div class="form-group"><label class="col-sm-2 control-label">{{label}}</label><div class="col-sm-10">{{content}}</div></div>'
                         ]);
 
-                        echo $this->Form->create($company, [
-                            'role' => 'form',
-                            'class' => 'form-horizontal',
-                            'novalidate' => true
-                        ]);
+                        echo $this->Form->create($company,
+                            [
+                                'url' => [
+                                    'action' => 'edit',
+                                    'tab' => 'settings'
+                                ],
+                                'role' => 'form',
+                                'class' => 'form-horizontal',
+                                'novalidate' => true
+                            ]
+                        );
                             echo $this->Form->input('tradename');
                             echo $this->Form->input('name', ['label' => __('Razón Social')]);
                             echo $this->Form->input('idcard_id', ['options' => $idcards]);
@@ -162,6 +151,23 @@
                         </div>
 
                         <?= $this->Form->end() ?>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'media'?'active':''; ?>" id="media">
+                        <div class="box-body">
+                            <?= $this->Form->create(null,['type' => 'file']);?>
+                            <?= $this->Form->input('key_profile',
+                                [
+                                    'type' => 'hidden',
+                                    'id' => 'key_profile'
+                                ]) ?>
+                            <div class="form-group">
+                                <input id="images" type="file" multiple class="file" data-overwrite-initial="false">
+                            </div>
+                            <?= $this->Form->end();?>
+                        </div>
+
                     </div>
                     <!-- /.tab-pane -->
                 </div>

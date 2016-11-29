@@ -55,6 +55,20 @@ class CompaniesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $options = array(
+            // Refer to php.net fgetcsv for more information
+            'length' => 0,
+            'delimiter' => ',',
+            'enclosure' => '"',
+            'escape' => '\\',
+            // Generates a Model.field headings row from the csv file
+            'headers' => true,
+            // If true, String $content is the data, not a path to the file
+            'text' => false,
+        );
+
+        $this->addBehavior('CakePHPCSV.Csv', $options);
+
         $this->belongsTo('Idcards', [
             'foreignKey' => 'idcard_id',
             'joinType' => 'INNER'
@@ -162,7 +176,6 @@ class CompaniesTable extends Table
         if (isset($data['idcard_id']) && isset($data['identity_card']) && ($data['idcard_id'] == 6)){
             $data['identity_card'] = null;
         }
-
 
         if (isset($data['file_data'])) {
             $data['images'] = [0 =>['photo' => $data['file_data']]];

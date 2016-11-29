@@ -59,7 +59,7 @@ class CompaniesController extends AppController
             $company = $this->Companies->patchEntity($company, $this->request->data);
             if ($this->Companies->save($company)) {
                 $this->Flash->success(__('The {0} has been saved.', 'Company'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit', $company->id]);
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
@@ -86,6 +86,7 @@ class CompaniesController extends AppController
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
+
             $company = $this->Companies->patchEntity($company, $this->request->data);
             $message = $company->dirty('images')?false:true;
 
@@ -97,6 +98,13 @@ class CompaniesController extends AppController
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
+        }
+
+        //Control de la tab:
+        if (isset($this->request->query['tab']) && empty($this->request->query['tab'])){
+            $tab = $this->request->query['tab'];
+        }else{
+            $tab = 'settings'; //Primera pesataña de la vista edit.ctp
         }
 
         $images = [];
@@ -129,7 +137,7 @@ class CompaniesController extends AppController
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab'));
         $this->set('_serialize', ['company']);
     }
 
@@ -237,6 +245,19 @@ class CompaniesController extends AppController
 
         echo 'getIdType </br>';
         debug($obj->getIdType($document));
+
+        exit;
+    }
+
+    public function testCsv(){
+
+        $content = 'data/cnae2009.csv';
+
+        $data = $this->Companies->importCsv($content);
+
+        //$cnaes = $this->paginate($data);
+
+        debug($data);
 
         exit;
     }
