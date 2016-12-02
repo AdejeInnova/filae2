@@ -6,6 +6,7 @@
             <?= $this->Html->link(__('New'), ['action' => 'add'], ['class'=>'btn btn-success btn-xs']) ?>
         </div>
     </h1>
+
 </section>
 
 <!-- Main content -->

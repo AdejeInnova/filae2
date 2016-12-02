@@ -4,7 +4,6 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Network\Http\Client;
 use GeoAPI;
-use App\Utility\NifCifNie;
 
 /**
  * Companies Controller
@@ -82,7 +81,7 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes']
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -101,14 +100,20 @@ class CompaniesController extends AppController
         }
 
         //Control de la tab:
-        if (isset($this->request->query['tab']) && empty($this->request->query['tab'])){
+        if (isset($this->request->query['tab']) && !empty($this->request->query['tab'])){
             $tab = $this->request->query['tab'];
         }else{
             $tab = 'settings'; //Primera pesataña de la vista edit.ctp
         }
 
+        // tab:Datos
+        $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
+        $companies = $this->Companies->find('list', ['limit' => 200]);
+
+        //tab: Media
         $images = [];
         $captions = [];
+
         $profile = 0;
         foreach ($company->images as $data):
             $file = '/files/images/photo/' . $data->get('photo_dir') . '/' . $data->get('photo');
@@ -128,16 +133,26 @@ class CompaniesController extends AppController
             if ($data->profile){
                 $profile = $data->id;
             }
-
         endforeach;
 
-        $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
-        $companies = $this->Companies->find('list', ['limit' => 200]);
+
+
+        // tab:Communication
+
+        // tab:cnae
+
+        $cnaes = $this->Companies->Cnaes->find('all');
+        $cnaes->where(['companie_id' => $id]);
+
+        $cnaes = $this->paginate($cnaes);
+
+
+
 
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies', 'tab'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes'));
         $this->set('_serialize', ['company']);
     }
 
@@ -245,19 +260,6 @@ class CompaniesController extends AppController
 
         echo 'getIdType </br>';
         debug($obj->getIdType($document));
-
-        exit;
-    }
-
-    public function testCsv(){
-
-        $content = 'data/cnae2009.csv';
-
-        $data = $this->Companies->importCsv($content);
-
-        //$cnaes = $this->paginate($data);
-
-        debug($data);
 
         exit;
     }

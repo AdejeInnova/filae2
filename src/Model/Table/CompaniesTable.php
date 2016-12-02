@@ -55,20 +55,6 @@ class CompaniesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $options = array(
-            // Refer to php.net fgetcsv for more information
-            'length' => 0,
-            'delimiter' => ',',
-            'enclosure' => '"',
-            'escape' => '\\',
-            // Generates a Model.field headings row from the csv file
-            'headers' => true,
-            // If true, String $content is the data, not a path to the file
-            'text' => false,
-        );
-
-        $this->addBehavior('CakePHPCSV.Csv', $options);
-
         $this->belongsTo('Idcards', [
             'foreignKey' => 'idcard_id',
             'joinType' => 'INNER'
@@ -76,9 +62,11 @@ class CompaniesTable extends Table
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id'
         ]);
-        $this->belongsTo('Addresses', [
-            'foreignKey' => 'address_id'
+
+        $this->hasMany('Addresses', [
+            'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Cnaes', [
             'foreignKey' => 'companie_id'
         ]);
@@ -91,16 +79,15 @@ class CompaniesTable extends Table
         $this->hasMany('Sedes', [
             'foreignKey' => 'companie_id'
         ]);
-
         $this->hasMany('Images', [
             'foreignKey' => 'companie_id'
         ]);
-
         $this->belongsToMany('Communications', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'communication_id',
             'joinTable' => 'communications_companies'
         ]);
+
         $this->belongsToMany('Networks', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'network_id',
@@ -162,8 +149,6 @@ class CompaniesTable extends Table
         ]);
 
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['address_id'], 'Addresses'));
-
 
         return $rules;
     }

@@ -63,7 +63,6 @@
                         }
                     ?>
                     <h3 class="profile-username text-center"><?= $company->tradename ?></h3>
-
                     <p class="text-muted text-center"><?= $company->name ?></p>
                     <p class="text-muted text-center"><?= $company->identity_card ?></p>
                 </div>
@@ -106,7 +105,7 @@
 
                     <strong><i class="fa fa-file-text-o margin-r-5"></i> <?= __('Notes')?></strong>
 
-                    <p><?= h($company->description) ?></p>
+                    <p><?= $company->description ?></p>
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -118,6 +117,8 @@
                 <ul class="nav nav-tabs">
                     <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab">Datos</a></li>
                     <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
+                    <li class="<?= $tab == 'communication'?'active':''; ?>"><a href="#communication" data-toggle="tab"><?=__('Comunicación')?></a></li>
+                    <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><?=__('Cnae')?></a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
@@ -166,6 +167,79 @@
                                 <input id="images" type="file" multiple class="file" data-overwrite-initial="false">
                             </div>
                             <?= $this->Form->end();?>
+                        </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'communication'?'active':''; ?>" id="communication">
+                        <div class="box-body">
+                            <strong><i class="fa fa-book margin-r-5"></i> Medios de Comunicación</strong>
+                            <p class="text-muted">
+                                Diferentes medios de comunicación con la empresa
+                            </p>
+                            <hr>
+                            <?= $this->Form->create($company,
+                                [
+                                    'url' => [
+                                        'action' => 'edit',
+                                        'tab' => 'communication'
+                                    ],
+                                    'role' => 'form',
+                                    'class' => 'form-horizontal',
+                                    'novalidate' => true
+                                ]
+                            );
+                            ?>
+                            <?= $this->Form->end();?>
+                        </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'cnae'?'active':''; ?>" id="cnae">
+                        <div class="box-body">
+                            <div class="pull-right">
+                                <?= $this->Html->link(__('New'), ['controller' => 'cnaes','action' => 'index', $company->id], ['class'=>'btn btn-success btn-xs']) ?>
+                            </div>
+                            <strong><i class="fa fa-book margin-r-5"></i> CNAE</strong>
+                            <p class="text-muted">
+                                Código Nacional de Actividades Económicas
+                            </p>
+                            <table class="table table-hover ">
+                                <tr>
+                                    <th><?= $this->Paginator->sort('cod_cnae', 'Código') ?></th>
+                                    <th class="hidden-xs"><?= $this->Paginator->sort('codintegr', 'Código Full') ?></th>
+                                    <th class="hidden-xs"><?= $this->Paginator->sort('titulo_cnae', 'Título') ?></th>
+                                    <th><?= __('Actions') ?></th>
+                                </tr>
+                                <?php foreach ($cnaes as $cnae): ?>
+                                    <tr>
+                                        <td><?= h($cnae->cod_cnae) ?></td>
+                                        <td class="hidden-xs"><?= h($cnae->codintegr) ?></td>
+                                        <td class="hidden-xs"><?= h($cnae->titulo_cnae) ?></td>
+                                        <td class="actions" style="white-space:nowrap">
+                                            <?php
+                                            echo $this->Form->postLink(
+                                            '<i class="fa fa-trash"></i>',
+                                            [
+                                                'controller' => 'cnaes',
+                                                'action' => 'delete',
+                                                $company->id,
+                                                $cnae->id
+                                            ],
+                                            [
+                                                'confirm' => __('Confirm to Delete this cnae?'),
+                                                'class'=>'btn btn-xs text-red',
+                                                'escape'=>false
+
+                                            ]);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+
                         </div>
 
                     </div>
