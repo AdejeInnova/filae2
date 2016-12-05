@@ -117,8 +117,10 @@
                 <ul class="nav nav-tabs">
                     <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab">Datos</a></li>
                     <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
-                    <li class="<?= $tab == 'communication'?'active':''; ?>"><a href="#communication" data-toggle="tab"><?=__('Comunicación')?></a></li>
+                    <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><?=__('Networks')?></a></li>
+                    <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><?=__('Comunicaciones')?></a></li>
                     <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><?=__('Cnae')?></a></li>
+
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
@@ -172,28 +174,137 @@
                     </div>
                     <!-- /.tab-pane -->
 
-                    <div class="tab-pane <?= $tab == 'communication'?'active':''; ?>" id="communication">
+                    <div class="tab-pane <?= $tab == 'networks'?'active':''; ?>" id="networks">
                         <div class="box-body">
-                            <strong><i class="fa fa-book margin-r-5"></i> Medios de Comunicación</strong>
+                            <strong><i class="fa fa-book margin-r-5"></i> Redes Sociales</strong>
                             <p class="text-muted">
-                                Diferentes medios de comunicación con la empresa
+                                Crear las diferentes redes sociales que tiene la empresa.
                             </p>
                             <hr>
-                            <?= $this->Form->create($company,
+                            <?php
+                            echo $this->Form->create($company,
                                 [
                                     'url' => [
                                         'action' => 'edit',
-                                        'tab' => 'communication'
+                                        'tab' => 'networks'
                                     ],
                                     'role' => 'form',
                                     'class' => 'form-horizontal',
                                     'novalidate' => true
                                 ]
                             );
-                            ?>
-                            <?= $this->Form->end();?>
-                        </div>
 
+                            echo $this->Form->input('companies_networks.0.network_id', [
+                                'label' => 'Red Social',
+                                'type' => 'select',
+                                'options' => $networks
+                            ]);
+                            echo $this->Form->input('companies_networks.0.url');
+
+                            ?>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <?= $this->Form->button(__('Save')) ?>
+                                </div>
+                            </div>
+                            <?php
+                                echo  $this->Form->end();
+                            ?>
+                        </div>
+                        <hr>
+                        <ul class="todo-list">
+                            <?php
+                            foreach ($company->networks as $network) {
+                                echo '<li>';
+                                    echo '<i class="fa ' . $network->class . '"></i> ';
+                                    echo '<span class="text">' . $network->_joinData->url . '</span>';
+                                    echo '<div class="tools">';
+                                        echo $this->Form->PostLink(
+                                            '<i class="fa fa-trash-o"></i>',
+                                            [
+                                                'controller' => 'companies_networks',
+                                                'action' => 'delete',
+                                                $network->_joinData->id,
+                                                $network->_joinData->company_id,
+                                            ],
+                                            [
+                                                'escape' => false,
+                                                'confirm' => __('Confirm to delete this network?'),
+                                                'class'=>'btn btn-danger btn-xs'
+                                            ]
+                                        );
+                                    echo '</div>';
+                                echo '</li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'communications'?'active':''; ?>" id="communications">
+                        <div class="box-body">
+                            <strong><i class="fa fa-book margin-r-5"></i> Comunicaciones</strong>
+                            <p class="text-muted">
+                                Medios de comunicación con la empresa
+                            </p>
+                            <hr>
+                            <?php
+                            echo $this->Form->create($company,
+                                [
+                                    'url' => [
+                                        'action' => 'edit',
+                                        'tab' => 'communications'
+                                    ],
+                                    'role' => 'form',
+                                    'class' => 'form-horizontal',
+                                    'novalidate' => true
+                                ]
+                            );
+
+                            echo $this->Form->input('communications_companies.0.communication_id', [
+                                'label' => 'Tipo',
+                                'type' => 'select',
+                                'options' => $communications
+                            ]);
+                            echo $this->Form->input('communications_companies.0.value');
+
+                            ?>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <?= $this->Form->button(__('Save')) ?>
+                                </div>
+                            </div>
+                            <?php
+                            echo  $this->Form->end();
+                            ?>
+                        </div>
+                        <hr>
+                        <ul class="todo-list">
+                            <?php
+                            foreach ($company->communications as $communication) {
+                                echo '<li>';
+                                echo '<i class="fa ' . $communication->class . '"></i> ' . $communication->name;
+                                echo '<span class="text">' . $communication->_joinData->value . '</span>';
+                                echo '<div class="tools">';
+                                echo $this->Form->PostLink(
+                                    '<i class="fa fa-trash-o"></i>',
+                                    [
+                                        'controller' => 'communications_companies',
+                                        'action' => 'delete',
+                                        $communication->_joinData->id,
+                                        $communication->_joinData->company_id,
+                                    ],
+                                    [
+                                        'escape' => false,
+                                        'confirm' => __('Confirm to delete this communication?'),
+                                        'class'=>'btn btn-danger btn-xs'
+                                    ]
+                                );
+                                echo '</div>';
+                                echo '</li>';
+                            }
+                            ?>
+                        </ul>
                     </div>
                     <!-- /.tab-pane -->
 

@@ -18,9 +18,21 @@ class IdcardsController extends AppController
      */
     public function index()
     {
-        $idcards = $this->paginate($this->Idcards);
+        $search = '';
+
+        $query = $this->Idcards->find('all',[
+            'order' => ['Idcards.name' => 'ASC']
+        ]);
+
+        if ($this->request->is('POST') && (!empty($this->request->data['search']))){
+            $search = $this->request->data['search'];
+            $query->where(['Idcards.name LIKE' => '%' . $search . '%']);
+        }
+
+        $idcards = $this->paginate($query);
 
         $this->set(compact('idcards'));
+        $this->set('search', $search);
         $this->set('_serialize', ['idcards']);
     }
 

@@ -9,8 +9,8 @@
             <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regiones')?></a></li>
             <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provincias')?></a></li>
             <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Documentos')?></a></li>
-            <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Redes')?></a></li>
-            <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Parentezcos')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/networks'); ?>"><i class="fa fa-circle-o"></i> <?= __('Redes')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/communications'); ?>"><i class="fa fa-circle-o"></i> <?= __('Comunicaciones')?></a></li>
         </ul>
     </li>
 
