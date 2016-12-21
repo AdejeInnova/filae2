@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
 use Cake\Network\Http\Client;
 use GeoAPI;
 
@@ -66,8 +67,9 @@ class CompaniesController extends AppController
 
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
         $companies = $this->Companies->find('list', ['limit' => 200]);
+        $superficies = Configure::read('Superficies');
 
-        $this->set(compact('company', 'idcards', 'addresses', 'companies'));
+        $this->set(compact('company', 'idcards', 'addresses', 'companies', 'superficies'));
         $this->set('_serialize', ['company']);
     }
 
@@ -92,9 +94,9 @@ class CompaniesController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-
             $company = $this->Companies->patchEntity($company, $this->request->data, [
                 'associated' => [
+                    'Images',
                     'CompaniesNetworks',
                     'CommunicationsCompanies'
                 ]
@@ -104,23 +106,24 @@ class CompaniesController extends AppController
             if ($this->Companies->save($company)) {
                 if ($message){
                     $this->Flash->success(__('The {0} has been saved.', 'Company'));
-                    return $this->redirect(['action' => 'edit', $id, 'tab' => $tab]);
                 }
+                return $this->redirect(['action' => 'edit', $id, 'tab' => $tab]);
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
         }
 
-
         // tab:Datos
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
         $companies = $this->Companies->find('list', ['limit' => 200]);
+        $superficies = Configure::read('Superficies');
 
         //tab: Media
         $images = [];
         $captions = [];
 
         $profile = 0;
+
         foreach ($company->images as $data):
             $file = '/files/images/photo/' . $data->get('photo_dir') . '/' . $data->get('photo');
 
@@ -158,7 +161,7 @@ class CompaniesController extends AppController
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies'));
         $this->set('_serialize', ['company']);
     }
 

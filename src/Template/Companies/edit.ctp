@@ -77,11 +77,18 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                    <strong><i class="fa fa-book margin-r-5"></i> Redes Sociales</strong>
 
-                    <p class="text-muted">
-                        B.S. in Computer Science from the University of Tennessee at Knoxville
-                    </p>
+                    <?php
+                    foreach ($company->networks as $network) {
+                        echo '<p class="no-margin">';
+                        echo '<i class="fa ' . $network->class . '"></i> ';
+                        echo '<span class="text">';
+                            echo $this->Html->Link($network->_joinData->url);
+                        echo '</span>';
+                        echo '</p>';
+                    }
+                    ?>
 
                     <hr>
 
@@ -103,7 +110,7 @@
 
                     <hr>
 
-                    <strong><i class="fa fa-file-text-o margin-r-5"></i> <?= __('Notes')?></strong>
+                    <strong><i class="fa fa-file-text-o margin-r-5"></i> <?= __('Observaciones Internas')?></strong>
 
                     <p><?= $company->description ?></p>
                 </div>
@@ -124,6 +131,11 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
+                        <strong><i class="fa fa-book margin-r-5"></i> Datos de Empresa</strong>
+                        <p class="text-muted">
+                            Datos de identificación de la empresa
+                        </p>
+                        <hr>
                         <?php
                         $this->Form->templates([
                             'inputContainer' => '<div class="form-group"><label class="col-sm-2 control-label">{{label}}</label><div class="col-sm-10">{{content}}</div></div>'
@@ -144,8 +156,17 @@
                             echo $this->Form->input('name', ['label' => __('Razón Social')]);
                             echo $this->Form->input('idcard_id', ['options' => $idcards]);
                             echo $this->Form->input('identity_card');
-                            echo $this->Form->input('description',['label' => __('Notes')]);
-                            echo $this->Form->input('company_id', ['label' => __('Parent Company')]);
+                            echo $this->Form->input('description',['label' => __('Observaciones Internas')]);
+                            echo $this->Form->input('superficie_id', [
+                                'options' => $superficies,
+                                'empty' => true,
+                                'label' => __('Superficie de Venta')
+                            ]);
+                            echo $this->Form->input('company_id', [
+                                'options' => $companies,
+                                'empty' => true,
+                                'label' => __('Parent Company')
+                            ]);
                             ?>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -159,6 +180,11 @@
 
                     <div class="tab-pane <?= $tab == 'media'?'active':''; ?>" id="media">
                         <div class="box-body">
+                            <strong><i class="fa fa-book margin-r-5"></i> Archivos Multimedia</strong>
+                            <p class="text-muted">
+                                Galería de Imágines de la empresa
+                            </p>
+                            <hr>
                             <?= $this->Form->create(null,['type' => 'file']);?>
                             <?= $this->Form->input('key_profile',
                                 [

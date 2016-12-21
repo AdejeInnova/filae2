@@ -16,12 +16,11 @@
 
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-industry"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
+            <i class="ion ion-bag"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-
+            <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('New'), ['controller' => 'companies','action' => 'add'], ['escape'=>false]) ?></li>
             <li><a href="<?php echo $this->Url->build('/companies'); ?>"><i class="fa fa-circle-o"></i> <?= __('Listado')?></a></li>
-
         </ul>
     </li>
 
