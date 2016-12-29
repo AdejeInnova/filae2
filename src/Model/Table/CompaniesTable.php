@@ -50,7 +50,7 @@ class CompaniesTable extends Table
         parent::initialize($config);
 
         $this->table('companies');
-        $this->displayField('name');
+        $this->displayField('tradename');
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
