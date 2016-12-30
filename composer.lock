@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4ee82a872b7e8807781865132d7136cf",
-    "content-hash": "aaa8243d290781699607f263ced138df",
+    "hash": "ea84d4183dfe3efc720e433c4f399e92",
+    "content-hash": "119d7a06ef9f0b4e1becbb6aa34bc6f9",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -764,6 +764,63 @@
                 "php mobile detect"
             ],
             "time": "2016-11-11 14:56:25"
+        },
+        {
+            "name": "muffin/tags",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UseMuffin/Tags.git",
+                "reference": "1e8767faa6b01a5b554c2375b5b0a7f1f09dc6d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UseMuffin/Tags/zipball/1e8767faa6b01a5b554c2375b5b0a7f1f09dc6d4",
+                "reference": "1e8767faa6b01a5b554c2375b5b0a7f1f09dc6d4",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/orm": "~3.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "muffin/slug": "~1.0",
+                "phpunit/phpunit": "~4.1"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Muffin\\Tags\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jad Bitar",
+                    "homepage": "http://jadb.io",
+                    "role": "Author"
+                },
+                {
+                    "name": "ADmad",
+                    "homepage": "https://github.com/ADmad",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/usemuffin/tags/graphs/contributors"
+                }
+            ],
+            "description": "Tags plugin for CakePHP 3.x",
+            "homepage": "https://github.com/usemuffin/tags",
+            "keywords": [
+                "cakephp",
+                "muffin",
+                "tags"
+            ],
+            "time": "2016-01-29 04:37:16"
         },
         {
             "name": "proloser/cakephp-csv",
@@ -1834,6 +1891,7 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "proloser/cakephp-csv": 20,
+        "muffin/tags": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,
