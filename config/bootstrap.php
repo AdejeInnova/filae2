@@ -224,6 +224,8 @@ Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
 Plugin::load('Proffer');
 
+Plugin::load('Muffin/Tags');
+
 
 //CONSTANTS
 

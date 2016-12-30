@@ -93,6 +93,8 @@ class CompaniesTable extends Table
             'targetForeignKey' => 'network_id',
             'joinTable' => 'companies_networks'
         ]);
+
+        $this->addBehavior('Muffin/Tags.Tag');
     }
 
     /**

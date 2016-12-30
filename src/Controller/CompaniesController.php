@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Core\Configure;
+use Cake\Datasource\ConnectionManager;
 use Cake\Network\Http\Client;
 use GeoAPI;
 
@@ -83,7 +84,7 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags']
         ]);
 
         //Control de la tab:
@@ -98,7 +99,8 @@ class CompaniesController extends AppController
                 'associated' => [
                     'Images',
                     'CompaniesNetworks',
-                    'CommunicationsCompanies'
+                    'CommunicationsCompanies',
+                    'Tags'
                 ]
             ]);
 
@@ -117,6 +119,17 @@ class CompaniesController extends AppController
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
         $companies = $this->Companies->find('list', ['limit' => 200]);
         $superficies = Configure::read('Superficies');
+
+
+        $db = ConnectionManager::get("default"); // name of your database connection
+        $stmt = $db->execute("SELECT * FROM tags_tags");
+        $values = $stmt->fetchAll('assoc');
+        $tags = [];
+        foreach ($values as $tag){
+            $tags[$tag['label']] = $tag['label'];
+        }
+
+
 
         //tab: Media
         $images = [];
@@ -161,7 +174,7 @@ class CompaniesController extends AppController
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies', 'tags'));
         $this->set('_serialize', ['company']);
     }
 
