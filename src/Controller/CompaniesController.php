@@ -84,7 +84,7 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags', 'Addresses']
         ]);
 
         //Control de la tab:
@@ -100,7 +100,8 @@ class CompaniesController extends AppController
                     'Images',
                     'CompaniesNetworks',
                     'CommunicationsCompanies',
-                    'Tags'
+                    'Tags',
+                    'Addressess'
                 ]
             ]);
 
@@ -164,13 +165,11 @@ class CompaniesController extends AppController
         $communications = $this->Companies->Communications->find('list',['order' => ['Communications.name' => 'ASC']]);
 
         // tab:cnae
-
         $cnaes = $this->Companies->Cnaes->find('all');
         $cnaes->where(['companie_id' => $id]);
-
         $cnaes = $this->paginate($cnaes);
 
-
+        // tab: addresses
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
@@ -219,71 +218,6 @@ class CompaniesController extends AppController
 
         return $this->redirect(['action' => 'edit', $company_id]);
 
-    }
-
-
-    public function geophp(){
-        $geoapi = new GeoAPI(); //Nueva instancia de la librería
-
-        $geoapi->setConfig("url", "http://apiv1.geoapi.es/");
-        $geoapi->setConfig("type", "JSON");
-        $geoapi->setConfig("key", "84ebd10c6201ad1935e0ff67794587927a69f0cf613e7675c7856772bdf17f14");
-        $geoapi->setConfig("sandbox", 0);
-
-        //Todas las comunidades
-        $comunidades = $geoapi->comunidades([]);
-        //debug($comunidades);
-
-        $provincias = $geoapi->provincias([
-            'CCOM' => '05'
-        ]);
-        debug($provincias);
-
-        die();
-    }
-
-    public function test()
-    {
-        //require_once(ROOT .DS. "Vendor" . DS  . "MyClass" . DS . "MyClass.php");
-
-        $obj = new NifCifNie;
-        //$document = '45704797W'; //NIF
-        $document = '54668427A';
-        $document = '46299827E';
-        //$document = 'A38353801'; //CIF
-        //$document = 'Y0189739A'; //NIE
-
-        echo 'isValidIdNumber: </br>';
-        debug($obj->isValidIdNumber($document));
-
-        echo 'isValidNIF: </br>';
-        debug($obj->isValidNIF($document));
-
-        echo 'isValidNIE: </br>';
-        debug($obj->isValidNIE($document));
-
-        echo 'isValidCIF: </br>';
-        debug($obj->isValidCIF($document));
-
-        echo 'isValidNIFFormat </br>';
-        debug($obj->isValidNIFFormat($document));
-
-        echo 'isValidNIEFormat </br>';
-        debug($obj->isValidNIEFormat($document));
-
-        echo 'isValidCIFFormat </br>';
-        debug($obj->isValidCIFFormat($document));
-
-        echo 'getNIFCheckDigit </br>';
-        debug($obj->getNIFCheckDigit($document));
-
-        echo 'getCIFCheckDigit </br>';
-        debug($obj->getCIFCheckDigit($document));
-
-        echo 'getIdType </br>';
-        debug($obj->getIdType($document));
-
-        exit;
     }
 
 }

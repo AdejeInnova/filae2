@@ -127,6 +127,7 @@
                     <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><?=__('Networks')?></a></li>
                     <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><?=__('Comunicaciones')?></a></li>
                     <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><?=__('Cnae')?></a></li>
+                    <li class="<?= $tab == 'addresses'?'active':''; ?>"><a href="#addresses" data-toggle="tab"><?=__('Direcciones')?></a></li>
 
                 </ul>
                 <div class="tab-content">
@@ -391,6 +392,58 @@
                                     </tr>
                                 <?php endforeach; ?>
                             </table>
+
+                        </div>
+
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'addresses'?'active':''; ?>" id="addresses">
+                        <div class="box-body">
+                            <div class="pull-right">
+                                <?= $this->Html->link(__('New'), ['controller' => 'cnaes','action' => 'index', $company->id], ['class'=>'btn btn-success btn-xs']) ?>
+                            </div>
+                            <strong><i class="fa fa-book margin-r-5"></i> Direcciones</strong>
+                            <p class="text-muted">
+                                Direcciones de la empresa
+                            </p>
+                            <hr/>
+                            <?php
+                            echo $this->Form->create($company,
+                                [
+                                    'url' => [
+                                        'action' => 'edit',
+                                        'tab' => 'addresses'
+                                    ],
+                                    'role' => 'form',
+                                    'class' => 'form-horizontal',
+                                    'novalidate' => true
+                                ]
+                            );
+
+                            /*echo $this->Form->input('addresses_companies.0.communication_id', [
+                                'label' => 'Tipo',
+                                'type' => 'select',
+                                'options' => $communications
+                            ]);*/
+
+                            echo $this->Form->input('addresses_companies.0.communication_id', [
+                                'label' => 'Tipo',
+                                'type' => 'select',
+                                'options' => $communications
+                            ]);
+
+
+
+                            ?>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <?= $this->Form->button(__('Save')) ?>
+                                </div>
+                            </div>
+                            <?php
+                            echo  $this->Form->end();
+                            ?>
 
                         </div>
 
