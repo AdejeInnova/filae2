@@ -5,7 +5,6 @@ use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Network\Http\Client;
-use GeoAPI;
 
 /**
  * Companies Controller
@@ -95,13 +94,14 @@ class CompaniesController extends AppController
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
+
             $company = $this->Companies->patchEntity($company, $this->request->data, [
                 'associated' => [
                     'Images',
                     'CompaniesNetworks',
                     'CommunicationsCompanies',
                     'Tags',
-                    'Addressess'
+                    'Addresses'
                 ]
             ]);
 
@@ -129,8 +129,6 @@ class CompaniesController extends AppController
         foreach ($values as $tag){
             $tags[$tag['label']] = $tag['label'];
         }
-
-
 
         //tab: Media
         $images = [];
@@ -169,11 +167,11 @@ class CompaniesController extends AppController
         $cnaes->where(['companie_id' => $id]);
         $cnaes = $this->paginate($cnaes);
 
-        // tab: addresses
+
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies', 'tags'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies', 'tags', 'comunidades'));
         $this->set('_serialize', ['company']);
     }
 

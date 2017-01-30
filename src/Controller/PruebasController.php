@@ -15,6 +15,9 @@ use GeoAPI;
 class PruebasController extends AppController
 {
     public function geophp(){
+
+        $this->autoRender = false;
+
         $geoapi = new GeoAPI(); //Nueva instancia de la librería
 
         $geoapi->setConfig("url", "http://apiv1.geoapi.es/");
@@ -59,8 +62,6 @@ class PruebasController extends AppController
             'CPOS' => '38678' //Código postal
         ]);
 
-
-        debug($calles);
-        die();
+        debug($comunidades);
     }
 }
