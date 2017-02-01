@@ -9,19 +9,18 @@
             <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regiones')?></a></li>
             <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provincias')?></a></li>
             <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Documentos')?></a></li>
-            <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Redes')?></a></li>
-            <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Parentezcos')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/networks'); ?>"><i class="fa fa-circle-o"></i> <?= __('Redes')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/communications'); ?>"><i class="fa fa-circle-o"></i> <?= __('Comunicaciones')?></a></li>
         </ul>
     </li>
 
     <li class="treeview">
         <a href="#">
-            <i class="fa fa-industry"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
+            <i class="ion ion-bag"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-
+            <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('New'), ['controller' => 'companies','action' => 'add'], ['escape'=>false]) ?></li>
             <li><a href="<?php echo $this->Url->build('/companies'); ?>"><i class="fa fa-circle-o"></i> <?= __('Listado')?></a></li>
-
         </ul>
     </li>
 

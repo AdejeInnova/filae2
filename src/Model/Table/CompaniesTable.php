@@ -62,9 +62,11 @@ class CompaniesTable extends Table
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id'
         ]);
-        $this->belongsTo('Addresses', [
-            'foreignKey' => 'address_id'
+
+        $this->hasMany('Addresses', [
+            'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Cnaes', [
             'foreignKey' => 'companie_id'
         ]);
@@ -77,16 +79,15 @@ class CompaniesTable extends Table
         $this->hasMany('Sedes', [
             'foreignKey' => 'companie_id'
         ]);
-
         $this->hasMany('Images', [
             'foreignKey' => 'companie_id'
         ]);
-
         $this->belongsToMany('Communications', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'communication_id',
             'joinTable' => 'communications_companies'
         ]);
+
         $this->belongsToMany('Networks', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'network_id',
@@ -148,8 +149,6 @@ class CompaniesTable extends Table
         ]);
 
         $rules->add($rules->existsIn(['company_id'], 'Companies'));
-        $rules->add($rules->existsIn(['address_id'], 'Addresses'));
-
 
         return $rules;
     }
@@ -162,7 +161,6 @@ class CompaniesTable extends Table
         if (isset($data['idcard_id']) && isset($data['identity_card']) && ($data['idcard_id'] == 6)){
             $data['identity_card'] = null;
         }
-
 
         if (isset($data['file_data'])) {
             $data['images'] = [0 =>['photo' => $data['file_data']]];

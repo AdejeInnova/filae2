@@ -12,7 +12,8 @@
         "cakephp/plugin-installer": "*",
         "maiconpinto/cakephp-adminlte-theme": "^1.0",
         "geoapi.es/php": "~0.0.1",
-        "davidyell/proffer": "~0.6"
+        "davidyell/proffer": "~0.6",
+        "proloser/cakephp-csv": "dev-master"
     },
     "require-dev": {
         "psy/psysh": "@stable",

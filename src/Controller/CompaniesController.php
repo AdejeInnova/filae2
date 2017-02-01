@@ -2,9 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
 use Cake\Network\Http\Client;
 use GeoAPI;
-use App\Utility\NifCifNie;
 
 /**
  * Companies Controller
@@ -59,7 +59,7 @@ class CompaniesController extends AppController
             $company = $this->Companies->patchEntity($company, $this->request->data);
             if ($this->Companies->save($company)) {
                 $this->Flash->success(__('The {0} has been saved.', 'Company'));
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'edit', $company->id]);
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
@@ -67,8 +67,9 @@ class CompaniesController extends AppController
 
         $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
         $companies = $this->Companies->find('list', ['limit' => 200]);
+        $superficies = Configure::read('Superficies');
 
-        $this->set(compact('company', 'idcards', 'addresses', 'companies'));
+        $this->set(compact('company', 'idcards', 'addresses', 'companies', 'superficies'));
         $this->set('_serialize', ['company']);
     }
 
@@ -82,26 +83,47 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes']
         ]);
 
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $company = $this->Companies->patchEntity($company, $this->request->data);
-            $message = $company->dirty('images')?false:true;
+        //Control de la tab:
+        if (isset($this->request->query['tab']) && !empty($this->request->query['tab'])){
+            $tab = $this->request->query['tab'];
+        }else{
+            $tab = 'settings'; //Primera pesataña de la vista edit.ctp
+        }
 
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $company = $this->Companies->patchEntity($company, $this->request->data, [
+                'associated' => [
+                    'Images',
+                    'CompaniesNetworks',
+                    'CommunicationsCompanies'
+                ]
+            ]);
+
+            $message = $company->dirty('images')?false:true;
             if ($this->Companies->save($company)) {
                 if ($message){
                     $this->Flash->success(__('The {0} has been saved.', 'Company'));
-                    return $this->redirect(['action' => 'edit', $id]);
                 }
+                return $this->redirect(['action' => 'edit', $id, 'tab' => $tab]);
             } else {
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Company'));
             }
         }
 
+        // tab:Datos
+        $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
+        $companies = $this->Companies->find('list', ['limit' => 200]);
+        $superficies = Configure::read('Superficies');
+
+        //tab: Media
         $images = [];
         $captions = [];
+
         $profile = 0;
+
         foreach ($company->images as $data):
             $file = '/files/images/photo/' . $data->get('photo_dir') . '/' . $data->get('photo');
 
@@ -120,16 +142,26 @@ class CompaniesController extends AppController
             if ($data->profile){
                 $profile = $data->id;
             }
-
         endforeach;
 
-        $idcards = $this->Companies->Idcards->find('list', ['limit' => 200]);
-        $companies = $this->Companies->find('list', ['limit' => 200]);
+        // tab:Communication
+        //Networks
+        $networks = $this->Companies->Networks->find('list');
+
+        $communications = $this->Companies->Communications->find('list',['order' => ['Communications.name' => 'ASC']]);
+
+        // tab:cnae
+
+        $cnaes = $this->Companies->Cnaes->find('all');
+        $cnaes->where(['companie_id' => $id]);
+
+        $cnaes = $this->paginate($cnaes);
+
 
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies'));
+        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies'));
         $this->set('_serialize', ['company']);
     }
 
@@ -187,11 +219,13 @@ class CompaniesController extends AppController
 
         //Todas las comunidades
         $comunidades = $geoapi->comunidades([]);
+
         //debug($comunidades);
 
         $provincias = $geoapi->provincias([
             'CCOM' => '05'
         ]);
+
         debug($provincias);
 
         die();

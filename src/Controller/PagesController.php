@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
+use App\Controller\AppController;
 
 /**
  * Static content controller
@@ -44,7 +45,9 @@ class PagesController extends AppController
 
         $path = func_get_args();
 
+
         $count = count($path);
+
         if (!$count) {
             return $this->redirect('/');
         }
@@ -56,6 +59,7 @@ class PagesController extends AppController
         if (!empty($path[1])) {
             $subpage = $path[1];
         }
+
         $this->set(compact('page', 'subpage'));
 
         try {
@@ -66,5 +70,22 @@ class PagesController extends AppController
             }
             throw new NotFoundException();
         }
+    }
+
+    public function dashboard(){
+
+        //No Auth -> redirect to /
+        if (!$this->Auth->user()){
+            $this->redirect('/');
+        }
+
+        //Companies
+        $this->loadModel('Companies');
+        $q = $this->Companies->find('all');
+
+        $totalCompanies = $q->count();
+
+        $this->set('totalCompanies', $totalCompanies);
+        //$this->render();
     }
 }

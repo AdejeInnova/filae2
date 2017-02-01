@@ -37,7 +37,13 @@
                     'options' => $idcards
                 ]);
                 echo $this->Form->input('identity_card');
-                echo $this->Form->input('description',['label' => __('Notes')]);
+                echo $this->Form->input('description',['label' => __('Observaciones Internas')]);
+                echo $this->Form->input('superficie_id', [
+                    'options' => $superficies,
+                    'empty' => true,
+                    'label' => __('Superficie de Venta')
+                ]);
+
                 echo $this->Form->input('company_id', [
                     'options' => $companies,
                     'empty' => true,

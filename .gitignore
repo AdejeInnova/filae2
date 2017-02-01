@@ -1,6 +1,5 @@
 /vendor/*
 /config/app.php
-/config/Migrations/20161128145724_Initial.php
 /tmp/*
 /logs/*
 /.idea/*

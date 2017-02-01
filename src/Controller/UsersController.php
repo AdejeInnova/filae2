@@ -133,7 +133,7 @@ class UsersController extends AppController
         if ($this->Auth->user()){
             $this->redirect([
                 'controller' => 'Pages',
-                'action' => 'home'
+                'action' => 'dashboard'
             ]);
         }
 

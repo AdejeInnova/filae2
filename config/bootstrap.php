@@ -222,6 +222,11 @@ Type::build('datetime')
 
 Plugin::load('AdminLTE', ['bootstrap' => true, 'routes' => true]);
 
+Plugin::load('Proffer');
+
+
+//CONSTANTS
+
 Configure::write('Theme', [
     'title' => 'Filae-2',
     'folder' => ROOT,
@@ -236,5 +241,19 @@ Configure::write('Theme', [
     ]
 ]);
 
-Plugin::load('Proffer');
+//Superficies de venta para las empresas y para los locales disponibles.
+Configure::write('Superficies',[
+    1 => 'Menos de 120 m2',
+    2 => 'De 120 a 399 m2',
+    3 => 'De 400 a 999 m2',
+    4 => 'De 1.000 a 2.499 m2',
+    5 => 'De 2.500 a 4.999 m2',
+    6 => 'Más de 5.000 m2'
+]);
+
+
+
+
+
+
 
