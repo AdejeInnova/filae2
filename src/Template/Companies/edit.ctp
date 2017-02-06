@@ -167,6 +167,21 @@
                                 'empty' => true,
                                 'label' => __('Parent Company')
                             ]);
+
+                            //Obtenemos las tags seleccionadas.
+                            $tags_select = [];
+                            foreach ($company->tags as $tag){
+                                array_push($tags_select, $tag->label);
+                            }
+
+                            echo $this->Form->input('tags',[
+                                'options' => $tags,
+                                'label' => 'Tags Actividad',
+                                'class' => ['select2'],
+                                'multiple' => true,
+                                'value' => $tags_select
+                            ]);
+
                             ?>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">

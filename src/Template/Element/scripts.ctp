@@ -11,6 +11,9 @@ switch ($controller){
                 <!-- plugin wysihtml5 -->
                 <script src="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
+                <!-- plugin select2 -->
+                <script src="/filae2/admin_l_t_e/plugins/select2/select2.full.min.js"></script>
+
                 <?php echo $this->Html->script('fileinput'); ?>
 
                 <script>
@@ -89,6 +92,11 @@ switch ($controller){
                         $('.kv-file-content img').addClass('img-responsive');
                         //Bootstrapt-wysihtml5
                         $('#description').wysihtml5();
+
+                        //Select 2 to Tags
+                        $("#tags").select2({
+                            tags: true
+                        })
 
                     });
 
