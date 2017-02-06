@@ -9,10 +9,8 @@ use Cake\Validation\Validator;
 /**
  * Addresses Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Roads
- * @property \Cake\ORM\Association\BelongsTo $Towns
  * @property \Cake\ORM\Association\BelongsTo $People
- * @property \Cake\ORM\Association\HasMany $Companies
+ * @property \Cake\ORM\Association\BelongsTo $Companies
  * @property \Cake\ORM\Association\HasMany $Sedes
  *
  * @method \App\Model\Entity\Address get($primaryKey, $options = [])
@@ -44,24 +42,13 @@ class AddressesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Roads', [
-            'foreignKey' => 'road_id',
-            'joinType' => 'INNER'
-        ]);
-        $this->belongsTo('Towns', [
-            'foreignKey' => 'town_id',
-            'joinType' => 'INNER'
-        ]);
         $this->belongsTo('Persons', [
-            'foreignKey' => 'person_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'person_id'
         ]);
-
         $this->belongsTo('Companies', [
             'foreignKey' => 'companie_id',
             'joinType' => 'INNER'
         ]);
-
         $this->hasMany('Sedes', [
             'foreignKey' => 'address_id'
         ]);
@@ -78,10 +65,6 @@ class AddressesTable extends Table
         $validator
             ->integer('id')
             ->allowEmpty('id', 'create');
-
-        $validator
-            ->requirePresence('address', 'create')
-            ->notEmpty('address');
 
         $validator
             ->integer('number')
@@ -107,13 +90,43 @@ class AddressesTable extends Table
             ->allowEmpty('latlon');
 
         $validator
-            ->requirePresence('core', 'create')
-            ->notEmpty('core');
+            ->allowEmpty('CCOM');
 
         $validator
-            ->integer('postcode')
-            ->requirePresence('postcode', 'create')
-            ->notEmpty('postcode');
+            ->allowEmpty('COM');
+
+        $validator
+            ->allowEmpty('CPRO');
+
+        $validator
+            ->allowEmpty('PRO');
+
+        $validator
+            ->allowEmpty('CMUM');
+
+        $validator
+            ->allowEmpty('DMUN50');
+
+        $validator
+            ->allowEmpty('NENTSI50');
+
+        $validator
+            ->allowEmpty('CUN');
+
+        $validator
+            ->allowEmpty('NNUCLE50');
+
+        $validator
+            ->allowEmpty('CPOS');
+
+        $validator
+            ->allowEmpty('CVIA');
+
+        $validator
+            ->allowEmpty('NVIAC');
+
+        $validator
+            ->allowEmpty('TVIA');
 
         return $validator;
     }
@@ -127,8 +140,6 @@ class AddressesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['road_id'], 'Roads'));
-        $rules->add($rules->existsIn(['town_id'], 'Towns'));
         $rules->add($rules->existsIn(['person_id'], 'Persons'));
         $rules->add($rules->existsIn(['companie_id'], 'Companies'));
 

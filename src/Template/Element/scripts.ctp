@@ -14,6 +14,12 @@ switch ($controller){
                 <!-- plugin select2 -->
                 <script src="/filae2/admin_l_t_e/plugins/select2/select2.full.min.js"></script>
 
+                <!-- GeoApi - Angular.js -->
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.17/angular.min.js"></script>
+                <script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
+                <?php echo $this->Html->script('main-geoapi'); ?>
+
+
                 <?php echo $this->Html->script('fileinput'); ?>
 
                 <script>
@@ -86,7 +92,6 @@ switch ($controller){
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
 
 
-
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');
@@ -96,8 +101,7 @@ switch ($controller){
                         //Select 2 to Tags
                         $("#tags").select2({
                             tags: true
-                        })
-
+                        });
                     });
 
                 </script>

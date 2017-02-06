@@ -25,10 +25,6 @@ class AddressesTableTest extends TestCase
      */
     public $fixtures = [
         'app.addresses',
-        'app.roads',
-        'app.towns',
-        'app.townships',
-        'app.cores',
         'app.people',
         'app.companies',
         'app.idcards',
@@ -36,10 +32,18 @@ class AddressesTableTest extends TestCase
         'app.cnaes',
         'app.contacts',
         'app.sedes',
+        'app.images',
         'app.communications',
         'app.communications_companies',
+        'app.communications_persons',
+        'app.contacts_communications',
         'app.networks',
-        'app.companies_networks'
+        'app.companies_networks',
+        'app.networks_persons',
+        'app.tagged',
+        'app.companies_tags',
+        'app.tags',
+        'app.tags_tagged'
     ];
 
     /**
