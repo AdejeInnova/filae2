@@ -92,6 +92,19 @@ switch ($controller){
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
 
 
+                    //Show modal box.
+                    $('#myModal').on('shown.bs.modal', function (event) {
+                        var button = $(event.relatedTarget);
+                        console.log(button);
+
+                        var modal = $(this);
+
+                        modal.find('.modal-title').text('Busqueda Calles:');
+
+
+
+                    });
+
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');

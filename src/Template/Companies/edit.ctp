@@ -404,8 +404,41 @@
                             <p class="text-muted">
                                 Direcciones de la empresa
                             </p>
+                                <div class="input-group input-group-sm">
+                                <?php
+                                    echo $this->Form->input(null,[
+                                        'label' => false,
+                                        'type' => 'text',
+                                        'templates' => [
+                                            'inputContainer' =>'{{content}}'
+                                        ],
+                                        'ng-model' => 'qcalles',
+                                        'placeholder' => __('Fill in to start search')
+                                    ]);
+                                    echo '<span class="input-group-btn">';
+                                        echo $this->Form->button(
+                                            __('Filter'),
+                                            [
+                                                'id' => 'btn_search',
+                                                'class' => 'btn btn-info btn-flat',
+                                                'data-toggle' => 'modal',
+                                                'data-target' => '#Modal',
+                                                'ng-click' => 'buscar_calles()'
+                                            ]
+                                        );
+                                    echo '</span>';
+                                ?>
+                                </div>
+
+                            <ul>
+                                <li ng-repeat="c in res_qcalles">
+                                    {{ c.CCOM }} - {{ c.CPRO }} - {{ c.CMUM }} - {{ c.NENTSI50 }} - {{ c.CUN }} - {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.CVIA }} - {{ c.TVIA }} - {{ c.NVIAC }}
+                                </li>
+                            </ul>
+
                             <hr/>
                             <?php
+
                             echo $this->Form->create(null,
                                 [
                                     'url' => [
@@ -587,6 +620,10 @@
 <?php
 //Carga de Styles y Scripts necesarios para la view.
 
+$this->start('content');
+echo $this->element('modal');
+$this->end();
+
 $this->start('css');
 echo $this->element('styles');
 $this->end();
@@ -594,4 +631,6 @@ $this->end();
 $this->start('scriptBotton');
 echo $this->element('scripts');
 $this->end();
+
+
 ?>

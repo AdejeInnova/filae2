@@ -2,6 +2,14 @@ var app = angular.module('app', ['GeoAPI']);
 
 app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 
+	$scope.comunidades = [];
+	$scope.provincias = [];
+	$scope.municipios = [];
+	$scope.poblaciones = [];
+	$scope.nucleos= [];
+	$scope.cps = [];
+	$scope.calles = [];
+
 	// Configurar GeoAPI
 	GeoAPI.setConfig("key", "84ebd10c6201ad1935e0ff67794587927a69f0cf613e7675c7856772bdf17f14");
 	GeoAPI.setConfig("type", "JSON");
@@ -23,32 +31,36 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 		GeoAPI.provincias({
 			"CCOM": v.CCOM
 		}).then(function(data){
+
+			$scope.municipio = $scope.municipios[-1];
+			$scope.poblacion = $scope.poblaciones[-1];
+			$scope.nucleo = $scope.nucleos[-1];
+			$scope.cp = $scope.cps[-1];
+			$scope.calle = $scope.calles[-1];
+
+			$scope.municipios = [];
+			$scope.poblaciones = [];
+			$scope.nucleos= [];
+			$scope.cps = [];
+			$scope.calles = [];
+
+
+
 			$scope.provincias = data.data;
-			$scope.municipios = {};
-			$scope.poblaciones = {};
-			$scope.nucleos= {};
-			$scope.cps = {};
-			$scope.calles = {};
 
 			if ($scope.comunidad.CCOM == "05"){
 				$scope.provincia = $scope.provincias[1]; //Santa Cruz de Tenerife
 			}
 		});
+
 	});
 
 	$scope.$watch('provincia', function(v) {
 		if(!v) return;
-
 		GeoAPI.municipios({
 			"CPRO": v.CPRO
 		}).then(function(data){
 			$scope.municipios = data.data;
-			$scope.poblaciones = {};
-			$scope.nucleos= {};
-			$scope.cps = {};
-			$scope.calles = {};
-
-			$scope.municipio = $scope.municipios[0]; //Adeje
 			if ($scope.provincia.CPRO == "38"){
 				$scope.municipio = $scope.municipios[0]; //Adeje
 			}
@@ -63,9 +75,6 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"CMUM": v.CMUM
 		}).then(function(data){
 			$scope.poblaciones = data.data;
-			$scope.nucleos= {};
-			$scope.cps = {};
-			$scope.calles = {};
 
 		});
 	});
@@ -79,8 +88,7 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"NENTSI50": v.NENTSI50
 		}).then(function(data){
 			$scope.nucleos = data.data;
-			$scope.cps = {};
-			$scope.calles = {};
+
 		});
 	});
 
@@ -93,7 +101,6 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"CUN": v.CUN
 		}).then(function(data){
 			$scope.cps = data.data;
-			$scope.calles = {};
 		});
 	});
 
@@ -115,6 +122,7 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"QUERY": $scope.qcalles
 		}).then(function(data){
 			$scope.res_qcalles = data.data;
+			console.log($scope.res_qcalles);
 		});
 	};
 
