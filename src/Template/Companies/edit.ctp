@@ -45,8 +45,8 @@
                 <div class="modal-body">
 
                     <div class="list-group">
-                        <a href="#" class="list-group-item" ng-repeat="c in res_qcalles | filter: { CCOM:'05'}">
-                            {{ c.CCOM }} - {{ c.CPRO }} - {{ c.CMUM }} - {{ c.NENTSI50 }} - {{ c.CUN }} - {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.CVIA }} - {{ c.TVIA }} - {{ c.NVIAC }}
+                        <a href="#" class="list-group-item" ng-repeat="c in res_qcalles | filter:criteriaMatch()" ng-click="selCalle(c)">
+                            <strong>Población:</strong> {{ c.NENTSI50 }} - <strong>Nucleo:</strong> {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.TVIA }} - {{ c.NVIAC }}
                         </a>
 
                     </div>
@@ -458,6 +458,9 @@
                                     echo '</span>';
                                 ?>
                                 </div>
+                                <p class="text-muted text-sm">
+                                    NOTA: El filtro de la búsqueda se hara en función de los valores seleccionados de <strong>Comunidad</strong>, <strong>Provincia</strong> y <strong>Municipio</strong>.
+                                </p>
 
 
 
@@ -480,7 +483,8 @@
                                 'label' => 'Comunidad',
                                 'type' => 'select',
                                 'ng-model' => 'comunidad',
-                                'ng-options' => "comunidad.COM for comunidad in comunidades track by comunidad.CCOM"
+                                'ng-options' => "comunidad.COM for comunidad in comunidades track by comunidad.CCOM",
+                                'empty' => 'Comunidad'
                             ]);
 
                             echo $this->Form->hidden('addresses.0.COM',[
@@ -493,6 +497,8 @@
                                 'type' => 'select',
                                 'ng-model' => 'provincia',
                                 'ng-options' => "provincia as provincia.PRO for provincia in provincias track by provincia.CPRO",
+                                'ng-change' => "clean('provincia')",
+                                'empty' => 'Provincia'
                             ]);
 
                             echo $this->Form->hidden('addresses.0.PRO',[
@@ -502,12 +508,13 @@
                             echo $this->Form->input('addresses.0.CMUM', [
                                 'label' => 'Municipio',
                                 'type' => 'select',
-                                'ng-model' => 'municipio',
-                                'ng-options' => "municipio as municipio.DMUN50 for municipio in municipios track by municipio.CMUM"
+                                'ng-model' => 'munic',
+                                'ng-options' => "munic as munic.DMUN50 for munic in munics track by munic.CMUM",
+                                'empty' => 'Municipio'
                             ]);
 
                             echo $this->Form->hidden('addresses.0.DMUN50',[
-                                'value' => "{{ municipio.DMUN50 }}"
+                                'value' => "{{ munic.DMUN50 }}"
                             ]);
 
 
@@ -515,14 +522,16 @@
                                 'label' => 'Población',
                                 'type' => 'select',
                                 'ng-model' => 'poblacion',
-                                'ng-options' => "poblacion as poblacion.NENTSI50 for poblacion in poblaciones track by poblacion.NENTSI50"
+                                'ng-options' => "poblacion as poblacion.NENTSI50 for poblacion in poblaciones track by poblacion.NENTSI50",
+                                'empty' => 'Población'
                             ]);
 
                             echo $this->Form->input('addresses.0.CUN', [
                                 'label' => 'Núcleo',
                                 'type' => 'select',
                                 'ng-model' => 'nucleo',
-                                'ng-options' => "nucleo as nucleo.NNUCLE50 for nucleo in nucleos track by nucleo.CUN"
+                                'ng-options' => "nucleo as nucleo.NNUCLE50 for nucleo in nucleos track by nucleo.CUN",
+                                'empty' => 'Núcleo'
                             ]);
 
                             echo $this->Form->hidden('addresses.0.NNUCLE50',[
@@ -534,14 +543,16 @@
                                 'label' => 'Código Postal',
                                 'type' => 'select',
                                 'ng-model' => 'cp',
-                                'ng-options' => "cp as cp.CPOS for cp in cps track by cp.CPOS"
+                                'ng-options' => "cp as cp.CPOS for cp in cps track by cp.CPOS",
+                                'empty' => 'Código Postal'
                             ]);
 
                             echo $this->Form->input('addresses.0.CVIA', [
                                 'label' => 'Calle',
                                 'type' => 'select',
                                 'ng-model' => 'calle',
-                                'ng-options' => "calle.NVIAC + ' , ' + calle.TVIA for calle in calles track by calle.CVIA"
+                                'ng-options' => "calle.NVIAC + ' , ' + calle.TVIA for calle in calles track by calle.CVIA",
+                                'empty' => 'Calle'
                             ]);
 
                             echo $this->Form->hidden('addresses.0.NVIAC',[
@@ -576,6 +587,18 @@
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
                                     <?= $this->Form->button(__('Save')) ?>
+
+                                    <?php
+                                    echo $this->Form->button(
+                                        __('Clean'),
+                                        [
+                                            'type' => 'button',
+                                            'id' => 'btn_search',
+                                            'class' => 'btn btn-info btn-flat',
+                                            'ng-click' => "clean('comunidad')"
+                                        ]
+                                    );
+                                    ?>
                                 </div>
                             </div>
                             <?php
