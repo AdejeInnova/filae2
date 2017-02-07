@@ -31,7 +31,36 @@
 </section>
 
 <!-- Main content -->
-<section class="content">
+<section class="content" ng-app="app" ng-controller="myCtrl">
+
+    <!-- Modal -->
+    <div class="modal fade" id="ModalCalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="list-group">
+                        <a href="#" class="list-group-item" ng-repeat="c in res_qcalles | filter: { CCOM:'05'}">
+                            {{ c.CCOM }} - {{ c.CPRO }} - {{ c.CMUM }} - {{ c.NENTSI50 }} - {{ c.CUN }} - {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.CVIA }} - {{ c.TVIA }} - {{ c.NVIAC }}
+                        </a>
+
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <div class="row">
         <div class="col-md-3">
@@ -399,7 +428,7 @@
                     <!-- /.tab-pane -->
 
                     <div class="tab-pane <?= $tab == 'addresses'?'active':''; ?>" id="addresses">
-                        <div class="box-body" ng-app="app" ng-controller="myCtrl">
+                        <div class="box-body" ng-app="app">
                             <strong><i class="fa fa-book margin-r-5"></i> Direcciones</strong>
                             <p class="text-muted">
                                 Direcciones de la empresa
@@ -422,7 +451,7 @@
                                                 'id' => 'btn_search',
                                                 'class' => 'btn btn-info btn-flat',
                                                 'data-toggle' => 'modal',
-                                                'data-target' => '#Modal',
+                                                'data-target' => '#ModalCalles',
                                                 'ng-click' => 'buscar_calles()'
                                             ]
                                         );
@@ -430,11 +459,7 @@
                                 ?>
                                 </div>
 
-                            <ul>
-                                <li ng-repeat="c in res_qcalles">
-                                    {{ c.CCOM }} - {{ c.CPRO }} - {{ c.CMUM }} - {{ c.NENTSI50 }} - {{ c.CUN }} - {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.CVIA }} - {{ c.TVIA }} - {{ c.NVIAC }}
-                                </li>
-                            </ul>
+
 
                             <hr/>
                             <?php

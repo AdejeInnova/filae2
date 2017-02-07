@@ -13,7 +13,6 @@ use Cake\Network\Http\Client;
  */
 class CompaniesController extends AppController
 {
-
     /**
      * Index method
      *

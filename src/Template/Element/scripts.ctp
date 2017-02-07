@@ -19,8 +19,9 @@ switch ($controller){
                 <script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
                 <?php echo $this->Html->script('main-geoapi'); ?>
 
-
                 <?php echo $this->Html->script('fileinput'); ?>
+
+                <?php echo $this->element('scripts/script_qcalles'); ?>
 
                 <script>
                     var images = <?php echo json_encode($images); ?>;
@@ -91,19 +92,6 @@ switch ($controller){
 
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
 
-
-                    //Show modal box.
-                    $('#myModal').on('shown.bs.modal', function (event) {
-                        var button = $(event.relatedTarget);
-                        console.log(button);
-
-                        var modal = $(this);
-
-                        modal.find('.modal-title').text('Busqueda Calles:');
-
-
-
-                    });
 
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
