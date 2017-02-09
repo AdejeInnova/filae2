@@ -45,7 +45,7 @@
                 <div class="modal-body">
 
                     <div class="list-group">
-                        <a href="#" class="list-group-item" ng-repeat="c in res_qcalles | filter:criteriaMatch()" ng-click="selCalle(c)">
+                        <a href="javascript:void(0)" class="list-group-item" ng-repeat="c in res_qcalles | filter:criteriaMatch()" ng-click="selCalle(c)" data-dismiss="modal">
                             <strong>Población:</strong> {{ c.NENTSI50 }} - <strong>Nucleo:</strong> {{ c.NNUCLE50 }} - {{ c.CPOS }} - {{ c.TVIA }} - {{ c.NVIAC }}
                         </a>
 
@@ -425,232 +425,273 @@
                         </div>
 
                     </div>
-                    <!-- /.tab-pane -->
 
+                    <!-- /.tab-pane -->
                     <div class="tab-pane <?= $tab == 'addresses'?'active':''; ?>" id="addresses">
-                        <div class="box-body" ng-app="app">
-                            <strong><i class="fa fa-book margin-r-5"></i> Direcciones</strong>
-                            <p class="text-muted">
-                                Direcciones de la empresa
-                            </p>
-                                <div class="input-group input-group-sm">
-                                <?php
-                                    echo $this->Form->input(null,[
-                                        'label' => false,
-                                        'type' => 'text',
-                                        'templates' => [
-                                            'inputContainer' =>'{{content}}'
-                                        ],
-                                        'ng-model' => 'qcalles',
-                                        'placeholder' => __('Fill in to start search')
-                                    ]);
-                                    echo '<span class="input-group-btn">';
-                                        echo $this->Form->button(
-                                            __('Filter'),
+                        <!-- /.tab-pane -->
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#address" data-toggle="tab">Dirección</a></li>
+                                <li class=""><a href="#new_address" data-toggle="tab">New Dirección</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="address">
+                                    <?php
+                                    if ($company->dirty('addresses')){
+                                        $addresses = $company->extractOriginal($company->visibleProperties())['addresses'];
+                                    }else{
+                                        $addresses = $company->addresses;
+                                    }
+                                    ?>
+
+                                    <div class="box-body" ng-app="app" ng-controller="myCtrl">
+                                        <table class="table table-hover ">
+                                            <tr>
+                                                <th class="visible-xs"><?= __('Dirección') ?></th>
+
+                                                <th class="hidden-xs"><?= __('Vía') ?></th>
+                                                <th class="hidden-xs"><?= __('Calle') ?></th>
+                                                <th class="hidden-xs"><?= __('Número') ?></th>
+                                                <th class="hidden-xs"><?= __('Núcleo') ?></th>
+                                                <th class="hidden-xs"><?= __('CP') ?></th>
+                                                <th class="hidden-xs"><?= __('Población') ?></th>
+                                                <th class="hidden-xs"><?= __('Municipio') ?></th>
+                                                <th><?= __('Actions') ?></th>
+                                            </tr>
+
+                                            <?php
+
+
+
+                                            foreach ($addresses as $address):?>
+
+                                                <tr>
+                                                    <td class="visible-xs">
+                                                        <?=
+                                                        h($address->TVIA) . ' ' .
+                                                        h($address->NVIAC) . ' ' .
+                                                        h($address->number) . ' ' .
+                                                        h($address->NNUCLE50) . ', ' .
+                                                        h($address->CPOS) . ' - ' .
+                                                        h($address->NENTSI50)  . '  ' .
+                                                        h($address->DMUN50)
+                                                        ?>
+
+                                                    </td>
+
+                                                    <td class="hidden-xs"><?= h($address->TVIA) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->NVIAC) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->number) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->NNUCLE50) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->CPOS) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->NENTSI50) ?></td>
+                                                    <td class="hidden-xs"><?= h($address->DMUN50) ?></td>
+                                                    <td class="actions" style="white-space:nowrap">
+                                                        <?= $this->Form->postLink(
+                                                            '<i class="fa fa-trash"></i>',
+                                                            [
+                                                                'controller' => 'addresses',
+                                                                'action' => 'delete',
+                                                                $address->id,
+                                                                $address->companie_id
+                                                            ],
+                                                            [
+                                                                'confirm' => __('¿Eliminar Dirección?'),
+                                                                'class'=>'btn btn-danger btn-xs',
+                                                                'escape' => false
+                                                            ]) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </table>
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+
+                                <div class="tab-pane" id="new_address">
+                                    <div class="box-body" ng-app="app">
+                                        <strong><i class="fa fa-book margin-r-5"></i> Direcciones</strong>
+                                        <p class="text-muted">
+                                            Direcciones de la empresa
+                                        </p>
+                                        <div class="input-group input-group-sm">
+                                            <?php
+                                            echo $this->Form->input('search',[
+                                                'label' => false,
+                                                'type' => 'text',
+                                                'templates' => [
+                                                    'inputContainer' =>'{{content}}'
+                                                ],
+                                                'ng-model' => 'qcalles',
+                                                'placeholder' => __('Fill in to start search')
+                                            ]);
+                                            echo '<span class="input-group-btn">';
+                                            echo $this->Form->button(
+                                                __('Filter'),
+                                                [
+                                                    'id' => 'btn_search',
+                                                    'class' => 'btn btn-info btn-flat',
+                                                    'data-toggle' => 'modal',
+                                                    'data-target' => '#ModalCalles',
+                                                    'ng-click' => 'buscar_calles()'
+                                                ]
+                                            );
+                                            echo '</span>';
+                                            ?>
+                                        </div>
+                                        <p class="text-muted text-sm">
+                                            NOTA: El filtro de la búsqueda se hara en función de los valores seleccionados de <strong>Comunidad</strong>, <strong>Provincia</strong> y <strong>Municipio</strong>.
+                                        </p>
+                                        <hr/>
+                                        <?php
+                                        echo $this->Form->create(null,
                                             [
-                                                'id' => 'btn_search',
-                                                'class' => 'btn btn-info btn-flat',
-                                                'data-toggle' => 'modal',
-                                                'data-target' => '#ModalCalles',
-                                                'ng-click' => 'buscar_calles()'
+                                                'url' => [
+                                                    'action' => 'edit',
+                                                    'tab' => 'addresses',
+                                                    $company->id
+                                                ],
+                                                'role' => 'form',
+                                                'class' => 'form-horizontal',
+                                                'novalidate' => true
                                             ]
                                         );
-                                    echo '</span>';
-                                ?>
-                                </div>
-                                <p class="text-muted text-sm">
-                                    NOTA: El filtro de la búsqueda se hara en función de los valores seleccionados de <strong>Comunidad</strong>, <strong>Provincia</strong> y <strong>Municipio</strong>.
-                                </p>
+
+                                        echo $this->Form->input('addresses.0.CCOM', [
+                                            'label' => 'Comunidad',
+                                            'type' => 'select',
+                                            'ng-model' => 'comunidad',
+                                            'ng-options' => "comunidad.COM for comunidad in comunidades track by comunidad.CCOM",
+                                            'empty' => 'Comunidad'
+                                        ]);
+
+                                        echo $this->Form->hidden('addresses.0.COM',[
+                                            'value' => "{{ comunidad.COM }}"
+                                        ]);
 
 
+                                        echo $this->Form->input('addresses.0.CPRO', [
+                                            'label' => 'Provincia',
+                                            'type' => 'select',
+                                            'ng-model' => 'provincia',
+                                            'ng-options' => "provincia as provincia.PRO for provincia in provincias track by provincia.CPRO",
+                                            'ng-change' => "clean('provincia')",
+                                            'empty' => 'Provincia'
+                                        ]);
 
-                            <hr/>
-                            <?php
+                                        echo $this->Form->hidden('addresses.0.PRO',[
+                                            'value' => "{{ provincia.PRO }}"
+                                        ]);
 
-                            echo $this->Form->create(null,
-                                [
-                                    'url' => [
-                                        'action' => 'edit',
-                                        'tab' => 'addresses'
-                                    ],
-                                    'role' => 'form',
-                                    'class' => 'form-horizontal',
-                                    'novalidate' => true
-                                ]
-                            );
+                                        echo $this->Form->input('addresses.0.CMUM', [
+                                            'label' => 'Municipio',
+                                            'type' => 'select',
+                                            'ng-model' => 'munic',
+                                            'ng-options' => "munic as munic.DMUN50 for munic in munics track by munic.CMUM",
+                                            'empty' => 'Municipio'
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.CCOM', [
-                                'label' => 'Comunidad',
-                                'type' => 'select',
-                                'ng-model' => 'comunidad',
-                                'ng-options' => "comunidad.COM for comunidad in comunidades track by comunidad.CCOM",
-                                'empty' => 'Comunidad'
-                            ]);
-
-                            echo $this->Form->hidden('addresses.0.COM',[
-                                'value' => "{{ comunidad.COM }}"
-                            ]);
+                                        echo $this->Form->hidden('addresses.0.DMUN50',[
+                                            'value' => "{{ munic.DMUN50 }}"
+                                        ]);
 
 
-                            echo $this->Form->input('addresses.0.CPRO', [
-                                'label' => 'Provincia',
-                                'type' => 'select',
-                                'ng-model' => 'provincia',
-                                'ng-options' => "provincia as provincia.PRO for provincia in provincias track by provincia.CPRO",
-                                'ng-change' => "clean('provincia')",
-                                'empty' => 'Provincia'
-                            ]);
+                                        echo $this->Form->input('addresses.0.NENTSI50', [
+                                            'label' => 'Población',
+                                            'type' => 'select',
+                                            'ng-model' => 'poblacion',
+                                            'ng-options' => "poblacion as poblacion.NENTSI50 for poblacion in poblaciones track by poblacion.NENTSI50",
+                                            'empty' => 'Población'
+                                        ]);
 
-                            echo $this->Form->hidden('addresses.0.PRO',[
-                                'value' => "{{ provincia.PRO }}"
-                            ]);
+                                        echo $this->Form->input('addresses.0.CUN', [
+                                            'label' => 'Núcleo',
+                                            'type' => 'select',
+                                            'ng-model' => 'nucleo',
+                                            'ng-options' => "nucleo as nucleo.NNUCLE50 for nucleo in nucleos track by nucleo.CUN",
+                                            'empty' => 'Núcleo'
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.CMUM', [
-                                'label' => 'Municipio',
-                                'type' => 'select',
-                                'ng-model' => 'munic',
-                                'ng-options' => "munic as munic.DMUN50 for munic in munics track by munic.CMUM",
-                                'empty' => 'Municipio'
-                            ]);
-
-                            echo $this->Form->hidden('addresses.0.DMUN50',[
-                                'value' => "{{ munic.DMUN50 }}"
-                            ]);
+                                        echo $this->Form->hidden('addresses.0.NNUCLE50',[
+                                            'value' => "{{ nucleo.NNUCLE50 }}"
+                                        ]);
 
 
-                            echo $this->Form->input('addresses.0.NENTSI50', [
-                                'label' => 'Población',
-                                'type' => 'select',
-                                'ng-model' => 'poblacion',
-                                'ng-options' => "poblacion as poblacion.NENTSI50 for poblacion in poblaciones track by poblacion.NENTSI50",
-                                'empty' => 'Población'
-                            ]);
+                                        echo $this->Form->input('addresses.0.CPOS', [
+                                            'label' => 'Código Postal',
+                                            'type' => 'select',
+                                            'ng-model' => 'cp',
+                                            'ng-options' => "cp as cp.CPOS for cp in cps track by cp.CPOS",
+                                            'empty' => 'Código Postal'
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.CUN', [
-                                'label' => 'Núcleo',
-                                'type' => 'select',
-                                'ng-model' => 'nucleo',
-                                'ng-options' => "nucleo as nucleo.NNUCLE50 for nucleo in nucleos track by nucleo.CUN",
-                                'empty' => 'Núcleo'
-                            ]);
+                                        echo $this->Form->input('addresses.0.CVIA', [
+                                            'label' => 'Calle',
+                                            'type' => 'select',
+                                            'ng-model' => 'calle',
+                                            'ng-options' => "calle.NVIAC + ' , ' + calle.TVIA for calle in calles track by calle.CVIA",
+                                            'empty' => 'Calle'
+                                        ]);
 
-                            echo $this->Form->hidden('addresses.0.NNUCLE50',[
-                                'value' => "{{ nucleo.NNUCLE50 }}"
-                            ]);
+                                        echo $this->Form->hidden('addresses.0.NVIAC',[
+                                            'value' => "{{ calle.NVIAC }}"
+                                        ]);
 
+                                        echo $this->Form->hidden('addresses.0.TVIA',[
+                                            'value' => "{{ calle.TVIA }}"
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.CPOS', [
-                                'label' => 'Código Postal',
-                                'type' => 'select',
-                                'ng-model' => 'cp',
-                                'ng-options' => "cp as cp.CPOS for cp in cps track by cp.CPOS",
-                                'empty' => 'Código Postal'
-                            ]);
+                                        echo $this->Form->input('addresses.0.ubicacion_id', [
+                                            'options' => $ubicaciones,
+                                            'empty' => 'Elije Ubicación',
+                                            'label' => __('Ubicación')
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.CVIA', [
-                                'label' => 'Calle',
-                                'type' => 'select',
-                                'ng-model' => 'calle',
-                                'ng-options' => "calle.NVIAC + ' , ' + calle.TVIA for calle in calles track by calle.CVIA",
-                                'empty' => 'Calle'
-                            ]);
+                                        echo $this->Form->input('addresses.0.number',[
+                                            'label' => 'Número',
+                                            'type' => 'text'
+                                        ]);
 
-                            echo $this->Form->hidden('addresses.0.NVIAC',[
-                                'value' => "{{ calle.NVIAC }}"
-                            ]);
+                                        echo $this->Form->input('addresses.0.block',[
+                                            'label' => 'Bloque',
+                                            'type' => 'text'
+                                        ]);
 
-                            echo $this->Form->hidden('addresses.0.TVIA',[
-                                'value' => "{{ calle.TVIA }}"
-                            ]);
+                                        echo $this->Form->input('addresses.0.floor',[
+                                            'label' => 'Piso',
+                                            'type' => 'text'
+                                        ]);
 
-                            echo $this->Form->input('addresses.0.number',[
-                                'label' => 'Número',
-                                'type' => 'text'
-                            ]);
+                                        echo $this->Form->input('addresses.0.door',[
+                                            'label' => 'Puerta',
+                                            'type' => 'text'
+                                        ]);
+                                        ?>
 
-                            echo $this->Form->input('addresses.0.block',[
-                                'label' => 'Bloque',
-                                'type' => 'text'
-                            ]);
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <?= $this->Form->button(__('Save')) ?>
 
-                            echo $this->Form->input('addresses.0.floor',[
-                                'label' => 'Piso',
-                                'type' => 'text'
-                            ]);
-
-                            echo $this->Form->input('addresses.0.door',[
-                                'label' => 'Puerta',
-                                'type' => 'text'
-                            ]);
-                            ?>
-
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <?= $this->Form->button(__('Save')) ?>
-
-                                    <?php
-                                    echo $this->Form->button(
-                                        __('Clean'),
-                                        [
-                                            'type' => 'button',
-                                            'id' => 'btn_search',
-                                            'class' => 'btn btn-info btn-flat',
-                                            'ng-click' => "clean('comunidad')"
-                                        ]
-                                    );
-                                    ?>
+                                                <?php
+                                                echo $this->Form->button(
+                                                    __('Clean'),
+                                                    [
+                                                        'type' => 'button',
+                                                        'id' => 'btn_search',
+                                                        'class' => 'btn btn-info btn-flat',
+                                                        'ng-click' => "clean('comunidad')"
+                                                    ]
+                                                );
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                        echo  $this->Form->end();
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
-                            <?php
-                            echo  $this->Form->end();
-                            ?>
                         </div>
-
-                        <div class="box-body" ng-app="app" ng-controller="myCtrl">
-                            <table class="table table-hover ">
-                                <tr>
-                                    <th class="visible-xs"><?= __('Dirección') ?></th>
-
-                                    <th class="hidden-xs"><?= __('Vía') ?></th>
-                                    <th class="hidden-xs"><?= __('Calle') ?></th>
-                                    <th class="hidden-xs"><?= __('Número') ?></th>
-                                    <th class="hidden-xs"><?= __('Núcleo') ?></th>
-                                    <th class="hidden-xs"><?= __('CP') ?></th>
-                                    <th class="hidden-xs"><?= __('Población') ?></th>
-                                    <th class="hidden-xs"><?= __('Municipio') ?></th>
-                                    <th><?= __('Actions') ?></th>
-                                </tr>
-                                <?php foreach ($company->addresses as $address): ?>
-                                    <tr>
-                                        <td class="visible-xs">
-                                            <?=
-                                                h($address->TVIA) . ' ' .
-                                                h($address->NVIAC) . ' ' .
-                                                h($address->number) . ' ' .
-                                                h($address->NNUCLE50) . ', ' .
-                                                h($address->CPOS) . ' - ' .
-                                                h($address->NENTSI50)  . '  ' .
-                                                h($address->DMUN50)
-                                            ?>
-
-                                        </td>
-
-                                        <td class="hidden-xs"><?= h($address->TVIA) ?></td>
-                                        <td class="hidden-xs"><?= h($address->NVIAC) ?></td>
-                                        <td class="hidden-xs"><?= h($address->number) ?></td>
-                                        <td class="hidden-xs"><?= h($address->NNUCLE50) ?></td>
-                                        <td class="hidden-xs"><?= h($address->CPOS) ?></td>
-                                        <td class="hidden-xs"><?= h($address->NENTSI50) ?></td>
-                                        <td class="hidden-xs"><?= h($address->DMUN50) ?></td>
-
-                                        <td class="actions" style="white-space:nowrap">
-
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
                     </div>
                     <!-- /.tab-pane -->
                 </div>

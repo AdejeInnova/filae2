@@ -103,7 +103,7 @@ class AddressesController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function delete($id = null, $companie_id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $address = $this->Addresses->get($id);
@@ -112,6 +112,10 @@ class AddressesController extends AppController
         } else {
             $this->Flash->error(__('The {0} could not be deleted. Please, try again.', 'Address'));
         }
-        return $this->redirect(['action' => 'index']);
+
+        if ($companie_id){
+            return $this->redirect(['controller' => 'companies','action' => 'edit',$companie_id, 'tab' => 'addresses']);
+        }
+
     }
 }

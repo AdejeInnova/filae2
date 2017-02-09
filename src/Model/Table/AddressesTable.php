@@ -83,50 +83,64 @@ class AddressesTable extends Table
             ->allowEmpty('door');
 
         $validator
-            ->boolean('default')
-            ->allowEmpty('default');
+            ->boolean('defaultdir')
+            ->allowEmpty('defaultdir');
 
         $validator
             ->allowEmpty('latlon');
 
         $validator
-            ->allowEmpty('CCOM');
+            ->requirePresence('CCOM', 'create')
+            ->notEmpty('CCOM');
 
         $validator
-            ->allowEmpty('COM');
+            ->requirePresence('COM', 'create')
+            ->notEmpty('COM');
 
         $validator
-            ->allowEmpty('CPRO');
+            ->requirePresence('CPRO', 'create')
+            ->notEmpty('CPRO');
 
         $validator
-            ->allowEmpty('PRO');
+            ->requirePresence('PRO', 'create')
+            ->notEmpty('PRO');
 
         $validator
-            ->allowEmpty('CMUM');
+            ->requirePresence('CMUM', 'create')
+            ->notEmpty('CMUM');
 
         $validator
-            ->allowEmpty('DMUN50');
+            ->requirePresence('DMUN50', 'create')
+            ->notEmpty('DMUN50');
 
         $validator
-            ->allowEmpty('NENTSI50');
+            ->requirePresence('NENTSI50', 'create')
+            ->notEmpty('NENTSI50');
 
         $validator
-            ->allowEmpty('CUN');
+            ->requirePresence('CUN', 'create')
+            ->notEmpty('CUN');
 
         $validator
-            ->allowEmpty('NNUCLE50');
+            ->requirePresence('NNUCLE50', 'create')
+            ->notEmpty('NNUCLE50');
+
 
         $validator
-            ->allowEmpty('CPOS');
+            ->requirePresence('CPOS', 'create')
+            ->notEmpty('CPOS');
 
         $validator
-            ->allowEmpty('CVIA');
+            ->requirePresence('CVIA', 'create')
+            ->notEmpty('CVIA');
 
         $validator
-            ->allowEmpty('NVIAC');
+            ->requirePresence('NVIAC', 'create')
+            ->notEmpty('NVIAC');
 
         $validator
-            ->allowEmpty('TVIA');
+            ->requirePresence('TVIA', 'create')
+            ->notEmpty('TVIA');
 
         return $validator;
     }

@@ -166,11 +166,27 @@ class CompaniesController extends AppController
         $cnaes->where(['companie_id' => $id]);
         $cnaes = $this->paginate($cnaes);
 
+        //tab:addresses
+        $ubicaciones = Configure::read('Ubicaciones');
 
         $this->set('images', $images);
         $this->set('profile_id', $profile);
         $this->set('captions', $captions);
-        $this->set(compact('company', 'idcards', 'companies', 'tab', 'cnaes', 'networks', 'communications', 'superficies', 'tags', 'comunidades'));
+        $this->set(
+            compact(
+                'company',
+                'idcards',
+                'companies',
+                'tab',
+                'cnaes',
+                'networks',
+                'communications',
+                'superficies',
+                'tags',
+                'comunidades',
+                'ubicaciones'
+            )
+        );
         $this->set('_serialize', ['company']);
     }
 

@@ -1,14 +1,9 @@
 var app = angular.module('app', ['GeoAPI']);
 
-app.controller('myCtrl', function($scope, $timeout, GeoAPI){
+app.controller('myCtrl', function($scope, $timeout, GeoAPI, $filter){
 
-	$scope.comunidades = [];
-	$scope.provincias = [];
-	$scope.munic = [];
-	$scope.poblaciones = [];
-	$scope.nucleos= [];
-	$scope.cps = [];
-	$scope.calles = [];
+	//Guarda el valor de la búsqueda que se haga en el formulario search
+	$scope.busqueda = {};
 
 	// Configurar GeoAPI
 	GeoAPI.setConfig("key", "84ebd10c6201ad1935e0ff67794587927a69f0cf613e7675c7856772bdf17f14");
@@ -99,7 +94,10 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"NENTSI50": v.NENTSI50
 		}).then(function(data){
 			$scope.nucleos = data.data;
-
+			if(!$.isEmptyObject($scope.busqueda)){
+				//Filtro en nucleos en función de la variable búsqueda
+				$scope.nucleo = $filter('filter')($scope.nucleos, { CUN: $scope.busqueda.CUN })[0];
+			}
 		});
 	});
 
@@ -119,6 +117,10 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"CUN": v.CUN
 		}).then(function(data){
 			$scope.cps = data.data;
+			if(!$.isEmptyObject($scope.busqueda)){
+				//Filtro en cps en función de la variable búsqueda
+				$scope.cp = $filter('filter')($scope.cps, { CPOS: $scope.busqueda.CPOS })[0];
+			}
 		});
 	});
 
@@ -139,10 +141,19 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			"CPOS": v.CPOS
 		}).then(function(data){
 			$scope.calles = data.data;
+			if(!$.isEmptyObject($scope.busqueda)){
+				//Filtro en nucleos en función de la variable búsqueda
+				$scope.calle = $filter('filter')($scope.calles, { CVIA: $scope.busqueda.CVIA })[0];
+				//Reseteo busqueda
+				$scope.busqueda = {};
+			}
 		});
 	});
 
 	$scope.buscar_calles = function(){
+		//Reinicio los resultados de la búsqueda
+		$scope.res_qcalles = [];
+
 		GeoAPI.qcalles({
 			"QUERY": $scope.qcalles
 		}).then(function(data){
@@ -156,7 +167,7 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 			if ((!$scope.comunidad) || (!$scope.provincia) || (!$scope.munic)) return;
 
 			if ((c.CCOM ===  $scope.comunidad.CCOM) && (c.CPRO ===  $scope.provincia.CPRO) && (c.CMUM ===  $scope.munic.CMUM)){
-					return c.CCOM ===  $scope.comunidad.CCOM;
+					return c;
 			}else{
 				return;
 			}
@@ -203,19 +214,21 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 	};
 
 
+	//Seleción de uno de los registros encontrados
 	$scope.selCalle = function(v){
+		$scope.busqueda = v;
 
-		//$scope.poblacion = $filter('filter')($scope.poblaciones,{NENTSI50: v.NENTSI50});
-
-		$scope.poblacion = $scope.poblaciones.filter(function (poblacion) {
-			return (poblacion.NENTSI50 == v.NENTSI50);
+		//Recorro el scope de poblaciones para encontrar el NENTSI50 exacto de v.NENTSI50
+		$.each($scope.poblaciones, function( index, obj ) {
+			if (obj.NENTSI50 === v.NENTSI50){
+				$scope.poblacion = obj;
+			}
 		});
-
 	}
 
 
 	// Handler para mostrar la ultima peticion y los ultimos datos recibidos
-	$scope.$watch(GeoAPI.getLastQuery, function(v){
+	/*$scope.$watch(GeoAPI.getLastQuery, function(v){
 		if(v.url == ""){
 			return;
 		}
@@ -248,6 +261,6 @@ app.controller('myCtrl', function($scope, $timeout, GeoAPI){
 		respuesta.each(function(i, block){
 			hljs.highlightBlock(block);
 		});
-	});
+	});*/
 
 });

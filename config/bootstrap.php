@@ -254,6 +254,18 @@ Configure::write('Superficies',[
 ]);
 
 
+//Tipos de Ubicaciones para empresas
+Configure::write('Ubicaciones',[
+    1 => 'Aislado',
+    2 => 'Centro Comercial',
+    3 => 'Galería Comercial',
+    4 => 'Litoral',
+    5 => 'Mercado Municipal',
+    6 => 'Polígono Industrial'
+]);
+
+
+
 
 
 
