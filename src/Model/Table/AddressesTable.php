@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -125,7 +126,6 @@ class AddressesTable extends Table
             ->requirePresence('NNUCLE50', 'create')
             ->notEmpty('NNUCLE50');
 
-
         $validator
             ->requirePresence('CPOS', 'create')
             ->notEmpty('CPOS');
@@ -141,6 +141,20 @@ class AddressesTable extends Table
         $validator
             ->requirePresence('TVIA', 'create')
             ->notEmpty('TVIA');
+
+        $validator
+            ->allowEmpty('ubicacion_id')
+            ->add('ubicacion_id', 'inList', [
+                'rule' => [
+                    'inList',
+                    Configure::read('Ubicaciones')
+            ]
+        ]);
+
+        $validator
+            ->allowEmpty('ubicacion_name');
+
+
 
         return $validator;
     }

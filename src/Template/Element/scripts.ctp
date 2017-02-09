@@ -17,6 +17,8 @@ switch ($controller){
                 <!-- GeoApi - Angular.js -->
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.17/angular.min.js"></script>
                 <script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
+
+
                 <?php echo $this->Html->script('main-geoapi'); ?>
 
                 <?php echo $this->Html->script('fileinput'); ?>
@@ -92,6 +94,15 @@ switch ($controller){
 
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
 
+
+                    //Google Maps
+                    function myMap() {
+                        var mapProp= {
+                            center:new google.maps.LatLng(51.508742,-0.120850),
+                            zoom:5
+                        };
+                        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                    }
 
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive

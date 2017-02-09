@@ -19,6 +19,13 @@ switch ($controller) {
                 <!-- Bootstrap 3.3.5 -->
                 <?php echo $this->Html->css('fileinput'); ?>
 
+                <style>
+                    #map {
+                        width:400px;
+                        height:400px;
+                    }
+                </style>
+
                 <?php
                 break;
         }

@@ -641,11 +641,6 @@
                                             'value' => "{{ calle.TVIA }}"
                                         ]);
 
-                                        echo $this->Form->input('addresses.0.ubicacion_id', [
-                                            'options' => $ubicaciones,
-                                            'empty' => 'Elije Ubicación',
-                                            'label' => __('Ubicación')
-                                        ]);
 
                                         echo $this->Form->input('addresses.0.number',[
                                             'label' => 'Número',
@@ -666,28 +661,40 @@
                                             'label' => 'Puerta',
                                             'type' => 'text'
                                         ]);
+
+                                        echo $this->Form->input('addresses.0.ubicacion_id', [
+                                            'options' => $ubicaciones,
+                                            'empty' => 'Elije Ubicación',
+                                            'label' => __('Ubicación'),
+                                            'templates' => [
+                                                'inputContainer' =>'<div class="form-group has-warning">{{content}}</div>'
+                                            ]
+                                        ]);
+
+                                        echo $this->Form->input('addresses.0.ubicacion_name', [
+                                            'type' => 'text',
+                                            'label' => __('Nombre Ubicación'),
+                                            'templates' => [
+                                                'inputContainer' =>'<div class="form-group has-warning">{{content}}</div>'
+                                            ]
+                                        ]);
                                         ?>
+
 
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
                                                 <?= $this->Form->button(__('Save')) ?>
-
-                                                <?php
-                                                echo $this->Form->button(
-                                                    __('Clean'),
-                                                    [
-                                                        'type' => 'button',
-                                                        'id' => 'btn_search',
-                                                        'class' => 'btn btn-info btn-flat',
-                                                        'ng-click' => "clean('comunidad')"
-                                                    ]
-                                                );
-                                                ?>
                                             </div>
                                         </div>
                                         <?php
                                         echo  $this->Form->end();
                                         ?>
+                                    </div>
+
+                                    <div id="googleMap" style="width:100%;height:400px;"></div>
+
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item" src="http://www.adeje.es/impyme/googlemaps/verMapa.php?idEmpresa=730"></iframe>
                                     </div>
                                 </div>
                             </div>

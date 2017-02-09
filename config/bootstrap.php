@@ -265,6 +265,9 @@ Configure::write('Ubicaciones',[
 ]);
 
 
+//API Key Google Maps
+Configure::write('apiKeyGoogleMaps','AIzaSyCVgrJS79-uL_RYm53zcSQiVu2EmWnK_Kg');
+
 
 
 
