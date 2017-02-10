@@ -60,6 +60,25 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    Contenido de myModal
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <div class="row">
@@ -500,12 +519,34 @@
                                                                 'class'=>'btn btn-danger btn-xs',
                                                                 'escape' => false
                                                             ]) ?>
+
+                                                        <?= $this->Form->button(
+                                                            '<i class="fa fa-map-marker"></i>'   ,
+                                                            [
+                                                                'id' => 'btn_map',
+                                                                'class' => 'btn btn-success btn-xs',
+                                                                'data-toggle' => 'modal',
+                                                                'data-target' => '#myModal',
+                                                                'data-value' => $address->id
+                                                            ]
+                                                        );
+                                                        ?>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </table>
                                     </div>
                                     <!-- /.box-body -->
+
+                                    <div class="box box-info">
+                                        <div class="box-header">
+                                            <h5>Localizar</h5>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id], null); ?>"></iframe>
+                                            </div>
+                                        </div>
                                 </div>
 
                                 <div class="tab-pane" id="new_address">
@@ -691,10 +732,7 @@
                                         ?>
                                     </div>
 
-                                    <div id="googleMap" style="width:100%;height:400px;"></div>
 
-                                    <div class="embed-responsive embed-responsive-16by9">
-                                        <iframe class="embed-responsive-item" src="http://www.adeje.es/impyme/googlemaps/verMapa.php?idEmpresa=730"></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -715,10 +753,6 @@
 
 <?php
 //Carga de Styles y Scripts necesarios para la view.
-
-$this->start('content');
-echo $this->element('modal');
-$this->end();
 
 $this->start('css');
 echo $this->element('styles');

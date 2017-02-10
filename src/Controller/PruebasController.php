@@ -64,9 +64,4 @@ class PruebasController extends AppController
 
         debug($comunidades);
     }
-
-    public function apigoogle(){
-        $this->viewBuilder()->layout('map');
-
-    }
 }

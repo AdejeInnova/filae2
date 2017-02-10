@@ -9,17 +9,24 @@
 
     <?= $this->Html->css('map.css') ?>
 
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
 </head>
 <body>
-<div id="container">
-    <div id="content">
-        <?= $this->Flash->render() ?>
 
-        <?= $this->fetch('content') ?>
-    </div>
-</div>
+<?= $this->Flash->render() ?>
+
+<?= $this->fetch('content') ?>
+
+
+
+<?php echo $this->element('scripts'); ?>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?= \Cake\Core\Configure::read('apiKeyGoogleMaps'); ?>&callback=initMap" async defer></script>
 </body>
 </html>
+
+
+
+
+

@@ -18,12 +18,36 @@ switch ($controller){
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.17/angular.min.js"></script>
                 <script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
 
-
                 <?php echo $this->Html->script('main-geoapi'); ?>
 
                 <?php echo $this->Html->script('fileinput'); ?>
 
                 <?php echo $this->element('scripts/script_qcalles'); ?>
+
+                <script>
+                    //<!-- /Modal -->
+                    //Events Modal Bootstrap
+                    $('#myModal').on('show.bs.modal', function (event) {
+                        var button = $(event.relatedTarget) // Button that triggered the modal
+                        var modal = $(this)
+
+                        //Valor actual
+                        var address = button.data('value');
+
+                        //Ajustamos el tamaño de la ventana
+                        modal.find('.modal-dialog').addClass('modal-lg');
+
+                        //Title
+                        modal.find('.modal-title').text('Localización');
+
+                        var html = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id]); ?>/' + address +  '"></iframe></div>';
+
+                        modal.find('.modal-body').html(html);
+
+                        modal.find('.modal-footer').remove();
+                    });
+                    //<!-- /Modal -->
+                </script>
 
                 <script>
                     var images = <?php echo json_encode($images); ?>;
@@ -93,16 +117,12 @@ switch ($controller){
                     });
 
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
+                    //<!-- /Bootstrapt-fileinput -->
 
 
-                    //Google Maps
-                    function myMap() {
-                        var mapProp= {
-                            center:new google.maps.LatLng(51.508742,-0.120850),
-                            zoom:5
-                        };
-                        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                    }
+
+
+
 
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
@@ -129,6 +149,126 @@ switch ($controller){
                         //Bootstrapt-wysihtml5
                         $('#description').wysihtml5();
                     });
+                </script>
+                <?php
+                break;
+        }
+        break;
+    case 'Maps':
+        switch ($action){
+            case 'vermapa':
+                //Mostramos el código de la carga de mapas
+                if($address->lat && $address->lon){
+                    ?>
+                    <script>
+                    function initMap() {
+                        var myLatLng = {lat: <?= $address->lat; ?>, lng: <?= $address->lon; ?>};
+
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 16,
+                            center: myLatLng
+                        });
+
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title: '<?= $company->tradename; ?>'
+                        });
+                    }
+                    </script>
+
+                    <?php
+                }else{
+                    ?>
+                    <script>
+                    var map;
+                    function initMap() {
+                        map = new google.maps.Map(document.getElementById('map'), {
+                        center: {lat: 28.122060, lng: -16.733821},
+                        zoom: 14
+                    });
+                    }
+                    </script>
+                    <?
+                }
+
+                break;
+
+            case 'geolocalizar':
+                ?>
+                <script>
+                    // Note: This example requires that you consent to location sharing when
+                    // prompted by your browser. If you see the error "The Geolocation service
+                    // failed.", it means you probably did not give permission for the browser to
+                    // locate you.
+
+                    <? if($address->lat && $address->lon){ ?>
+                        document.getElementById("lat").value = <?= $address->lat ?>;
+                        document.getElementById("lon").value = <?= $address->lon ?>;
+                    <? } else { ?>
+                        document.getElementById("lat").value = '28.117087';
+                        document.getElementById("lon").value = '-16.738014';
+                    <? } ?>
+
+                    function initMap() {
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            <? if($address->lat && $address->lon){ ?>
+                                center: {lat:<?= $address->lat ?>, lng: <?= $address->lon ?>},
+                            <? }else{ ?>
+                                center: {lat: 28.117087, lng: -16.738014},
+                            <? } ?>
+                            zoom: 18
+                        });
+
+                        <? if($address->lat && $address->lon){ ?>
+
+                        <? }else{ ?>
+
+                            var infoWindow = new google.maps.InfoWindow({map: map});
+
+                            // Try HTML5 geolocation.
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(function(position) {
+                                    var pos = {
+                                        lat: position.coords.latitude,
+                                        lng: position.coords.longitude
+                                    };
+
+                                    infoWindow.setPosition(pos);
+                                    infoWindow.setContent('Geolocaliz. correcta.');
+                                    map.setCenter(pos);
+                                    document.getElementById("lat").value = pos.lat;
+                                    document.getElementById("lon").value = pos.lng;
+                                }, function() {
+                                    handleLocationError(true, infoWindow, map.getCenter());
+                                });
+                            } else {
+                                // Browser doesn't support Geolocation
+                                handleLocationError(false, infoWindow, map.getCenter());
+                            }
+
+                        <? } ?>
+
+                        map.addListener('drag', function() {
+                            var pos = map.getCenter();
+                            document.getElementById("lat").value = pos.lat();
+                            document.getElementById("lon").value = pos.lng();
+                        });
+
+                        map.addListener('dragend', function() {
+                            var pos = map.getCenter();
+                            document.getElementById("lat").value = pos.lat();
+                            document.getElementById("lon").value = pos.lng();
+                        });
+
+                    }
+
+                    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                        infoWindow.setPosition(pos);
+                        infoWindow.setContent(browserHasGeolocation ?
+                            'Error: La geolocalizac. no funciona.' :
+                            'Error: Este navegador no soporta geolocalizac.');
+                    }
                 </script>
                 <?php
                 break;
