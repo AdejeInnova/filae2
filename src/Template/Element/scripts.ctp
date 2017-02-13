@@ -40,9 +40,22 @@ switch ($controller){
                         //Title
                         modal.find('.modal-title').text('Localización');
 
-                        var html = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id]); ?>/' + address +  '"></iframe></div>';
+                        //var html = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id]); ?>/' + address +  '"></iframe></div>';
 
-                        modal.find('.modal-body').html(html);
+                        //Contenido modal-body
+                        $.ajax({
+                            type: 'GET',
+                            url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view'])?>/" + address,
+                            //data: { id: exercise },
+                            error:function(data){
+                            },
+                            success: function(data){
+                                //Cargamos data en el body de la ventana modal
+                                modal.find('.modal-body').html(data);
+                            }
+                        });
+
+                        //modal.find('.modal-body').html(html);
 
                         modal.find('.modal-footer').remove();
                     });
@@ -120,10 +133,6 @@ switch ($controller){
                     //<!-- /Bootstrapt-fileinput -->
 
 
-
-
-
-
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');
@@ -156,6 +165,66 @@ switch ($controller){
         break;
     case 'Maps':
         switch ($action){
+            case 'view':
+                //Mostramos el código de la carga de mapas
+                if($address->lat && $address->lon){
+                    ?>
+                    <script>
+
+                        var addresses = <?php echo json_encode($company->addresses, JSON_FORCE_OBJECT); ?>;
+
+                        function initMap() {
+                            var myLatLng = {lat: <?= $address->lat; ?>, lng: <?= $address->lon; ?>};
+
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                zoom: 16,
+                                center: myLatLng
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: myLatLng,
+                                map: map,
+                                title: '<?= $company->tradename; ?>'
+                            });
+                        }
+                    </script>
+
+                    <?php
+                }else{
+                    ?>
+                    <script>
+                        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                        var labelIndex = 0;
+                        //Obtenemos las direcciones de la empresa
+                        var addresses = <?php echo json_encode($company->addresses, JSON_FORCE_OBJECT); ?>;
+                        var map;
+                        function initMap() {
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                center: {lat: 28.122060, lng: -16.733821},
+                                zoom: 14
+                            });
+
+                            if (!$.isEmptyObject(addresses)){
+                                $.each(addresses, function(i,item){
+                                    if ((item.lat) && (item.lon)){
+                                        var myLatLng = {lat: parseFloat(item.lat), lng: parseFloat(item.lon)};
+                                        var marker = new google.maps.Marker({
+                                            position: myLatLng,
+                                            label: labels[labelIndex++ % labels.length],
+                                            title: item.TVIA + ' ' + item.NVIAC + ' ' + item.number + ' ' + item.NNUCLE50 + ' ' + item.CPOS + ' ' + item.NENTSI50  + ' ' + item.DMUN50,
+                                            map: map
+
+                                        });
+                                    }
+                                });
+                            }
+
+                        }
+                    </script>
+                    <?
+                }
+
+                break;
             case 'vermapa':
                 //Mostramos el código de la carga de mapas
                 if($address->lat && $address->lon){

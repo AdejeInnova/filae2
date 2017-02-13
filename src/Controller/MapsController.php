@@ -12,6 +12,31 @@ use Cake\Datasource\ConnectionManager;
 class MapsController extends AppController
 {
 
+    //Visualizamos todas las direcciones que hayan sido geolocalizadas.
+    public function view($id = null){
+        $this->viewBuilder()->layout('map');
+
+        //Cargamos el Modelo de Direcciones
+        $this->loadModel('Companies');
+
+        //Obtenemos los datos de Companies según su id
+
+        $company = $this->Companies->get($id,[
+            'contain' => ['Addresses']
+        ]);
+
+        /*if ($address_id){
+            foreach ($company->addresses as $addr){
+                if ($addr->id == $address_id){
+                    $address = $addr;
+                }
+            }
+        }*/
+
+        $this->set(compact('company'));
+    }
+
+
     public function vermapa($id = null, $address_id = null){
         $this->viewBuilder()->layout('map');
 

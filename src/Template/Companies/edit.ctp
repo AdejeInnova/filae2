@@ -132,7 +132,10 @@
                         echo '<p class="no-margin">';
                         echo '<i class="fa ' . $network->class . '"></i> ';
                         echo '<span class="text">';
-                            echo $this->Html->Link($network->_joinData->url);
+                            echo $this->Html->Link(
+                                strlen($network->_joinData->url)>25?'...'.substr($network->_joinData->url,-25):$network->_joinData->url,
+                                $network->_joinData->url
+                            );
                         echo '</span>';
                         echo '</p>';
                     }
@@ -146,18 +149,17 @@
 
                     <hr>
 
-                    <strong><i class="fa fa-pencil margin-r-5"></i> Skills</strong>
-
+                    <strong><i class="fa fa-pencil margin-r-5"></i> Actividades</strong>
                     <p>
-                        <span class="label label-danger">UI Design</span>
-                        <span class="label label-success">Coding</span>
-                        <span class="label label-info">Javascript</span>
-                        <span class="label label-warning">PHP</span>
-                        <span class="label label-primary">Node.js</span>
+                    <?php
+                        foreach ($company->tags as $tag){
+                            ?>
+                            <span class="label label-info"><?= $tag->label ?></span>
+                            <?php
+                        }
+                    ?>
                     </p>
-
                     <hr>
-
                     <strong><i class="fa fa-file-text-o margin-r-5"></i> <?= __('Observaciones Internas')?></strong>
 
                     <p><?= $company->description ?></p>
@@ -184,7 +186,9 @@
                         <p class="text-muted">
                             Datos de identificación de la empresa
                         </p>
+
                         <hr>
+
                         <?php
                         $this->Form->templates([
                             'inputContainer' => '<div class="form-group"><label class="col-sm-2 control-label">{{label}}</label><div class="col-sm-10">{{content}}</div></div>'
@@ -226,7 +230,7 @@
                             echo $this->Form->input('tags',[
                                 'options' => $tags,
                                 'label' => 'Tags Actividad',
-                                'class' => ['select2'],
+                                'class' => 'select2',
                                 'multiple' => true,
                                 'value' => $tags_select
                             ]);
@@ -239,6 +243,15 @@
                         </div>
 
                         <?= $this->Form->end() ?>
+
+                        <strong><i class="fa fa-book margin-r-5"></i> Horario Comercial</strong>
+                        <p class="text-muted">
+                            Editar horario comercial. Elige el horario de apertura de la empresa.
+                        </p>
+                        <hr>
+
+
+
                     </div>
                     <!-- /.tab-pane -->
 
@@ -260,6 +273,7 @@
                             </div>
                             <?= $this->Form->end();?>
                         </div>
+
 
                     </div>
                     <!-- /.tab-pane -->
@@ -468,6 +482,7 @@
                                             <tr>
                                                 <th class="visible-xs"><?= __('Dirección') ?></th>
 
+                                                <th class="hidden-xs"><?= __('ID') ?></th>
                                                 <th class="hidden-xs"><?= __('Vía') ?></th>
                                                 <th class="hidden-xs"><?= __('Calle') ?></th>
                                                 <th class="hidden-xs"><?= __('Número') ?></th>
@@ -480,13 +495,13 @@
 
                                             <?php
 
-
-
+                                            $labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                                            $cont = 0;
                                             foreach ($addresses as $address):?>
-
                                                 <tr>
                                                     <td class="visible-xs">
                                                         <?=
+                                                        $labels[$cont] . ' ' .
                                                         h($address->TVIA) . ' ' .
                                                         h($address->NVIAC) . ' ' .
                                                         h($address->number) . ' ' .
@@ -498,6 +513,7 @@
 
                                                     </td>
 
+                                                    <td class="hidden-xs"><?= $labels[$cont] ?></td>
                                                     <td class="hidden-xs"><?= h($address->TVIA) ?></td>
                                                     <td class="hidden-xs"><?= h($address->NVIAC) ?></td>
                                                     <td class="hidden-xs"><?= h($address->number) ?></td>
@@ -533,7 +549,10 @@
                                                         ?>
                                                     </td>
                                                 </tr>
-                                            <?php endforeach; ?>
+                                            <?php
+                                                $cont++;
+                                                endforeach;
+                                            ?>
                                         </table>
                                     </div>
                                     <!-- /.box-body -->
@@ -544,9 +563,10 @@
                                         </div>
                                         <div class="box-body">
                                             <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id], null); ?>"></iframe>
+                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'view', $company->id]); ?>"></iframe>
                                             </div>
                                         </div>
+                                    </div>
                                 </div>
 
                                 <div class="tab-pane" id="new_address">
@@ -721,7 +741,6 @@
                                         ]);
                                         ?>
 
-
                                         <div class="form-group">
                                             <div class="col-sm-offset-2 col-sm-10">
                                                 <?= $this->Form->button(__('Save')) ?>
@@ -732,11 +751,12 @@
                                         ?>
                                     </div>
 
-
-                                    </div>
                                 </div>
+                                <!-- /.tab-pane -->
                             </div>
+                            <!-- /.tab-content -->
                         </div>
+                        <!-- /.nav-tabs-custom -->
                     </div>
                     <!-- /.tab-pane -->
                 </div>

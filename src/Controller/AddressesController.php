@@ -37,7 +37,7 @@ class AddressesController extends AppController
     public function view($id = null)
     {
         $address = $this->Addresses->get($id, [
-            'contain' => ['Roads', 'Towns', 'Persons', 'Companies', 'Sedes']
+            'contain' => ['Persons', 'Companies', 'Sedes']
         ]);
 
         $this->set('address', $address);
