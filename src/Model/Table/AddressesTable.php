@@ -84,8 +84,8 @@ class AddressesTable extends Table
             ->allowEmpty('door');
 
         $validator
-            ->boolean('defaultdir')
-            ->allowEmpty('defaultdir');
+            ->boolean('principal')
+            ->allowEmpty('principal');
 
         $validator
             ->allowEmpty('latlon');
@@ -147,7 +147,7 @@ class AddressesTable extends Table
             ->add('ubicacion_id', 'inList', [
                 'rule' => [
                     'inList',
-                    Configure::read('Ubicaciones')
+                    array_keys(Configure::read('Ubicaciones'))
             ]
         ]);
 
@@ -172,5 +172,15 @@ class AddressesTable extends Table
         $rules->add($rules->existsIn(['companie_id'], 'Companies'));
 
         return $rules;
+    }
+
+    public function afterSave($event, $entity, $options){
+        if (isset($entity['principal']) && ($entity['principal'])) {
+            $q = $this->Companies->Addresses->query();
+            $q->update()
+                ->set(['principal' => false])
+                ->where(['companie_id' => $entity['companie_id'], 'id !=' => $entity['id']])
+                ->execute();
+        }
     }
 }

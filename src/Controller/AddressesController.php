@@ -81,6 +81,9 @@ class AddressesController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            debug($this->request->data);
+            die();
+
             $address = $this->Addresses->patchEntity($address, $this->request->data);
             if ($this->Addresses->save($address)) {
                 $this->Flash->success(__('The {0} has been saved.', 'Address'));
@@ -89,10 +92,8 @@ class AddressesController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Address'));
             }
         }
-        $roads = $this->Addresses->Roads->find('list', ['limit' => 200]);
-        $towns = $this->Addresses->Towns->find('list', ['limit' => 200]);
         $persons = $this->Addresses->Persons->find('list', ['limit' => 200]);
-        $this->set(compact('address', 'roads', 'towns', 'persons'));
+        $this->set(compact('address', 'persons'));
         $this->set('_serialize', ['address']);
     }
 
@@ -118,4 +119,24 @@ class AddressesController extends AppController
         }
 
     }
+
+    public function setdefault($id = null){
+        $address = $this->Addresses->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+
+            $this->request->data['principal'] = true;
+
+            $address = $this->Addresses->patchEntity($address, $this->request->data);
+
+            if ($this->Addresses->save($address)) {
+                $this->Flash->success(__('The {0} has been saved.', 'Address'));
+            } else {
+                $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Address'));
+            }
+
+            return $this->redirect(['controller' => 'companies', 'action' => 'edit', $address->companie_id, 'tab' => 'addresses']);
+
+        }
+    }
+
 }

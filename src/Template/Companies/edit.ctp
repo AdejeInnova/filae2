@@ -145,7 +145,21 @@
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> <?= __('Location') ?></strong>
 
-                    <p class="text-muted">Malibu, California</p>
+                    <?php
+                        foreach ($company->addresses as $address){
+                            if ($address->principal){
+                                echo '<p class="text-muted">' .
+                                    h($address->TVIA) . ' ' .
+                                    h($address->NVIAC) . ' ' .
+                                    h($address->number) . ' ' .
+                                    h($address->NNUCLE50) . ', ' .
+                                    h($address->CPOS) . ' - ' .
+                                    h($address->NENTSI50)  . '  ' .
+                                    h($address->DMUN50) .
+                                    '</p>';
+                            }
+                        }
+                    ?>
 
                     <hr>
 
@@ -249,6 +263,10 @@
                             Editar horario comercial. Elige el horario de apertura de la empresa.
                         </p>
                         <hr>
+
+                        <!-- Mostramos la sección para introducir el horario de la empresa de atención al público. -->
+
+
 
 
 
@@ -498,7 +516,7 @@
                                             $labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                                             $cont = 0;
                                             foreach ($addresses as $address):?>
-                                                <tr>
+                                                <tr class="<?= $address->principal?'text-success':'';?>">
                                                     <td class="visible-xs">
                                                         <?=
                                                         $labels[$cont] . ' ' .
@@ -546,6 +564,32 @@
                                                                 'data-value' => $address->id
                                                             ]
                                                         );
+                                                        ?>
+
+                                                        <?php
+                                                        if (!$address->principal) {
+                                                            echo $this->Form->postLink(
+                                                                '<i class="fa fa-check"></i>',
+                                                                [
+                                                                    'controller' => 'addresses',
+                                                                    'action' => 'setdefault',
+                                                                    $address->id
+                                                                ],
+                                                                [
+                                                                    'confirm' => __('¿Establecer como principal?'),
+                                                                    'class' => 'btn btn-xs',
+                                                                    'escape' => false
+                                                                ]);
+                                                        }else{
+                                                            echo $this->Html->link(
+                                                                '<i class="fa fa-check"></i>',
+                                                                'javascript:void(0)',
+                                                                [
+                                                                    'class' => 'btn btn-primary btn-xs',
+                                                                    'escape' => false
+                                                                ]
+                                                            );
+                                                        }
                                                         ?>
                                                     </td>
                                                 </tr>
