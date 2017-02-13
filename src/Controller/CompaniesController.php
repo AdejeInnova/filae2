@@ -82,7 +82,7 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags', 'Addresses']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags', 'Addresses', 'Timtables']
         ]);
 
         //Control de la tab:

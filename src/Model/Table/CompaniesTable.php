@@ -95,6 +95,10 @@ class CompaniesTable extends Table
         ]);
 
         $this->addBehavior('Muffin/Tags.Tag');
+
+        $this->hasMany('Timetables', [
+            'foreignKey' => 'companie_id'
+        ]);
     }
 
     /**
