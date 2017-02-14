@@ -258,16 +258,67 @@
 
                         <?= $this->Form->end() ?>
 
-                        <strong><i class="fa fa-book margin-r-5"></i> Horario Comercial</strong>
+                        <h5>
+                            <strong><i class="fa fa-book margin-r-5"></i> Horario Comercial</strong>
+                        </h5>
                         <p class="text-muted">
                             Editar horario comercial. Elige el horario de apertura de la empresa.
                         </p>
+
+                        <hr/>
+                        <?
+                        echo $this->Form->create($company,
+                            [
+                                'url' => [
+                                    'action' => 'edit',
+                                    'tab' => 'communications'
+                                ],
+                                'role' => 'form',
+                                'class' => 'form-horizontal',
+                                'novalidate' => true
+                            ]
+                        );
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                            echo '<label class="btn btn-primary active">';
+                                echo 'Lun.';
+                                echo $this->Form->checkbox('timetables[0].day1',[
+                                    'autocomplete' => 'off'
+                                ]);
+                            echo '</label>';
+                        echo '</div>';
+
+                        /*echo $this->Form->input('timetables[0].days',[
+                                'label' => 'Días',
+                                'type' => 'text',
+                                'value' => '-------'
+                            ]);
+
+                        echo $this->Form->input('timetables[0].24hours',[
+                            'label' => '24 Horas',
+                            'type' => 'checkbox'
+                        ]);*/
+
+
+
+
+                        echo $this->Form->end();
+                        ?>
+
+
+                        <ul >
+                        <?php
+                            //Mostramos el listado de horarios comerciales
+                            foreach ($company->timetables as $timetable) {
+                                echo '<li>' . $timetable->days . '</li>';
+                            }
+
+                        ?>
+                        </ul>
+
                         <hr>
 
                         <!-- Mostramos la sección para introducir el horario de la empresa de atención al público. -->
-
-
-
 
 
                     </div>
