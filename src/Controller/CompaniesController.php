@@ -94,6 +94,9 @@ class CompaniesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
+            debug($this->request->data);
+            die();
+
             $company = $this->Companies->patchEntity($company, $this->request->data, [
                 'associated' => [
                     'Images',

@@ -279,13 +279,80 @@
                             ]
                         );
 
+                        echo '<div class="col-md12 box">';
+
                         echo '<div class="btn-group" data-toggle="buttons">';
-                            echo '<label class="btn btn-primary active">';
+                            echo '<label class="btn btn-primary">';
                                 echo 'Lun.';
                                 echo $this->Form->checkbox('timetables[0].day1',[
                                     'autocomplete' => 'off'
                                 ]);
                             echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Lun.';
+                        echo $this->Form->checkbox('timetables[0].day1',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Mar.';
+                        echo $this->Form->checkbox('timetables[0].day2',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Mier.';
+                        echo $this->Form->checkbox('timetables[0].day3',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Jue.';
+                        echo $this->Form->checkbox('timetables[0].day4',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Vie.';
+                        echo $this->Form->checkbox('timetables[0].day5',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Sab.';
+                        echo $this->Form->checkbox('timetables[0].day6',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
+                        echo '<div class="btn-group" data-toggle="buttons">';
+                        echo '<label class="btn btn-primary">';
+                        echo 'Dom.';
+                        echo $this->Form->checkbox('timetables[0].day7',[
+                            'autocomplete' => 'off'
+                        ]);
+                        echo '</label>';
+                        echo '</div>';
+
                         echo '</div>';
 
                         /*echo $this->Form->input('timetables[0].days',[
@@ -299,6 +366,8 @@
                             'type' => 'checkbox'
                         ]);*/
 
+
+                        echo $this->Form->button('Save');
 
 
 
