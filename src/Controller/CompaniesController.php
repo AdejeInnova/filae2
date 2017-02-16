@@ -94,8 +94,7 @@ class CompaniesController extends AppController
 
         if ($this->request->is(['patch', 'post', 'put'])) {
 
-            debug($this->request->data);
-            die();
+
 
             $company = $this->Companies->patchEntity($company, $this->request->data, [
                 'associated' => [
@@ -106,6 +105,9 @@ class CompaniesController extends AppController
                     'Addresses'
                 ]
             ]);
+
+            //debug($company);
+            //die();
 
             $message = $company->dirty('images')?false:true;
             if ($this->Companies->save($company)) {
