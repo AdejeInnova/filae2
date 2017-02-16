@@ -279,7 +279,9 @@
                             ]
                         );
 
-                        echo '<div class="col-md12 box">';
+                        echo '<div class="box-body margin">';
+
+                        echo '<h4>Nuevo Horario:</h4>';
 
                         echo '<div class="btn-group" data-toggle="buttons">';
                             echo '<label class="btn btn-primary">';
@@ -288,15 +290,6 @@
                                     'autocomplete' => 'off'
                                 ]);
                             echo '</label>';
-                        echo '</div>';
-
-                        echo '<div class="btn-group" data-toggle="buttons">';
-                        echo '<label class="btn btn-primary">';
-                        echo 'Lun.';
-                        echo $this->Form->checkbox('timetables[0].day1',[
-                            'autocomplete' => 'off'
-                        ]);
-                        echo '</label>';
                         echo '</div>';
 
                         echo '<div class="btn-group" data-toggle="buttons">';
@@ -353,15 +346,20 @@
                         echo '</label>';
                         echo '</div>';
 
+                        echo $this->Form->input('timetables[0].24hours',[
+                            'label' => '24 Horas',
+                            'type' => 'checkbox'
+                        ]);
+
+                        echo $this->Form->input('timetables[0].openinghours[0].start',[
+                            'label' => 'Horario',
+                            'type' => 'text'
+                        ]);
+
                         echo '</div>';
 
-                        /*echo $this->Form->input('timetables[0].days',[
-                                'label' => 'Días',
-                                'type' => 'text',
-                                'value' => '-------'
-                            ]);
 
-                        echo $this->Form->input('timetables[0].24hours',[
+                        /*echo $this->Form->input('timetables[0].24hours',[
                             'label' => '24 Horas',
                             'type' => 'checkbox'
                         ]);*/
