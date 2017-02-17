@@ -82,7 +82,7 @@ class CompaniesController extends AppController
     public function edit($id = null)
     {
         $company = $this->Companies->get($id, [
-            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags', 'Addresses', 'Timetables']
+            'contain' => ['Communications', 'Networks', 'Images', 'Cnaes', 'Tags', 'Addresses', 'Timetables', 'Timetables.Openinghours']
         ]);
 
         //Control de la tab:
@@ -100,12 +100,15 @@ class CompaniesController extends AppController
                     'CompaniesNetworks',
                     'CommunicationsCompanies',
                     'Tags',
-                    'Addresses'
+                    'Addresses',
+                    'Timetables',
+                    'Timetables.Openinghours'
                 ]
             ]);
 
-            //debug($company);
-            //die();
+            debug($this->request->data);
+            debug($company);
+            die();
 
             $message = $company->dirty('images')?false:true;
             if ($this->Companies->save($company)) {

@@ -271,7 +271,7 @@
                             [
                                 'url' => [
                                     'action' => 'edit',
-                                    'tab' => 'communications'
+                                    'tab' => 'settings'
                                 ],
                                 'role' => 'form',
                                 'class' => 'form-horizontal',
@@ -288,79 +288,42 @@
                             <label class="control-label col-md-2">Días Sem.</label>
                             <div class=" col-md-10">
                                 <?php
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Lun.';
-                                echo $this->Form->checkbox('timetables[0].day1',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
+                                //Mostramos el listado de horarios comerciales
+                                $dias = array('Lun','Mar','Mier','Jue','Vier','Sab','Dom');
 
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Mar.';
-                                echo $this->Form->checkbox('timetables[0].day2',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
+                                //7 días de la semana
+                                for ($i = 0; $i < 7; $i++) {
+                                    echo '<div class="btn-group" data-toggle="buttons">';
 
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Mier.';
-                                echo $this->Form->checkbox('timetables[0].day3',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
+                                    echo '<label class="btn btn-primary">';
+                                    echo $dias[$i];
+                                    echo $this->Form->checkbox('timetables.0.day' . $i, [
+                                        'autocomplete' => 'off'
+                                    ]);
+                                    echo '</label>';
+                                    echo '</div>';
+                                }
 
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Jue.';
-                                echo $this->Form->checkbox('timetables[0].day4',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
-
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Vie.';
-                                echo $this->Form->checkbox('timetables[0].day5',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
-
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Sab.';
-                                echo $this->Form->checkbox('timetables[0].day6',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
-
-                                echo '<div class="btn-group" data-toggle="buttons">';
-                                echo '<label class="btn btn-primary">';
-                                echo 'Dom.';
-                                echo $this->Form->checkbox('timetables[0].day7',[
-                                    'autocomplete' => 'off'
-                                ]);
-                                echo '</label>';
-                                echo '</div>';
                                 ?>
                             </div>
                         </div>
 
-                        <?= $this->Form->input('timetables[0].openinghours.start',[
-                            'id' => 'start'
-                        ]); ?>
+                        <?php
 
-                        <?= $this->Form->input('timetables[0].openinghours.end',[
-                            'id' => 'end'
-                        ]); ?>
+                            $temp = '<div class="input-group">{{content}}</div>';
+
+                            echo $this->Form->input('timetables.0.openinghours.0.start',[
+                                'id' => 'start',
+                                'type' => 'text',
+                                'value' => ''
+                            ]);
+
+                            echo $this->Form->input('timetables.0.openinghours.0.end',[
+                                'id' => 'end',
+                                'type' => 'text',
+                                'value' => ''
+                            ]);
+                        ?>
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -373,29 +336,183 @@
                         echo '</div>';
 
 
-                        /*echo $this->Form->input('timetables[0].24hours',[
-                            'label' => '24 Horas',
-                            'type' => 'checkbox'
-                        ]);*/
-
-
                         echo $this->Form->end();
                         ?>
 
 
-                        <ul >
+                        <hr/>
+
                         <?php
-                            //Mostramos el listado de horarios comerciales
                             foreach ($company->timetables as $timetable) {
-                                echo '<li>' . $timetable->days . '</li>';
+
+                                echo $this->Form->input('timetables.' . $timetable->id .'.id', [
+                                    'label' => false,
+                                    'type' => 'hidden'
+                                ]);
+                                ?>
+                                <div class="box">
+                                <div class="box-header">
+                                    <i class="fa fa-clock-o"></i>
+
+                                    <h3 class="box-title">Horario</h3>
+                                    <!-- tools box -->
+                                    <div class="pull-right box-tools">
+                                        <?= $this->Form->postLink(
+                                            '<i class="fa fa-times"></i>',
+                                            [
+                                                'controller' => 'timetables',
+                                                'action' => 'delete',
+                                                $timetable->id
+                                            ],
+                                            [
+                                                'confirm' => __('¿Eliminar horario?'),
+                                                'class'=>'btn btn-danger btn-sm',
+                                                'escape' => false
+                                            ])
+                                        ?>
+                                    </div>
+                                    <!-- /. tools -->
+                                </div>
+                                <?php
+                                echo $this->Form->create($company,
+                                    [
+                                        'url' => [
+                                            'action' => 'edit',
+                                            'tab' => 'settings'
+                                        ],
+                                        'role' => 'form',
+                                        'novalidate' => true
+                                    ]
+                                );
+
+                                echo '<div class="box-body">';
+                                ?>
+                                <div class="form-group">
+                                    <div>
+                                        <?php
+
+                                        //7 días de la semana
+                                        for ($i = 0; $i < 7; $i++) {
+
+                                            switch ($i){
+                                                case 0:
+                                                    $timetable->day1?$checked=true:$checked=false;
+                                                    break;
+                                                case 1:
+                                                    $timetable->day2?$checked=true:$checked=false;
+                                                    break;
+                                                case 2:
+                                                    $timetable->day3?$checked=true:$checked=false;
+                                                    break;
+                                                case 3:
+                                                    $timetable->day4?$checked=true:$checked=false;
+                                                    break;
+                                                case 4:
+                                                    $timetable->day5?$checked=true:$checked=false;
+                                                    break;
+                                                case 5:
+                                                    $timetable->day6?$checked=true:$checked=false;
+                                                    break;
+                                                case 6:
+                                                    $timetable->day7?$checked=true:$checked=false;
+                                                    break;
+                                            }
+
+
+                                            echo '<div class="btn-group" data-toggle="buttons">';
+                                            $class = $checked?'active':'';
+
+                                            echo '<label class="btn btn-primary ' . $class . '">';
+                                            echo $dias[$i];
+                                            echo $this->Form->checkbox('timetables.' . $timetable->id . '.day' . $i, [
+                                                'autocomplete' => 'off',
+                                                'checked' => $checked
+                                            ]);
+                                            echo '</label>';
+                                            echo '</div>';
+                                        }
+
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <?php
+
+
+                                foreach ($timetable->openinghours as $openinghour) {
+                                    ?>
+                                    <div class="box no-border">
+                                        <div class="box-header">
+                                            <!-- tools box -->
+                                            <?= $this->Html->link(
+                                                'Add Intervalo',
+                                                'javascript:void(0)',
+                                                [
+                                                    'escape' => false,
+                                                    'onClick' => "alert('add intervalo')"
+                                                ])
+                                            ?>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="row">
+                                                <?php
+                                                echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.start', [
+                                                    'label' => false,
+                                                    'id' => 'start',
+                                                    'type' => 'text',
+                                                    'value' => $openinghour->start->i18nFormat('hh:mm'),
+                                                    'templates' => [
+                                                        'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                                    ]
+
+                                                ]);
+
+                                                echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.end', [
+                                                    'label' => false,
+                                                    'id' => 'end',
+                                                    'type' => 'text',
+                                                    'value' => $openinghour->end->i18nFormat('HH:mm'),
+                                                    'templates' => [
+                                                        'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                                    ]
+                                                ]);
+                                                ?>
+                                                <div class="col-xs-3">
+                                                <?= $this->Html->link(
+                                                    '<i class="fa fa-times"></i>',
+                                                    [
+                                                        'controller' => 'openinghours',
+                                                        'action' => 'delete',
+                                                        $openinghour->id,
+                                                        $timetable->companie_id
+                                                    ],
+                                                    [
+                                                        'confirm' => __('¿Eliminar intervalo horario?'),
+                                                        'class'=>'btn btn-danger btn-xs',
+                                                        'escape' => false
+                                                    ])
+                                                ?>
+                                                </div>
+                                            </div>
+                                        </div> <!-- ./box-body-->
+                                    </div> <!-- ./box-->
+                                <?php
+                                }
+
+                                echo $this->Form->button(__('Save'));
+
+                                echo '</div>'; //box-body
+                                echo $this->Form->end();
+                                echo '</div>'; //box
                             }
+                            ?>
 
-                        ?>
-                        </ul>
 
-                        <hr>
 
-                        <!-- Mostramos la sección para introducir el horario de la empresa de atención al público. -->
+
+
+
+
 
 
                     </div>
