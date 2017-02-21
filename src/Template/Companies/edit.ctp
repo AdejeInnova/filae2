@@ -187,6 +187,7 @@
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab">Datos</a></li>
+                    <li class="<?= $tab == 'timetables'?'active':''; ?>"><a href="#timetables" data-toggle="tab">Horario</a></li>
                     <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
                     <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><?=__('Networks')?></a></li>
                     <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><?=__('Comunicaciones')?></a></li>
@@ -258,6 +259,10 @@
 
                         <?= $this->Form->end() ?>
 
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane <?= $tab == 'timetables'?'active':''; ?>" id="timetables">
                         <h5>
                             <strong><i class="fa fa-book margin-r-5"></i> Horario Comercial</strong>
                         </h5>
@@ -310,19 +315,19 @@
 
                         <?php
 
-                            $temp = '<div class="input-group">{{content}}</div>';
+                        $temp = '<div class="input-group">{{content}}</div>';
 
-                            echo $this->Form->input('timetables.0.openinghours.0.start',[
-                                'id' => 'start',
-                                'type' => 'text',
-                                'value' => ''
-                            ]);
+                        echo $this->Form->input('timetables.0.openinghours.0.start',[
+                            'id' => 'start',
+                            'type' => 'text',
+                            'value' => ''
+                        ]);
 
-                            echo $this->Form->input('timetables.0.openinghours.0.end',[
-                                'id' => 'end',
-                                'type' => 'text',
-                                'value' => ''
-                            ]);
+                        echo $this->Form->input('timetables.0.openinghours.0.end',[
+                            'id' => 'end',
+                            'type' => 'text',
+                            'value' => ''
+                        ]);
                         ?>
 
                         <div class="form-group">
@@ -343,141 +348,141 @@
                         <hr/>
 
                         <?php
-                            foreach ($company->timetables as $timetable) {
+                        foreach ($company->timetables as $timetable) {
 
-                                echo $this->Form->input('timetables.' . $timetable->id .'.id', [
-                                    'label' => false,
-                                    'type' => 'hidden'
-                                ]);
+                        echo $this->Form->input('timetables.' . $timetable->id .'.id', [
+                            'label' => false,
+                            'type' => 'hidden'
+                        ]);
+                        ?>
+                        <div class="box">
+                            <div class="box-header">
+                                <i class="fa fa-clock-o"></i>
+
+                                <h3 class="box-title">Horario</h3>
+                                <!-- tools box -->
+                                <div class="pull-right box-tools">
+                                    <?= $this->Form->postLink(
+                                        '<i class="fa fa-times"></i>',
+                                        [
+                                            'controller' => 'timetables',
+                                            'action' => 'delete',
+                                            $timetable->id
+                                        ],
+                                        [
+                                            'confirm' => __('¿Eliminar horario?'),
+                                            'class'=>'btn btn-danger btn-sm',
+                                            'escape' => false
+                                        ])
+                                    ?>
+                                </div>
+                                <!-- /. tools -->
+                            </div>
+                            <?php
+                            echo $this->Form->create($company,
+                                [
+                                    'url' => [
+                                        'action' => 'edit',
+                                        'tab' => 'settings'
+                                    ],
+                                    'role' => 'form',
+                                    'novalidate' => true
+                                ]
+                            );
+
+                            echo '<div class="box-body">';
+                            ?>
+                            <div class="form-group">
+                                <div>
+                                    <?php
+
+                                    //7 días de la semana
+                                    for ($i = 0; $i < 7; $i++) {
+
+                                        switch ($i){
+                                            case 0:
+                                                $timetable->day1?$checked=true:$checked=false;
+                                                break;
+                                            case 1:
+                                                $timetable->day2?$checked=true:$checked=false;
+                                                break;
+                                            case 2:
+                                                $timetable->day3?$checked=true:$checked=false;
+                                                break;
+                                            case 3:
+                                                $timetable->day4?$checked=true:$checked=false;
+                                                break;
+                                            case 4:
+                                                $timetable->day5?$checked=true:$checked=false;
+                                                break;
+                                            case 5:
+                                                $timetable->day6?$checked=true:$checked=false;
+                                                break;
+                                            case 6:
+                                                $timetable->day7?$checked=true:$checked=false;
+                                                break;
+                                        }
+
+
+                                        echo '<div class="btn-group" data-toggle="buttons">';
+                                        $class = $checked?'active':'';
+
+                                        echo '<label class="btn btn-primary ' . $class . '">';
+                                        echo $dias[$i];
+                                        echo $this->Form->checkbox('timetables.' . $timetable->id . '.day' . $i, [
+                                            'autocomplete' => 'off',
+                                            'checked' => $checked
+                                        ]);
+                                        echo '</label>';
+                                        echo '</div>';
+                                    }
+
+                                    ?>
+                                </div>
+                            </div>
+
+                            <?php
+
+
+                            foreach ($timetable->openinghours as $openinghour) {
                                 ?>
-                                <div class="box">
-                                <div class="box-header">
-                                    <i class="fa fa-clock-o"></i>
-
-                                    <h3 class="box-title">Horario</h3>
-                                    <!-- tools box -->
-                                    <div class="pull-right box-tools">
-                                        <?= $this->Form->postLink(
-                                            '<i class="fa fa-times"></i>',
+                                <div class="box no-border">
+                                    <div class="box-header">
+                                        <!-- tools box -->
+                                        <?= $this->Html->link(
+                                            'Add Intervalo',
+                                            'javascript:void(0)',
                                             [
-                                                'controller' => 'timetables',
-                                                'action' => 'delete',
-                                                $timetable->id
-                                            ],
-                                            [
-                                                'confirm' => __('¿Eliminar horario?'),
-                                                'class'=>'btn btn-danger btn-sm',
-                                                'escape' => false
+                                                'escape' => false,
+                                                'onClick' => "alert('add intervalo')"
                                             ])
                                         ?>
                                     </div>
-                                    <!-- /. tools -->
-                                </div>
-                                <?php
-                                echo $this->Form->create($company,
-                                    [
-                                        'url' => [
-                                            'action' => 'edit',
-                                            'tab' => 'settings'
-                                        ],
-                                        'role' => 'form',
-                                        'novalidate' => true
-                                    ]
-                                );
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <?php
+                                            echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.start', [
+                                                'label' => false,
+                                                'id' => 'start',
+                                                'type' => 'text',
+                                                'value' => $openinghour->start->i18nFormat('hh:mm'),
+                                                'templates' => [
+                                                    'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                                ]
 
-                                echo '<div class="box-body">';
-                                ?>
-                                <div class="form-group">
-                                    <div>
-                                        <?php
-
-                                        //7 días de la semana
-                                        for ($i = 0; $i < 7; $i++) {
-
-                                            switch ($i){
-                                                case 0:
-                                                    $timetable->day1?$checked=true:$checked=false;
-                                                    break;
-                                                case 1:
-                                                    $timetable->day2?$checked=true:$checked=false;
-                                                    break;
-                                                case 2:
-                                                    $timetable->day3?$checked=true:$checked=false;
-                                                    break;
-                                                case 3:
-                                                    $timetable->day4?$checked=true:$checked=false;
-                                                    break;
-                                                case 4:
-                                                    $timetable->day5?$checked=true:$checked=false;
-                                                    break;
-                                                case 5:
-                                                    $timetable->day6?$checked=true:$checked=false;
-                                                    break;
-                                                case 6:
-                                                    $timetable->day7?$checked=true:$checked=false;
-                                                    break;
-                                            }
-
-
-                                            echo '<div class="btn-group" data-toggle="buttons">';
-                                            $class = $checked?'active':'';
-
-                                            echo '<label class="btn btn-primary ' . $class . '">';
-                                            echo $dias[$i];
-                                            echo $this->Form->checkbox('timetables.' . $timetable->id . '.day' . $i, [
-                                                'autocomplete' => 'off',
-                                                'checked' => $checked
                                             ]);
-                                            echo '</label>';
-                                            echo '</div>';
-                                        }
 
-                                        ?>
-                                    </div>
-                                </div>
-
-                                <?php
-
-
-                                foreach ($timetable->openinghours as $openinghour) {
-                                    ?>
-                                    <div class="box no-border">
-                                        <div class="box-header">
-                                            <!-- tools box -->
-                                            <?= $this->Html->link(
-                                                'Add Intervalo',
-                                                'javascript:void(0)',
-                                                [
-                                                    'escape' => false,
-                                                    'onClick' => "alert('add intervalo')"
-                                                ])
+                                            echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.end', [
+                                                'label' => false,
+                                                'id' => 'end',
+                                                'type' => 'text',
+                                                'value' => $openinghour->end->i18nFormat('HH:mm'),
+                                                'templates' => [
+                                                    'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                                ]
+                                            ]);
                                             ?>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="row">
-                                                <?php
-                                                echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.start', [
-                                                    'label' => false,
-                                                    'id' => 'start',
-                                                    'type' => 'text',
-                                                    'value' => $openinghour->start->i18nFormat('hh:mm'),
-                                                    'templates' => [
-                                                        'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
-                                                    ]
-
-                                                ]);
-
-                                                echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.end', [
-                                                    'label' => false,
-                                                    'id' => 'end',
-                                                    'type' => 'text',
-                                                    'value' => $openinghour->end->i18nFormat('HH:mm'),
-                                                    'templates' => [
-                                                        'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
-                                                    ]
-                                                ]);
-                                                ?>
-                                                <div class="col-xs-3">
+                                            <div class="col-xs-3">
                                                 <?= $this->Html->link(
                                                     '<i class="fa fa-times"></i>',
                                                     [
@@ -492,29 +497,20 @@
                                                         'escape' => false
                                                     ])
                                                 ?>
-                                                </div>
                                             </div>
-                                        </div> <!-- ./box-body-->
-                                    </div> <!-- ./box-->
+                                        </div>
+                                    </div> <!-- ./box-body-->
+                                </div> <!-- ./box-->
                                 <?php
-                                }
+                            }
 
-                                echo $this->Form->button(__('Save'));
+                            echo $this->Form->button(__('Save'));
 
-                                echo '</div>'; //box-body
-                                echo $this->Form->end();
-                                echo '</div>'; //box
+                            echo '</div>'; //box-body
+                            echo $this->Form->end();
+                            echo '</div>'; //box
                             }
                             ?>
-
-
-
-
-
-
-
-
-
                     </div>
                     <!-- /.tab-pane -->
 
