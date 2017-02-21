@@ -37,6 +37,8 @@
                     'options' => $idcards
                 ]);
                 echo $this->Form->input('identity_card');
+                echo $this->Form->input('email');
+
                 echo $this->Form->input('description',['label' => __('Observaciones Internas')]);
                 echo $this->Form->input('superficie_id', [
                     'options' => $superficies,

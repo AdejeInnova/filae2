@@ -107,11 +107,11 @@ class TimetablesController extends AppController
         $timetable = $this->Timetables->get($id);
         $company_id = $timetable->companie_id;
         if ($this->Timetables->delete($timetable)) {
-            $this->Flash->success(__('The timetable has been deleted.'));
+            //$this->Flash->success(__('The timetable has been deleted.'));
         } else {
             $this->Flash->error(__('The timetable could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab'=>'settings']);
+        return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab'=>'timetables']);
     }
 }

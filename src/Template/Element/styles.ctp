@@ -11,10 +11,10 @@ switch ($controller) {
             case 'add':
                 ?>
                 <!-- plugin wysihtml5 -->
-                <link rel="stylesheet" href="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"/>
+                <?php echo $this->Html->css('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>
 
                 <!-- plugin select2 -->
-                <link rel="stylesheet" href="/filae2/admin_l_t_e/plugins/select2/select2.min.css"/>
+                <?php echo $this->Html->css('/plugins/select2/select2.css'); ?>
 
                 <!-- Bootstrap 3.3.5 -->
                 <?php echo $this->Html->css('fileinput'); ?>

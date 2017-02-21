@@ -49,22 +49,28 @@ class OpeninghoursController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($timetables_id = null, $company_id = null)
     {
         $openinghour = $this->Openinghours->newEntity();
         if ($this->request->is('post')) {
-            $openinghour = $this->Openinghours->patchEntity($openinghour, $this->request->data);
-            if ($this->Openinghours->save($openinghour)) {
-                $this->Flash->success(__('The openinghour has been saved.'));
+            $data = [
+                'timetable_id' => $timetables_id,
+                'start' => '12:00:00',
+                'end' => '12:00:00'
+            ];
 
-                return $this->redirect(['action' => 'index']);
+            $openinghour = $this->Openinghours->patchEntity($openinghour, $data);
+            if ($this->Openinghours->save($openinghour)) {
+                //$this->Flash->success(__('The openinghour has been saved.'));
+
+                return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab' => 'timetables']);
             } else {
                 $this->Flash->error(__('The openinghour could not be saved. Please, try again.'));
             }
+        }else{
+            $this->Flash->error(__('The openinghour could not be saved. Please, try again.'));
+            return $this->redirect(['controller' => 'company','action' => 'edit', $company_id, 'tab' => 'timetables']);
         }
-        $timetables = $this->Openinghours->Timetables->find('list', ['limit' => 200]);
-        $this->set(compact('openinghour', 'timetables'));
-        $this->set('_serialize', ['openinghour']);
     }
 
     /**
@@ -106,11 +112,11 @@ class OpeninghoursController extends AppController
         $this->request->allowMethod(['post', 'delete', 'get']);
         $openinghour = $this->Openinghours->get($id);
         if ($this->Openinghours->delete($openinghour)) {
-            $this->Flash->success(__('The openinghour has been deleted.'));
+            //$this->Flash->success(__('The openinghour has been deleted.'));
         } else {
             $this->Flash->error(__('The openinghour could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab' => 'settings']);
+        return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab' => 'timetables']);
     }
 }

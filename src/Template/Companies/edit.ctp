@@ -191,9 +191,9 @@
                     <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
                     <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><?=__('Networks')?></a></li>
                     <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><?=__('Comunicaciones')?></a></li>
+                    <li class="<?= $tab == 'contacs'?'active':''; ?>"><a href="#contacs" data-toggle="tab"><?=__('Contactos')?></a></li>
                     <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><?=__('Cnae')?></a></li>
                     <li class="<?= $tab == 'addresses'?'active':''; ?>"><a href="#addresses" data-toggle="tab"><?=__('Direcciones')?></a></li>
-
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
@@ -224,6 +224,7 @@
                             echo $this->Form->input('name', ['label' => __('Razón Social')]);
                             echo $this->Form->input('idcard_id', ['options' => $idcards]);
                             echo $this->Form->input('identity_card');
+                            echo $this->Form->input('email');
                             echo $this->Form->input('description',['label' => __('Observaciones Internas')]);
                             echo $this->Form->input('superficie_id', [
                                 'options' => $superficies,
@@ -270,100 +271,44 @@
                             Editar horario comercial. Elige el horario de apertura de la empresa.
                         </p>
 
-                        <hr/>
                         <?
                         echo $this->Form->create($company,
                             [
                                 'url' => [
                                     'action' => 'edit',
-                                    'tab' => 'settings'
-                                ],
-                                'role' => 'form',
-                                'class' => 'form-horizontal',
-                                'novalidate' => true
+                                    'tab' => 'timetables'
+                                ]
                             ]
                         );
 
-                        echo '<div class="box-body margin">';
-
-                        echo '<h4>Nuevo Horario:</h4>';
-                        ?>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-2">Días Sem.</label>
-                            <div class=" col-md-10">
-                                <?php
-                                //Mostramos el listado de horarios comerciales
-                                $dias = array('Lun','Mar','Mier','Jue','Vier','Sab','Dom');
-
-                                //7 días de la semana
-                                for ($i = 0; $i < 7; $i++) {
-                                    echo '<div class="btn-group" data-toggle="buttons">';
-
-                                    echo '<label class="btn btn-primary">';
-                                    echo $dias[$i];
-                                    echo $this->Form->checkbox('timetables.0.day' . $i, [
-                                        'autocomplete' => 'off'
-                                    ]);
-                                    echo '</label>';
-                                    echo '</div>';
-                                }
-
-                                ?>
-                            </div>
-                        </div>
-
-                        <?php
-
-                        $temp = '<div class="input-group">{{content}}</div>';
-
-                        echo $this->Form->input('timetables.0.openinghours.0.start',[
-                            'id' => 'start',
-                            'type' => 'text',
-                            'value' => ''
+                        echo $this->Form->hidden('timetables.0.openinghours.0.start',[
+                            'value' => '12:00:00'
                         ]);
 
-                        echo $this->Form->input('timetables.0.openinghours.0.end',[
-                            'id' => 'end',
-                            'type' => 'text',
-                            'value' => ''
+                        echo $this->Form->hidden('timetables.0.openinghours.0.end',[
+                            'value' => '12:00:00'
                         ]);
-                        ?>
 
-                        <div class="form-group">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <?= $this->Form->button(__('Add')) ?>
-                            </div>
-                        </div>
-
-                        <?php
-
-                        echo '</div>';
-
-
+                        echo $this->Form->button(
+                            __('Añadir Horario')
+                        );
                         echo $this->Form->end();
                         ?>
-
 
                         <hr/>
 
                         <?php
-                        foreach ($company->timetables as $timetable) {
-
-                        echo $this->Form->input('timetables.' . $timetable->id .'.id', [
-                            'label' => false,
-                            'type' => 'hidden'
-                        ]);
+                        foreach ($company->timetables as $key => $timetable) {
                         ?>
                         <div class="box">
                             <div class="box-header">
                                 <i class="fa fa-clock-o"></i>
 
-                                <h3 class="box-title">Horario</h3>
+                                <h3 class="box-title">Horario <?= $key ?></h3>
                                 <!-- tools box -->
                                 <div class="pull-right box-tools">
                                     <?= $this->Form->postLink(
-                                        '<i class="fa fa-times"></i>',
+                                        '<i class="fa fa-trash-o"></i>',
                                         [
                                             'controller' => 'timetables',
                                             'action' => 'delete',
@@ -383,7 +328,7 @@
                                 [
                                     'url' => [
                                         'action' => 'edit',
-                                        'tab' => 'settings'
+                                        'tab' => 'timetables'
                                     ],
                                     'role' => 'form',
                                     'novalidate' => true
@@ -395,7 +340,10 @@
                             <div class="form-group">
                                 <div>
                                     <?php
+                                    //Mostramos el listado de horarios comerciales
+                                    $dias = array('Lun','Mar','Mier','Jue','Vier','Sab','Dom');
 
+                                    echo $this->Form->hidden('timetables.'. $key .'.id', ['value' => $timetable->id]);
                                     //7 días de la semana
                                     for ($i = 0; $i < 7; $i++) {
 
@@ -429,7 +377,7 @@
 
                                         echo '<label class="btn btn-primary ' . $class . '">';
                                         echo $dias[$i];
-                                        echo $this->Form->checkbox('timetables.' . $timetable->id . '.day' . $i, [
+                                        echo $this->Form->checkbox('timetables.' . $key . '.day' . ($i+1), [
                                             'autocomplete' => 'off',
                                             'checked' => $checked
                                         ]);
@@ -444,52 +392,43 @@
                             <?php
 
 
-                            foreach ($timetable->openinghours as $openinghour) {
+                            foreach ($timetable->openinghours as $key1 => $openinghour) {
                                 ?>
-                                <div class="box no-border">
-                                    <div class="box-header">
-                                        <!-- tools box -->
-                                        <?= $this->Html->link(
-                                            'Add Intervalo',
-                                            'javascript:void(0)',
-                                            [
-                                                'escape' => false,
-                                                'onClick' => "alert('add intervalo')"
-                                            ])
-                                        ?>
-                                    </div>
-                                    <div class="box-body">
+                                <div class="box no-border no-margin">
+                                    <div class="box-body no-pad-top">
                                         <div class="row">
                                             <?php
-                                            echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.start', [
+                                            echo $this->Form->hidden('timetables.' . $key .'.openinghours.' . $key1 . '.id', ['value' => $openinghour->id]);
+
+                                            echo $this->Form->input('timetables.' . $key .'.openinghours.' . $key1 . '.start', [
                                                 'label' => false,
-                                                'id' => 'start',
                                                 'type' => 'text',
                                                 'value' => $openinghour->start->i18nFormat('hh:mm'),
                                                 'templates' => [
                                                     'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
-                                                ]
-
+                                                ],
+                                                'class' => 'hours'
                                             ]);
 
-                                            echo $this->Form->input('timetables.' . $timetable->id .'.openinghours.' . $openinghour->id . '.end', [
+                                            echo $this->Form->input('timetables.' . $key .'.openinghours.' . $key1 . '.end', [
                                                 'label' => false,
-                                                'id' => 'end',
                                                 'type' => 'text',
                                                 'value' => $openinghour->end->i18nFormat('HH:mm'),
                                                 'templates' => [
-                                                    'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
-                                                ]
+                                                    'inputContainer' => '<div class="col-xs-3"> {{content}}</div>'
+                                                ],
+                                                'class' => 'hours'
                                             ]);
                                             ?>
                                             <div class="col-xs-3">
                                                 <?= $this->Html->link(
-                                                    '<i class="fa fa-times"></i>',
+                                                    '<i class="fa fa-trash-o"></i>',
                                                     [
                                                         'controller' => 'openinghours',
                                                         'action' => 'delete',
                                                         $openinghour->id,
-                                                        $timetable->companie_id
+                                                        $timetable->companie_id,
+                                                        'tab' => 'timetables'
                                                     ],
                                                     [
                                                         'confirm' => __('¿Eliminar intervalo horario?'),
@@ -504,13 +443,33 @@
                                 <?php
                             }
 
-                            echo $this->Form->button(__('Save'));
-
                             echo '</div>'; //box-body
-                            echo $this->Form->end();
+                            echo '<div class="box-footer clearfix no-border">';
+                                echo $this->Form->button(
+                                    __('Save'),
+                                    [
+                                        'class' => 'btn btn-success pull-left btn-sm'
+                                    ]
+                                );
+                                echo $this->Form->end();
+                                echo $this->Form->postLink(
+                                    'Add Intervalo',
+                                    [
+                                        'controller' => 'openinghours',
+                                        'action' => 'add',
+                                        $timetable->id,
+                                        $timetable->companie_id
+                                    ],
+                                    [
+                                        'escape' => false,
+                                        'class' => 'btn btn-default pull-left btn-sm',
+                                        'style' => 'margin-left:5px;'
+
+                                    ]);
+                            echo '</div>'; //box-footer
                             echo '</div>'; //box
-                            }
-                            ?>
+                        }
+                        ?>
                     </div>
                     <!-- /.tab-pane -->
 
@@ -670,6 +629,69 @@
                         </ul>
                     </div>
                     <!-- /.tab-pane -->
+
+
+                    <div class="tab-pane <?= $tab == 'contacts'?'active':''; ?>" id="contacs">
+                        <div class="box-body">
+                            <div class="pull-right">
+                                <?= $this->Html->link(__('New'), ['controller' => 'cnaes','action' => 'index', $company->id], ['class'=>'btn btn-success btn-xs']) ?>
+                                <?= $this->Form->button(
+                                    '<i class="fa fa-user-plus"></i>'   ,
+                                    [
+                                        'id' => 'btn_contact',
+                                        'class' => 'btn btn-success btn-xs',
+                                        'data-type' => 'contact',
+                                        'data-toggle' => 'modal',
+                                        'data-target' => '#myModal'
+                                    ]
+                                );
+                                ?>
+                            </div>
+                            <strong><i class="fa fa-book margin-r-5"></i> Contactos</strong>
+                            <p class="text-muted">
+                                Personas de contacto de la empresa
+                            </p>
+                            <table class="table table-hover ">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th class="hidden-xs">Cargo</th>
+                                    <th class="hidden-xs">Email</th>
+                                    <th><?= __('Actions') ?></th>
+                                </tr>
+                                <?php foreach ($company->contacts as $contact): ?>
+                                    <tr>
+                                        <td class="visible-xs">
+                                            <p><?= h($contact->name) ?></p>
+                                            <p>Cargo: <?= h($contact->position) ?></p>
+                                            <p>Email<?= h($contact->email) ?></p>
+                                        </td>
+                                        <td><?= h($contact->name) ?></td>
+                                        <td class="hidden-xs"><?= h($contact->position) ?></td>
+                                        <td class="hidden-xs"><?= h($contact->email) ?></td>
+                                        <td class="actions" style="white-space:nowrap">
+                                            <?php
+                                            echo $this->Form->postLink(
+                                                '<i class="fa fa-trash"></i>',
+                                                [
+                                                    'controller' => 'contacts',
+                                                    'action' => 'delete',
+                                                    $contact->id,
+                                                    $company->id
+                                                ],
+                                                [
+                                                    'confirm' => __('Confirm to Delete this contact?'),
+                                                    'class'=>'btn btn-xs text-red',
+                                                    'escape'=>false
+
+                                                ]);
+                                            ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- /.tab-pane #contacts -->
 
                     <div class="tab-pane <?= $tab == 'cnae'?'active':''; ?>" id="cnae">
                         <div class="box-body">

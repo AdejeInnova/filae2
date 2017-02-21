@@ -130,6 +130,11 @@ class CompaniesTable extends Table
         });
 
         $validator
+            ->allowEmpty('email')
+            ->email('email')
+        ;
+
+        $validator
             ->allowEmpty('description');
 
         return $validator;

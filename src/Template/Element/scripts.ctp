@@ -9,13 +9,15 @@ switch ($controller){
             case 'edit':
                 ?>
                 <!-- plugin wysihtml5 -->
-                <script src="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+                <?= $this->Html->script("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") ?>
 
                 <!-- plugin select2 -->
-                <script src="/filae2/admin_l_t_e/plugins/select2/select2.full.min.js"></script>
+                <?= $this->Html->script("/plugins/select2/select2.full.min.js") ?>
 
-                <script src="/filae2/admin_l_t_e/plugins/input-mask/jquery.inputmask.js"></script>
-                <script src="/filae2/admin_l_t_e/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+                <!-- plugin inputmask -->
+                <?= $this->Html->script("/plugins/input-mask/jquery.inputmask.js") ?>
+                <?= $this->Html->script("/plugins/input-mask/jquery.inputmask.date.extensions.js") ?>
+
 
                 <!-- GeoApi - Angular.js -->
                 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.17/angular.min.js"></script>
@@ -34,33 +36,43 @@ switch ($controller){
                         var button = $(event.relatedTarget) // Button that triggered the modal
                         var modal = $(this)
 
-                        //Valor actual
-                        var address = button.data('value');
 
-                        //Ajustamos el tamaño de la ventana
-                        modal.find('.modal-dialog').addClass('modal-lg');
+                        switch (button.data('type')){
+                            case 'address':
+                                //Valor actual
+                                var address = button.data('value');
 
-                        //Title
-                        modal.find('.modal-title').text('Localización');
+                                //Ajustamos el tamaño de la ventana
+                                modal.find('.modal-dialog').addClass('modal-lg');
 
-                        //var html = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id]); ?>/' + address +  '"></iframe></div>';
+                                //Title
+                                modal.find('.modal-title').text('Localización');
 
-                        //Contenido modal-body
-                        $.ajax({
-                            type: 'GET',
-                            url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view'])?>/" + address,
-                            //data: { id: exercise },
-                            error:function(data){
-                            },
-                            success: function(data){
-                                //Cargamos data en el body de la ventana modal
-                                modal.find('.modal-body').html(data);
-                            }
-                        });
+                                //var html = '<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $company->id]); ?>/' + address +  '"></iframe></div>';
 
-                        //modal.find('.modal-body').html(html);
+                                //Contenido modal-body
+                                $.ajax({
+                                    type: 'GET',
+                                    url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view'])?>/" + address,
+                                    //data: { id: exercise },
+                                    error:function(data){
+                                    },
+                                    success: function(data){
+                                        //Cargamos data en el body de la ventana modal
+                                        modal.find('.modal-body').html(data);
+                                    }
+                                });
 
-                        modal.find('.modal-footer').remove();
+                                //modal.find('.modal-body').html(html);
+
+                                modal.find('.modal-footer').remove();
+                                break;
+                            case 'contact':
+                                modal.find('.modal-body').html('Hola mundo');
+                                break;
+                        }
+
+
                     });
                     //<!-- /Modal -->
                 </script>
@@ -135,6 +147,17 @@ switch ($controller){
                     $('.btn-profile[data-key=' + profile_id + '] i').removeClass('glyphicon-user').addClass('glyphicon-ok');
                     //<!-- /Bootstrapt-fileinput -->
 
+                    //Select 2 to Tags
+                    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                        //console.log($(this).text());
+                        if ($(this).text() == "Datos"){
+                            $("#tags").select2({
+                                tags: true
+                            });
+                        }
+
+                    })
+
 
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
@@ -147,11 +170,7 @@ switch ($controller){
                             tags: true
                         });
 
-                        $('#start').inputmask('h:s',{
-                            placeholder : '00:00'
-                        });
-
-                        $('#end').inputmask('h:s',{
+                        $('.hours').inputmask('h:s',{
                             placeholder : '00:00'
                         });
                     });
@@ -163,7 +182,7 @@ switch ($controller){
             case 'add':
                 ?>
                 <!-- plugin wysihtml5 -->
-                <script src="/filae2/admin_l_t_e/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+                <?= $this->Html->script("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") ?>
                 <script>
                     $(document).ready(function(){
                         //Bootstrapt-wysihtml5
