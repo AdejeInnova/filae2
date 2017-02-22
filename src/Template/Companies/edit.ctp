@@ -186,15 +186,16 @@
         <div class="col-md-9">
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab">Datos</a></li>
-                    <li class="<?= $tab == 'timetables'?'active':''; ?>"><a href="#timetables" data-toggle="tab">Horario</a></li>
-                    <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab">Media</a></li>
-                    <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><?=__('Networks')?></a></li>
-                    <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><?=__('Comunicaciones')?></a></li>
-                    <li class="<?= $tab == 'contacs'?'active':''; ?>"><a href="#contacs" data-toggle="tab"><?=__('Contactos')?></a></li>
-                    <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><?=__('Cnae')?></a></li>
-                    <li class="<?= $tab == 'addresses'?'active':''; ?>"><a href="#addresses" data-toggle="tab"><?=__('Direcciones')?></a></li>
+                    <li class="<?= $tab == 'settings'?'active':''; ?>"><a href="#settings" data-toggle="tab"> <i class="fa fa-pencil-square-o"></i> Datos</a></li>
+                    <li class="<?= $tab == 'timetables'?'active':''; ?>"><a href="#timetables" data-toggle="tab"><i class="fa fa-clock-o"></i> Horario</a></li>
+                    <li class="<?= $tab == 'media'?'active':''; ?>"><a href="#media" data-toggle="tab"><i class="fa fa-file-image-o"></i> Media</a></li>
+                    <li class="<?= $tab == 'networks'?'active':''; ?>"><a href="#networks" data-toggle="tab"><i class="fa fa-link"></i> <?=__('Networks')?></a></li>
+                    <li class="<?= $tab == 'communications'?'active':''; ?>"><a href="#communications" data-toggle="tab"><i class="fa fa-phone"></i> <?=__('Comunicaciones')?></a></li>
+                    <li class="<?= $tab == 'contacts'?'active':''; ?>"><a href="#contacts" data-toggle="tab"><i class="fa fa-users"></i> <?=__('Contactos')?></a></li>
+                    <li class="<?= $tab == 'cnae'?'active':''; ?>"><a href="#cnae" data-toggle="tab"><i class="fa fa-list-ul"></i> <?=__('Cnae')?></a></li>
+                    <li class="<?= $tab == 'addresses'?'active':''; ?>"><a href="#addresses" data-toggle="tab"><i class="fa fa-map-marker"></i> <?=__('Direcciones')?></a></li>
                 </ul>
+
                 <div class="tab-content">
                     <div class="tab-pane <?= $tab == 'settings'?'active':''; ?>" id="settings">
                         <strong><i class="fa fa-book margin-r-5"></i> Datos de Empresa</strong>
@@ -631,10 +632,9 @@
                     <!-- /.tab-pane -->
 
 
-                    <div class="tab-pane <?= $tab == 'contacts'?'active':''; ?>" id="contacs">
+                    <div class="tab-pane <?= $tab == 'contacts'?'active':''; ?>" id="contacts">
                         <div class="box-body">
                             <div class="pull-right">
-                                <?= $this->Html->link(__('New'), ['controller' => 'cnaes','action' => 'index', $company->id], ['class'=>'btn btn-success btn-xs']) ?>
                                 <?= $this->Form->button(
                                     '<i class="fa fa-user-plus"></i>'   ,
                                     [
@@ -651,6 +651,8 @@
                             <p class="text-muted">
                                 Personas de contacto de la empresa
                             </p>
+
+                            <!-- Listado de Contactos -->
                             <table class="table table-hover ">
                                 <tr>
                                     <th>Nombre</th>
@@ -670,6 +672,19 @@
                                         <td class="hidden-xs"><?= h($contact->email) ?></td>
                                         <td class="actions" style="white-space:nowrap">
                                             <?php
+                                            echo $this->Form->button(
+                                                '<i class="fa fa-pencil"></i>',
+                                                [
+                                                    'class'=>'btn btn-xs btn-info margin-r-5',
+                                                    'escape'=>false,
+                                                    'id' => 'btn_contact',
+                                                    'data-type' => 'contact',
+                                                    'data-toggle' => 'modal',
+                                                    'data-target' => '#myModal',
+                                                    'data-value' => $contact->id
+
+                                                ]);
+
                                             echo $this->Form->postLink(
                                                 '<i class="fa fa-trash"></i>',
                                                 [
@@ -680,7 +695,7 @@
                                                 ],
                                                 [
                                                     'confirm' => __('Confirm to Delete this contact?'),
-                                                    'class'=>'btn btn-xs text-red',
+                                                    'class'=>'btn btn-xs btn-danger',
                                                     'escape'=>false
 
                                                 ]);
@@ -693,7 +708,7 @@
                     </div>
                     <!-- /.tab-pane #contacts -->
 
-                    <div class="tab-pane <?= $tab == 'cnae'?'active':''; ?>" id="cnae">
+                    <div class="tab-pane <?= $tab == 'cnae'?'active':''; ?> " id="cnae">
                         <div class="box-body">
                             <div class="pull-right">
                                 <?= $this->Html->link(__('New'), ['controller' => 'cnaes','action' => 'index', $company->id], ['class'=>'btn btn-success btn-xs']) ?>
@@ -822,6 +837,7 @@
                                                             [
                                                                 'id' => 'btn_map',
                                                                 'class' => 'btn btn-success btn-xs',
+                                                                'data-type' => 'address',
                                                                 'data-toggle' => 'modal',
                                                                 'data-target' => '#myModal',
                                                                 'data-value' => $address->id

@@ -68,7 +68,34 @@ switch ($controller){
                                 modal.find('.modal-footer').remove();
                                 break;
                             case 'contact':
-                                modal.find('.modal-body').html('Hola mundo');
+                                //Ajustamos el tamaño de la ventana
+                                modal.find('.modal-dialog').addClass('modal-lg');
+
+                                //Title
+                                modal.find('.modal-title').text('Contactos');
+
+                                //Contenido modal-body
+
+                                var contact_id = button.data('value');
+                                if (!contact_id){
+                                    var url = "<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'add', $company->id])?>";
+                                }else{
+                                    var url = "<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'edit'])?>/" + contact_id;
+                                }
+
+                                console.log(url);
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: url,
+                                    error:function(data){
+                                    },
+                                    success: function(data){
+                                        //Cargamos data en el body de la ventana modal
+                                        modal.find('.modal-body').html(data);
+                                    }
+                                });
+                                modal.find('.modal-footer').remove();
                                 break;
                         }
 

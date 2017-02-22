@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * ContactsCommunications Model
+ * CommunicationsContacts Model
  *
  * @property \Cake\ORM\Association\BelongsTo $Communications
  * @property \Cake\ORM\Association\BelongsTo $Contacts
  *
- * @method \App\Model\Entity\ContactsCommunication get($primaryKey, $options = [])
- * @method \App\Model\Entity\ContactsCommunication newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\ContactsCommunication[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\ContactsCommunication|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\ContactsCommunication patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\ContactsCommunication[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\ContactsCommunication findOrCreate($search, callable $callback = null)
+ * @method \App\Model\Entity\CommunicationsContact get($primaryKey, $options = [])
+ * @method \App\Model\Entity\CommunicationsContact newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\CommunicationsContact[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\CommunicationsContact|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\CommunicationsContact patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\CommunicationsContact[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\CommunicationsContact findOrCreate($search, callable $callback = null)
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class ContactsCommunicationsTable extends Table
+class CommunicationsContactsTable extends Table
 {
 
     /**
@@ -35,7 +35,7 @@ class ContactsCommunicationsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('contacts_communications');
+        $this->table('communications_contacts');
         $this->displayField('id');
         $this->primaryKey('id');
 

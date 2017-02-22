@@ -117,9 +117,9 @@ class CompaniesController extends AppController
                 ]
             ]);
 
-            /*debug($this->request->data);
+            debug($this->request->data);
             debug($company);
-            die();*/
+            die();
 
             $message = $company->dirty('images')?false:true;
             if ($this->Companies->save($company)) {
