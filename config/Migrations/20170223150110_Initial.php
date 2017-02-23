@@ -7,19 +7,6 @@ class Initial extends AbstractMigration
     {
 
         $this->table('addresses')
-            ->addColumn('road_id', 'integer', [
-                'comment' => 'tipo de vía (tabla roads)',
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('address', 'string', [
-                'comment' => 'nombre calle
-',
-                'default' => null,
-                'limit' => 255,
-                'null' => false,
-            ])
             ->addColumn('number', 'integer', [
                 'comment' => 'número dirección
 ',
@@ -48,45 +35,124 @@ class Initial extends AbstractMigration
                 'limit' => 45,
                 'null' => true,
             ])
-            ->addColumn('default', 'boolean', [
+            ->addColumn('principal', 'boolean', [
                 'comment' => 'Este campo es si la dirección es la dirección de la persona o empresa por defecto.',
                 'default' => null,
                 'limit' => null,
                 'null' => true,
             ])
-            ->addColumn('latlon', 'string', [
-                'comment' => 'latitud - longitud de ubicación.
-',
+            ->addColumn('lat', 'string', [
+                'comment' => 'latitud de ubicación.',
                 'default' => null,
                 'limit' => 100,
                 'null' => true,
             ])
-            ->addColumn('town_id', 'integer', [
-                'comment' => 'id población (tabla towns)
-',
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('person_id', 'integer', [
-                'comment' => 'id persona
-',
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('core', 'string', [
-                'comment' => 'núcleo -> texto obtenido de la tabla cores.',
+            ->addColumn('lon', 'string', [
+                'comment' => 'logintud de ubicación.',
                 'default' => null,
                 'limit' => 100,
-                'null' => false,
+                'null' => true,
             ])
-            ->addColumn('postcode', 'integer', [
-                'comment' => 'código postal
-',
+            ->addColumn('person_id', 'integer', [
+                'comment' => 'id persona',
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('companie_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+            ])
+            ->addColumn('CCOM', 'string', [
+                'comment' => 'Código Comunidad',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('COM', 'string', [
+                'comment' => 'Nombre Comunidad',
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
+            ->addColumn('CPRO', 'string', [
+                'comment' => 'Código Provincia',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('PRO', 'string', [
+                'comment' => 'Nombre Provincia',
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
+            ->addColumn('CMUM', 'string', [
+                'comment' => 'Código Municipio',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('DMUN50', 'string', [
+                'comment' => 'Nombre Municipio',
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
+            ->addColumn('NENTSI50', 'string', [
+                'comment' => 'Nombre Población',
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('CUN', 'string', [
+                'comment' => 'Código Núcleo',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('NNUCLE50', 'string', [
+                'comment' => 'Nombre Núcleo',
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('CPOS', 'string', [
+                'comment' => 'Código Postal',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('CVIA', 'string', [
+                'comment' => 'Código de La Vía (Nombre de la calle)',
+                'default' => null,
+                'limit' => 10,
+                'null' => true,
+            ])
+            ->addColumn('NVIAC', 'string', [
+                'comment' => 'Nombre de la Vía - Calle.',
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('TVIA', 'string', [
+                'comment' => 'Tipo de Vía (Calle, Plaza, Ctra, ...)',
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
+            ->addColumn('ubicacion_id', 'integer', [
+                'comment' => 'Id de array constant del bootstrap.php',
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('ubicacion_name', 'string', [
+                'comment' => 'Nombre de la Ubicación si procede',
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
             ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
@@ -101,25 +167,6 @@ class Initial extends AbstractMigration
             ->create();
 
         $this->table('cnaes')
-            ->addColumn('codigo', 'string', [
-                'default' => null,
-                'limit' => 45,
-                'null' => false,
-            ])
-            ->addColumn('description', 'text', [
-                'comment' => 'descripción cae
-',
-                'default' => null,
-                'limit' => 4294967295,
-                'null' => false,
-            ])
-            ->addColumn('company_id', 'integer', [
-                'comment' => 'id empresa
-',
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
@@ -129,6 +176,29 @@ class Initial extends AbstractMigration
                 'default' => null,
                 'limit' => null,
                 'null' => true,
+            ])
+            ->addColumn('cod_cnae', 'string', [
+                'default' => null,
+                'limit' => 10,
+                'null' => false,
+            ])
+            ->addColumn('codintegr', 'string', [
+                'comment' => 'CODINTEGR - Según csv cnae2009',
+                'default' => null,
+                'limit' => 10,
+                'null' => false,
+            ])
+            ->addColumn('titulo_cnae', 'string', [
+                'comment' => 'título cnae 2009',
+                'default' => null,
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addColumn('companie_id', 'integer', [
+                'comment' => 'id empresa',
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
             ])
             ->create();
 
@@ -150,6 +220,11 @@ fax
             ->addColumn('modified', 'datetime', [
                 'default' => null,
                 'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('class', 'string', [
+                'default' => null,
+                'limit' => 100,
                 'null' => true,
             ])
             ->create();
@@ -175,6 +250,40 @@ fax
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+            ])
+            ->create();
+
+        $this->table('communications_contacts')
+            ->addColumn('value', 'string', [
+                'comment' => 'valor (email, teléfono, fax, …)
+',
+                'default' => null,
+                'limit' => 100,
+                'null' => false,
+            ])
+            ->addColumn('communication_id', 'integer', [
+                'comment' => 'id tipo comunicación
+',
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('contact_id', 'integer', [
+                'comment' => 'id contacto
+',
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
             ])
             ->create();
 
@@ -237,11 +346,23 @@ fax
                 'limit' => 45,
                 'null' => true,
             ])
+            ->addColumn('email', 'string', [
+                'comment' => 'Email de la empresa',
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
             ->addColumn('description', 'text', [
                 'comment' => 'observaciones
 ',
                 'default' => null,
                 'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('superficie_id', 'integer', [
+                'comment' => 'Id de array constant del bootstrap.php',
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->addColumn('company_id', 'integer', [
@@ -250,8 +371,7 @@ fax
                 'limit' => 11,
                 'null' => true,
             ])
-            ->addColumn('address_id', 'integer', [
-                'comment' => 'id dirección',
+            ->addColumn('tag_count', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => true,
@@ -303,66 +423,29 @@ fax
             ->create();
 
         $this->table('contacts')
-            ->addColumn('charge', 'string', [
-                'comment' => 'cargo contacto
-',
-                'default' => null,
-                'limit' => 255,
-                'null' => false,
-            ])
-            ->addColumn('person_id', 'integer', [
-                'comment' => 'id persona
-',
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('company_id', 'integer', [
-                'comment' => 'id empresa
-',
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('sede_id', 'integer', [
-                'comment' => 'id de sede',
-                'default' => null,
-                'limit' => 11,
-                'null' => true,
-            ])
-            ->addColumn('created', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('modified', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->create();
-
-        $this->table('contacts_communications')
-            ->addColumn('value', 'string', [
-                'comment' => 'valor (email, teléfono, fax, …)
-',
+            ->addColumn('name', 'string', [
+                'comment' => 'Nombre del contacto',
                 'default' => null,
                 'limit' => 100,
                 'null' => false,
             ])
-            ->addColumn('communication_id', 'integer', [
-                'comment' => 'id tipo comunicación
-',
+            ->addColumn('position', 'string', [
+                'comment' => 'cargo contacto',
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('companie_id', 'integer', [
+                'comment' => 'id empresa',
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('contact_id', 'integer', [
-                'comment' => 'id contacto
-',
+            ->addColumn('email', 'string', [
+                'comment' => 'Email contacto',
                 'default' => null,
-                'limit' => 11,
-                'null' => false,
+                'limit' => 100,
+                'null' => true,
             ])
             ->addColumn('created', 'datetime', [
                 'default' => null,
@@ -476,6 +559,21 @@ fax
                 'limit' => 100,
                 'null' => false,
             ])
+            ->addColumn('class', 'string', [
+                'default' => null,
+                'limit' => 100,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
             ->create();
 
         $this->table('networks_persons')
@@ -509,6 +607,34 @@ fax
                 'default' => null,
                 'limit' => null,
                 'null' => true,
+            ])
+            ->create();
+
+        $this->table('openinghours')
+            ->addColumn('timetable_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('start', 'time', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('end', 'time', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
             ])
             ->create();
 
@@ -849,6 +975,164 @@ fax
             )
             ->create();
 
+        $this->table('tags_tagged')
+            ->addColumn('tag_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('fk_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => true,
+            ])
+            ->addColumn('fk_table', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addIndex(
+                [
+                    'tag_id',
+                    'fk_id',
+                    'fk_table',
+                ],
+                ['unique' => true]
+            )
+            ->create();
+
+        $this->table('tags_tags')
+            ->addColumn('namespace', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => true,
+            ])
+            ->addColumn('slug', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addColumn('label', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addColumn('counter', 'integer', [
+                'default' => 0,
+                'limit' => 11,
+                'null' => false,
+                'signed' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('tag_key', 'string', [
+                'default' => null,
+                'limit' => 255,
+                'null' => false,
+            ])
+            ->addIndex(
+                [
+                    'tag_key',
+                    'label',
+                    'namespace',
+                ],
+                ['unique' => true]
+            )
+            ->create();
+
+        $this->table('timetables')
+            ->addColumn('companie_id', 'integer', [
+                'comment' => 'Id de la empresa relacionada',
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('24hours', 'boolean', [
+                'comment' => 'Identifica si la empresa tiene un horario de 24/7',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('days', 'string', [
+                'comment' => 'String de días de apertura',
+                'default' => null,
+                'limit' => 50,
+                'null' => true,
+            ])
+            ->addColumn('day1', 'boolean', [
+                'comment' => 'Lunes',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day2', 'boolean', [
+                'comment' => 'Martes',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day3', 'boolean', [
+                'comment' => 'Miércoles',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day4', 'boolean', [
+                'comment' => 'Jueves',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day5', 'boolean', [
+                'comment' => 'Viernes',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day6', 'boolean', [
+                'comment' => 'Sábado',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('day7', 'boolean', [
+                'comment' => 'Domingo',
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->addColumn('created', 'datetime', [
+                'comment' => 'fecha/hora creación',
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('modified', 'datetime', [
+                'comment' => 'fecha/hora modificación',
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->create();
+
         $this->table('towns')
             ->addColumn('name', 'string', [
                 'comment' => 'nombre población',
@@ -1029,16 +1313,17 @@ fax
         $this->dropTable('cnaes');
         $this->dropTable('communications');
         $this->dropTable('communications_companies');
+        $this->dropTable('communications_contacts');
         $this->dropTable('communications_persons');
         $this->dropTable('companies');
         $this->dropTable('companies_networks');
         $this->dropTable('contacts');
-        $this->dropTable('contacts_communications');
         $this->dropTable('cores');
         $this->dropTable('idcards');
         $this->dropTable('images');
         $this->dropTable('networks');
         $this->dropTable('networks_persons');
+        $this->dropTable('openinghours');
         $this->dropTable('persons');
         $this->dropTable('postcodes');
         $this->dropTable('provinces');
@@ -1048,6 +1333,9 @@ fax
         $this->dropTable('roads');
         $this->dropTable('sedes');
         $this->dropTable('social_accounts');
+        $this->dropTable('tags_tagged');
+        $this->dropTable('tags_tags');
+        $this->dropTable('timetables');
         $this->dropTable('towns');
         $this->dropTable('townships');
         $this->dropTable('users');
