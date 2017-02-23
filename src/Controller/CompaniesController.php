@@ -91,7 +91,8 @@ class CompaniesController extends AppController
                 'Addresses',
                 'Timetables',
                 'Timetables.Openinghours',
-                'Contacts'
+                'Contacts',
+                'Contacts.Communications'
             ]
         ]);
 

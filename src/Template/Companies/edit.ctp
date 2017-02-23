@@ -125,6 +125,20 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
+                    <strong><i class="fa fa-phone margin-r-5"></i> Comunicaciones</strong>
+
+                    <?php
+                    foreach ($company->communications as $communication) {
+                        echo '<p class="no-margin">';
+                        echo '<span class="text-muted margin-r-5">' . $communication->name . '</span>';
+                        echo '<span class="text">' . $communication->_joinData->value . '</span>';
+                        echo '</span>';
+                        echo '</p>';
+                    }
+                    ?>
+
+                    <hr>
+
                     <strong><i class="fa fa-book margin-r-5"></i> Redes Sociales</strong>
 
                     <?php
@@ -658,6 +672,7 @@
                                     <th>Nombre</th>
                                     <th class="hidden-xs">Cargo</th>
                                     <th class="hidden-xs">Email</th>
+                                    <th class="hidden-xs">Teléfono</th>
                                     <th><?= __('Actions') ?></th>
                                 </tr>
                                 <?php foreach ($company->contacts as $contact): ?>
@@ -670,6 +685,16 @@
                                         <td><?= h($contact->name) ?></td>
                                         <td class="hidden-xs"><?= h($contact->position) ?></td>
                                         <td class="hidden-xs"><?= h($contact->email) ?></td>
+                                        <td class="hidden-xs">
+                                            <?php
+                                            if ($contact->communications) {
+                                                echo $contact->communications['0']['_joinData']['value'];
+
+                                                echo sizeof($contact->communications)>1?' +':'';
+                                            }
+                                            ?>
+
+                                        </td>
                                         <td class="actions" style="white-space:nowrap">
                                             <?php
                                             echo $this->Form->button(

@@ -55,7 +55,9 @@ class CommunicationsTable extends Table
         $this->belongsToMany('Contacts', [
             'foreignKey' => 'communication_id',
             'targetForeignKey' => 'contact_id',
-            'joinTable' => 'communications_contacts'
+            'joinTable' => 'communications_contacts',
+            'through' => 'communications_contacts'
+
         ]);
     }
 

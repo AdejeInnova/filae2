@@ -83,8 +83,6 @@ switch ($controller){
                                     var url = "<?= $this->Url->build(['controller' => 'Contacts', 'action' => 'edit'])?>/" + contact_id;
                                 }
 
-                                console.log(url);
-
                                 $.ajax({
                                     type: 'GET',
                                     url: url,
@@ -102,6 +100,47 @@ switch ($controller){
 
                     });
                     //<!-- /Modal -->
+
+
+                    function addCommunication(){
+
+                        var id = $('#communication_id').val();
+                        var label = $("#communication_id option:selected").text();
+                        var value = $('#communication_value').val();
+
+                        //Validamos que el valor sea válido
+                        var expreg = /^(6|7|9)[0-9]{8}$/ ;
+
+                        if(expreg.test(value)){
+                            //add to ul list
+                            var indice = $('#ul_communications li').length + 1;
+
+                            var html = '<li>'+
+                                '<input type="hidden" name="communications[' + indice +  '][id]" value="' + id + '">'+
+                                '<input type="hidden" name="communications[' + indice + '][_joinData][value]" value="' + value +'">'+
+                                '<span class="text-muted">' + label + '</span>'+
+                                '<span class="text">' + value + '</span>'+
+                                '<div class="tools"><a href="javascript:void(0)" onclick="removeCommunication(this)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a></div>'+
+                                '</li>';
+
+                            //Añadimos al listado de comunicaciones
+                            $('#ul_communications').append(html);
+                            $('#communication_value').val('');
+
+                        }else{
+                            alert('Teléfono no válido');
+                        }
+                    }
+
+                    function removeCommunication(e){
+                        //Eliminamos el elemento li de la lista ul
+                        if($(e).parent().parent().is('[id]')) {
+                            $(e).parent().parent().children('input.del').val(1);
+                            $(e).parent().parent().hide();
+                        } else {
+                            $(e).parent().parent().remove();
+                        }
+                    }
                 </script>
 
                 <script>
@@ -176,7 +215,8 @@ switch ($controller){
 
                     //Select 2 to Tags
                     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                        //console.log($(this).text());
+                        alert($(this).text());
+
                         if ($(this).text() == "Datos"){
                             $("#tags").select2({
                                 tags: true

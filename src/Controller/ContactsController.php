@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\Hash;
 
 /**
  * Contacts Controller
@@ -40,16 +41,11 @@ class ContactsController extends AppController
 
         if ($this->request->is('post')) {
 
-
             $contact = $this->Contacts->patchEntity($contact, $this->request->data,[
                 'associated' => [
                     'Communications'
                 ]
             ]);
-
-            /*debug($this->request->data);
-            debug($contact);
-            die();*/
 
             $contact = $this->Contacts->patchEntity($contact, $this->request->data);
 
@@ -79,16 +75,31 @@ class ContactsController extends AppController
             'contain' => ['Communications']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+
+            //Recorro las comunicaciones recibidas
+            foreach ($this->request->data['communications'] as $key => $communication){
+                //Compruebo que existe el campo delete
+                if (Hash::check($communication['_joinData'],'delete')){
+                    //Valido que sea igual a 1 (Eliminar)
+                    if ($communication['_joinData']['delete'] === '1'){
+                        $this->loadModel('CommunicationsContacts');
+                        $entity = $this->CommunicationsContacts->get($communication['_joinData']['id']);
+                        if($this->CommunicationsContacts->delete($entity)) {
+                            //Eliminamos el item del reques->data
+                            unset($this->request->data['communications'][$key]);
+                        }
+                    }
+
+                }
+            }
+
+
             $contact = $this->Contacts->patchEntity($contact, $this->request->data,
                 [
                     'associated' => [
-                        'Communications',
-                        'CommunicationsContacts',
+                        'Communications'
                     ]
                 ]);
-            /*debug($this->request->data);
-            debug($contact);
-            die();*/
 
             if ($this->Contacts->save($contact)) {
                 return $this->redirect(['controller' => 'companies','action' => 'edit', $contact->companie_id, 'tab' => 'contacts']);

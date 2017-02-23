@@ -27,35 +27,70 @@
                     echo $this->Form->input('email');
 
                     ?>
-                    <h4>Comunicaciones:</h4>
-                    <div class="box no-border">
-                        <div class="box-header">Nueva Comunicación:</div>
-                        <div class="box-body no-margin no-pad-top">
+                    <div class="box no-padding box-info">
+                        <div class="box-header">
+                            <h4>Añadir Teléfono:</h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <?php
+                                echo $this->Form->input('communication_id',
+                                    [
+                                        'id' => 'communication_id',
+                                        'label' => false,
+                                        'type' => 'select',
+                                        'options' => $communications,
+                                        'templates' => [
+                                            'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                        ]
+                                    ]
+                                );
+
+                                echo $this->Form->input('communication_value',
+                                    [
+                                        'id' => 'communication_value',
+                                        'label' => false,
+                                        'templates' => [
+                                            'inputContainer' => '<div class="col-xs-3">{{content}}</div>'
+                                        ]
+                                    ]
+                                );
+                                ?>
+                                <div class="col-xs-3">
+                                    <?= $this->Html->link(
+                                        '<i class="fa fa-plus"></i>',
+                                        'javascript:addCommunication()',
+                                        [
+                                            'class'=>'btn btn-success btn-xs',
+                                            'escape' => false
+                                        ])
+                                    ?>
+                                </div>
+                            </div>
+                            <!-- ./row-->
                         </div>
                     </div>
 
 
-                    <ul class="todo-list">
+                    <ul class="todo-list" id="ul_communications">
                         <?php
                         foreach ($contact->communications as $key => $communication) {
-                            echo '<li>';
+                            echo '<li id="' . $communication->_joinData->id . '">';
                             echo $this->Form->hidden('communications.' . $key . '.id', ['value' => $communication->id]);
-                            echo $this->Form->hidden('communications.' . $key . '.communications_contacts.' . $key . '.id', ['value' => $communication->_joinData->id]);
-                            echo $this->Form->hidden('communications.' . $key . '.communications_contacts.' . $key . '.communication_id', ['value' => $communication->_joinData->communication_id]);
-                            echo $this->Form->hidden('communications.' . $key . '.communications_contacts.' . $key . '.contact_id', ['value' => $communication->_joinData->contact_id]);
-                            echo $this->Form->hidden('communications.' . $key . '.communications_contacts.' . $key . '.value', ['value' => $communication->_joinData->value]);
-                            echo $this->Form->hidden('communications.' . $key . '.communications_contacts.' . $key . '.delete', ['value' => 0]);
+                            echo $this->Form->hidden('communications.' . $key . '._joinData.id', ['value' => $communication->_joinData->id]);
+                            echo $this->Form->hidden('communications.' . $key . '._joinData.value', ['value' => $communication->_joinData->value]);
+                            echo $this->Form->hidden('communications.' . $key . '._joinData.delete', ['value' => 0, 'class' => 'del']);
 
-                            echo $communication->name;
+                            echo '<span class="text-muted">' . $communication->name . '</span>';
                             echo '<span class="text">' . $communication->_joinData->value . '</span>';
                             echo '<div class="tools">';
                             echo $this->Html->Link(
                                 '<i class="fa fa-trash-o"></i>',
-                                'javascript:console.log(this)',
+                                'javascript:void(0)',
                                 [
                                     'escape' => false,
-                                    'confirm' => __('Confirm to delete this communication?'),
-                                    'class'=>'btn btn-danger btn-xs'
+                                    'class'=>'btn btn-danger btn-xs',
+                                    'onclick' => 'javascript:removeCommunication(this)'
                                 ]
                             );
                             echo '</div>';
