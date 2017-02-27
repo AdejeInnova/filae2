@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Core\Configure;
 
 /**
  * Locales Controller
@@ -18,10 +19,30 @@ class LocalesController extends AppController
      */
     public function index()
     {
-        $this->paginate;
-        $locales = $this->paginate($this->Locales);
+        $search = '';
 
-        $this->set(compact('locales'));
+        $query = $this->Locales->find('all',[
+                'contain' => ['Communications'],
+                'order' => ['Locales.name' => 'ASC']
+            ]
+        );
+
+        if ($this->request->is('POST')){
+            $search = $this->request->data['search'];
+
+            $query
+                ->where(['Locales.name LIKE' => '%' . $search . '%'])
+            ;
+
+        }
+
+
+        $locales = $this->paginate($query);
+
+
+        $superficies = Configure::read('Superficies');
+
+        $this->set(compact('locales','superficies', 'search'));
         $this->set('_serialize', ['locales']);
     }
 
@@ -47,9 +68,9 @@ class LocalesController extends AppController
      */
     public function add()
     {
-        $locale = $this->Locales->newEntity();
+        $local = $this->Locales->newEntity();
         if ($this->request->is('post')) {
-            $locale = $this->Locales->patchEntity($locale, $this->request->data);
+            $locale = $this->Locales->patchEntity($local, $this->request->data);
             if ($this->Locales->save($locale)) {
                 $this->Flash->success(__('The {0} has been saved.', 'Locale'));
                 return $this->redirect(['action' => 'index']);
@@ -58,8 +79,24 @@ class LocalesController extends AppController
             }
         }
         $communications = $this->Locales->Communications->find('list', ['limit' => 200]);
-        $this->set(compact('locale', 'communications'));
-        $this->set('_serialize', ['locale']);
+        $superficies = Configure::read('Superficies');
+
+        $this->loadModel('Tags_tags');
+        $ltags = $this->Tags_tags->find('all');
+        $ltags
+            ->select(['label'])
+            ->where(['namespace' => 'locales'])
+            ->order(['label'])
+        ;
+
+        //Creamos array adaptado para el select2 tags
+        $tags =[];
+        foreach ($ltags as $ltag){
+            $tags[$ltag->label] = $ltag->label;
+        }
+
+        $this->set(compact('local', 'communications', 'superficies', 'tags'));
+        $this->set('_serialize', ['local']);
     }
 
     /**
@@ -71,8 +108,15 @@ class LocalesController extends AppController
      */
     public function edit($id = null)
     {
-        $locale = $this->Locales->get($id, [
-            'contain' => ['Communications']
+        $local = $this->Locales->get($id, [
+            'contain' => [
+                'Communications',
+                'Images',
+                'Tags',
+                'Addresses',
+                'Contacts',
+                'Contacts.Communications'
+            ]
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $locale = $this->Locales->patchEntity($locale, $this->request->data);
@@ -83,9 +127,23 @@ class LocalesController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Locale'));
             }
         }
-        $superficies = $this->Locales->Superficies->find('list', ['limit' => 200]);
+
+        $tab = 'settings';
+
+        $superficies = Configure::read('Superficies');
         $communications = $this->Locales->Communications->find('list', ['limit' => 200]);
-        $this->set(compact('locale', 'superficies', 'communications'));
+
+        $this->loadModel('Tags_tags');
+        $tags = $this->Tags_tags->find('all');
+        $tags
+            ->select(['label'])
+            ->where(['namespace' => 'locales'])
+            ->order(['label'])
+        ;
+
+        $ubicaciones = Configure::read('Ubicaciones');
+
+        $this->set(compact('local', 'superficies', 'communications', 'tags', 'ubicaciones', 'tab'));
         $this->set('_serialize', ['locale']);
     }
 

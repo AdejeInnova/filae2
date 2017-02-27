@@ -139,12 +139,28 @@ class CompaniesController extends AppController
         $superficies = Configure::read('Superficies');
 
 
+        /*
         $db = ConnectionManager::get("default"); // name of your database connection
         $stmt = $db->execute("SELECT * FROM tags_tags");
         $values = $stmt->fetchAll('assoc');
         $tags = [];
         foreach ($values as $tag){
             $tags[$tag['label']] = $tag['label'];
+        }
+        */
+
+
+        $this->loadModel('Tags_tags');
+        $ltags = $this->Tags_tags->find('all');
+        $ltags
+            ->select(['label'])
+            ->where(['namespace' => 'companies'])
+            ->order(['label'])
+        ;
+
+        //Creamos array adaptado para el select2 tags
+        foreach ($ltags as $ltag){
+            $tags[$ltag->label] = $ltag->label;
         }
 
         //tab: Media
@@ -184,7 +200,6 @@ class CompaniesController extends AppController
         $cnaes->where(['companie_id' => $id]);
         $cnaes = $this->paginate($cnaes);
 
-        //tab:addresses
         $ubicaciones = Configure::read('Ubicaciones');
 
         $this->set('images', $images);

@@ -40,9 +40,25 @@ class LocalesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsToMany('Communications', [
-            'foreignKey' => 'locale_id',
+            'foreignKey' => 'local_id',
             'targetForeignKey' => 'communication_id',
             'joinTable' => 'communications_locales'
+        ]);
+
+        $this->hasMany('Contacts', [
+            'foreignKey' => 'local_id'
+        ]);
+
+        $this->addBehavior('Muffin/Tags.Tag',[
+            'namespace' => 'locales'
+        ]);
+
+        $this->hasMany('Images', [
+            'foreignKey' => 'local_id'
+        ]);
+
+        $this->hasMany('Addresses', [
+            'foreignKey' => 'local_id'
         ]);
     }
 
@@ -56,8 +72,11 @@ class LocalesTable extends Table
     {
         $validator
             ->integer('id')
-            ->requirePresence('id', 'create')
             ->notEmpty('id');
+
+        $validator
+            ->requirePresence('name', 'create',['Campo requerido'])
+            ->notEmpty('name', 'Este campo no puede estar vacío');
 
         $validator
             ->email('email')
@@ -70,6 +89,7 @@ class LocalesTable extends Table
             ->integer('tag_count')
             ->allowEmpty('tag_count');
 
+
         return $validator;
     }
 
@@ -80,11 +100,4 @@ class LocalesTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->isUnique(['email']));
-        $rules->add($rules->existsIn(['superficie_id'], 'Superficies'));
-
-        return $rules;
-    }
 }

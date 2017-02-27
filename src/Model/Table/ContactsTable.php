@@ -45,6 +45,12 @@ class ContactsTable extends Table
             'foreignKey' => 'companie_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('Locales', [
+            'foreignKey' => 'local_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->belongsToMany('Communications', [
             'foreignKey' => 'contact_id',
             'targetForeignKey' => 'communication_id',

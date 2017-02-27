@@ -45,6 +45,11 @@ class ImagesTable extends Table
             'joinType' => 'INNER'
         ]);
 
+        $this->belongsTo('Locales', [
+            'foreignKey' => 'local_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->addBehavior('Proffer.Proffer', [
             'photo' => [
                 'dir' => 'photo_dir',
@@ -61,8 +66,6 @@ class ImagesTable extends Table
                 ]
             ]
         ]);
-
-        $this->belongsTo('Companies', ['foreignKey' => 'companie_id', 'joinType' => 'INNER']);
 
     }
 
@@ -99,6 +102,7 @@ class ImagesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['companie_id'], 'Companies'));
+        $rules->add($rules->existsIn(['local_id'], 'Locales'));
 
         return $rules;
     }

@@ -22,6 +22,21 @@ switch ($controller) {
                 break;
         }
         break;
+    case 'Locales':
+        switch ($action){
+            case 'add':
+            case 'edit':
+            ?>
+                <!-- plugin wysihtml5 -->
+                <?php echo $this->Html->css('/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css'); ?>
+
+                <!-- plugin select2 -->
+                <?php echo $this->Html->css('/plugins/select2/select2.css'); ?>
+
+            <?php
+            break;
+        }
+        break;
 }
 ?>
 

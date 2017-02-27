@@ -47,6 +47,12 @@ class CommunicationsTable extends Table
             'targetForeignKey' => 'company_id',
             'joinTable' => 'communications_companies'
         ]);
+
+        $this->belongsToMany('Locales', [
+            'foreignKey' => 'communication_id',
+            'targetForeignKey' => 'locale_id',
+            'joinTable' => 'communications_locales'
+        ]);
         $this->belongsToMany('Persons', [
             'foreignKey' => 'communication_id',
             'targetForeignKey' => 'person_id',

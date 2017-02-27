@@ -223,7 +223,6 @@ switch ($controller){
 
                     })
 
-
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');
@@ -252,6 +251,63 @@ switch ($controller){
                     $(document).ready(function(){
                         //Bootstrapt-wysihtml5
                         $('#description').wysihtml5();
+                    });
+                </script>
+                <?php
+                break;
+        }
+        break;
+    case 'Locales':
+        switch ($action){
+            case 'add':
+                ?>
+                <!-- plugin wysihtml5 -->
+                <?= $this->Html->script("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") ?>
+
+                <!-- plugin select2 -->
+                <?= $this->Html->script("/plugins/select2/select2.full.min.js") ?>
+                <script>
+                    $(document).ready(function(){
+                        //Bootstrapt-wysihtml5
+                        $('#description').wysihtml5();
+
+                        //Select 2 to Tags
+                        $("#tags").select2({
+                            tags: true
+                        });
+                    });
+                </script>
+                <?php
+                break;
+            case 'edit':
+                ?>
+                <!-- plugin wysihtml5 -->
+                <?= $this->Html->script("/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js") ?>
+
+                <!-- plugin select2 -->
+                <?= $this->Html->script("/plugins/select2/select2.full.min.js") ?>
+
+                <!-- GeoApi - Angular.js -->
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.17/angular.min.js"></script>
+                <script type="text/javascript" src="https://rawgit.com/GeoAPI-es/geoapi.es-js/1.0.2/GeoAPI.js"></script>
+
+                <?php echo $this->Html->script('main-geoapi'); ?>
+
+                <?php echo $this->Html->script('fileinput'); ?>
+
+                <?php echo $this->element('scripts/script_qcalles'); ?>
+                <script>
+                    $(document).ready(function(){
+                        //Añadimos a las imágenes la class img-responsive
+                        $('.kv-file-content img').addClass('img-responsive');
+
+                        //Bootstrapt-wysihtml5
+                        $('#description').wysihtml5();
+
+                        //Select 2 to Tags
+                        $("#tags").select2({
+                            tags: true
+                        });
                     });
                 </script>
                 <?php

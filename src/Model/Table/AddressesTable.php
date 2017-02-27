@@ -50,6 +50,12 @@ class AddressesTable extends Table
             'foreignKey' => 'companie_id',
             'joinType' => 'INNER'
         ]);
+
+        $this->belongsTo('Locales', [
+            'foreignKey' => 'local_id',
+            'joinType' => 'INNER'
+        ]);
+
         $this->hasMany('Sedes', [
             'foreignKey' => 'address_id'
         ]);
@@ -154,8 +160,6 @@ class AddressesTable extends Table
         $validator
             ->allowEmpty('ubicacion_name');
 
-
-
         return $validator;
     }
 
@@ -170,6 +174,7 @@ class AddressesTable extends Table
     {
         $rules->add($rules->existsIn(['person_id'], 'Persons'));
         $rules->add($rules->existsIn(['companie_id'], 'Companies'));
+        $rules->add($rules->existsIn(['local_id'], 'Locales'));
 
         return $rules;
     }
