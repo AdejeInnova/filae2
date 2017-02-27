@@ -16,7 +16,7 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title"><?= __('List of') ?> <?= __('Companies') ?></h3>
-                    <div class="box-tools">
+                    <div class="box-tools" style="margin-left: 10px;">
                         <form action="<?php echo $this->Url->build(); ?>" method="POST">
                             <div class="input-group input-group-sm">
                                 <input type="text" name="search" class="form-control" placeholder="<?= __('Fill in to start search') ?>">

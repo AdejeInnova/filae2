@@ -94,7 +94,9 @@ class CompaniesTable extends Table
             'joinTable' => 'companies_networks'
         ]);
 
-        $this->addBehavior('Muffin/Tags.Tag');
+        $this->addBehavior('Muffin/Tags.Tag',[
+            'namespace' => 'companies'
+        ]);
 
         $this->hasMany('Timetables', [
             'foreignKey' => 'companie_id'

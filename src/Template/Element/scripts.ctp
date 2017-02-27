@@ -215,8 +215,6 @@ switch ($controller){
 
                     //Select 2 to Tags
                     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                        alert($(this).text());
-
                         if ($(this).text() == "Datos"){
                             $("#tags").select2({
                                 tags: true

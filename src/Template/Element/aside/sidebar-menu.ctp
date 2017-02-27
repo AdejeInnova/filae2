@@ -29,8 +29,10 @@
             <i class="fa fa-star-o"></i> <span><?= __('Locales')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> <?= __('Listado')?></a></li>
+            <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('New'), ['controller' => 'locales','action' => 'add'], ['escape'=>false]) ?></li>
+            <li><a href="<?php echo $this->Url->build('/locales'); ?>"><i class="fa fa-circle-o"></i> <?= __('Listado')?></a></li>
         </ul>
+
     </li>
 
     <li class="treeview">
