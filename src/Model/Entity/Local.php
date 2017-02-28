@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\Superficy $superficy
  * @property \App\Model\Entity\Communication[] $communications
  */
-class Locale extends Entity
+class Local extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

@@ -35,7 +35,7 @@ class ContactsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($company_id = null)
+    public function add($id = null, $table = null)
     {
         $contact = $this->Contacts->newEntity();
 
@@ -47,18 +47,17 @@ class ContactsController extends AppController
                 ]
             ]);
 
-            $contact = $this->Contacts->patchEntity($contact, $this->request->data);
 
             if ($this->Contacts->save($contact)) {
-                return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab' => 'contacts']);
+                return $this->redirect(['controller' => $table ,'action' => 'edit', $id, 'tab' => 'contacts']);
             } else {
                 $this->Flash->error(__('The contact could not be saved. Please, try again.'));
-                return $this->redirect(['controller' => 'companies','action' => 'edit', $company_id, 'tab' => 'contacts']);
+                return $this->redirect(['controller' => $table,'action' => 'edit', $id, 'tab' => 'contacts']);
             }
         }
 
         $communications = $this->Contacts->Communications->find('list', ['limit' => 200]);
-        $this->set(compact('contact', 'company_id', 'communications'));
+        $this->set(compact('contact', 'id', 'communications', 'table'));
         $this->set('_serialize', ['contact']);
     }
 
@@ -74,6 +73,10 @@ class ContactsController extends AppController
         $contact = $this->Contacts->get($id, [
             'contain' => ['Communications']
         ]);
+
+        $table = $contact->companie_id?'companies':'locales';
+        $table_id =  $contact->companie_id?$contact->companie_id:$contact->local_id;
+
         if ($this->request->is(['patch', 'post', 'put'])) {
 
             //Recorro las comunicaciones recibidas
@@ -101,11 +104,16 @@ class ContactsController extends AppController
                     ]
                 ]);
 
+
+            debug($this->request->data);
+            debug($contact);
+            die();
+
             if ($this->Contacts->save($contact)) {
-                return $this->redirect(['controller' => 'companies','action' => 'edit', $contact->companie_id, 'tab' => 'contacts']);
+                return $this->redirect(['controller' => $table,'action' => 'edit', $table_id, 'tab' => 'contacts']);
             } else {
                 $this->Flash->error(__('The contact could not be saved. Please, try again.'));
-                return $this->redirect(['controller' => 'companies','action' => 'edit', $contact->companie_id, 'tab' => 'contacts']);
+                return $this->redirect(['controller' => $table,'action' => 'edit', $table_id, 'tab' => 'contacts']);
             }
         }
 
@@ -121,10 +129,14 @@ class ContactsController extends AppController
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null, $company_id = nul)
+    public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
         $contact = $this->Contacts->get($id);
+
+        $table = $contact->companie_id?'companies':'locales';
+        $table_id =  $contact->companie_id?$contact->companie_id:$contact->local_id;
+
         if ($this->Contacts->delete($contact)) {
             //$this->Flash->success(__('The contact has been deleted.'));
 
@@ -132,6 +144,6 @@ class ContactsController extends AppController
             //$this->Flash->error(__('The contact could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['controller' => 'companies', 'action' => 'edit', $company_id, 'tab' => 'contacts']);
+        return $this->redirect(['controller' => $table, 'action' => 'edit', $table_id, 'tab' => 'contacts']);
     }
 }

@@ -51,7 +51,8 @@ class CommunicationsTable extends Table
         $this->belongsToMany('Locales', [
             'foreignKey' => 'communication_id',
             'targetForeignKey' => 'locale_id',
-            'joinTable' => 'communications_locales'
+            'joinTable' => 'communications_locales',
+            'through' => 'communications_locales'
         ]);
         $this->belongsToMany('Persons', [
             'foreignKey' => 'communication_id',

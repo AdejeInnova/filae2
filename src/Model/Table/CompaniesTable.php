@@ -182,7 +182,7 @@ class CompaniesTable extends Table
 
     public function afterSave($event, $entity, $options){
         if (isset($entity['images'][0]['profile']) && ($entity['images'][0]['profile'] == '1')) {
-            $q = $this->Companies->Images->query();
+            $q = $this->Images->query();
             $q->update()
                 ->set(['profile' => false])
                 ->where(['companie_id' => $entity['id'], 'id !=' => $entity['images'][0]['id']])

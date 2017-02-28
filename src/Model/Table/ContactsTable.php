@@ -94,7 +94,6 @@ class ContactsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['email']));
         $rules->add($rules->existsIn(['companie_id'], 'Companies'));
 
         return $rules;

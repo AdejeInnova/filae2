@@ -15,7 +15,8 @@
                         'url' => [
                             'controller' => 'contacts',
                             'action' => 'add',
-                            $company_id
+                            $id,
+                            $table
                         ]
                     ]
                 )
@@ -24,9 +25,16 @@
                     <?php
                     echo $this->Form->input('name');
                     echo $this->Form->input('position',['label' => __('Cargo')]);
-                    echo $this->Form->hidden('companie_id', ['value' => $company_id]);
+                    switch ($table){
+                        case 'companies':
+                            echo $this->Form->hidden('companie_id', ['value' => $id]);
+                            break;
+                        case 'locales':
+                            echo $this->Form->hidden('local_id', ['value' => $id]);
+                            break;
+                    }
+
                     echo $this->Form->input('email');
-                    //echo $this->Form->input('communications._ids', ['options' => $communications]);
                     ?>
                     <div class="box no-padding box-info">
                         <div class="box-header">

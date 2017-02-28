@@ -6,6 +6,9 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+// Include use statements at the top of your file.
+use Cake\Event\Event;
+use ArrayObject;
 /**
  * Locales Model
  *
@@ -42,7 +45,12 @@ class LocalesTable extends Table
         $this->belongsToMany('Communications', [
             'foreignKey' => 'local_id',
             'targetForeignKey' => 'communication_id',
-            'joinTable' => 'communications_locales'
+            'joinTable' => 'communications_locales',
+            'through' => 'communications_locales'
+        ]);
+
+        $this->hasMany('Images', [
+            'foreignKey' => 'local_id'
         ]);
 
         $this->hasMany('Contacts', [
@@ -51,10 +59,6 @@ class LocalesTable extends Table
 
         $this->addBehavior('Muffin/Tags.Tag',[
             'namespace' => 'locales'
-        ]);
-
-        $this->hasMany('Images', [
-            'foreignKey' => 'local_id'
         ]);
 
         $this->hasMany('Addresses', [
@@ -89,7 +93,6 @@ class LocalesTable extends Table
             ->integer('tag_count')
             ->allowEmpty('tag_count');
 
-
         return $validator;
     }
 
@@ -104,10 +107,10 @@ class LocalesTable extends Table
 
     public function afterSave($event, $entity, $options){
         if (isset($entity['images'][0]['profile']) && ($entity['images'][0]['profile'] == '1')) {
-            $q = $this->Locales->Images->query();
+            $q = $this->Images->query();
             $q->update()
                 ->set(['profile' => false])
-                ->where(['companie_id' => $entity['id'], 'id !=' => $entity['images'][0]['id']])
+                ->where(['local_id' => $entity['id'], 'id !=' => $entity['images'][0]['id']])
                 ->execute();
         }
     }

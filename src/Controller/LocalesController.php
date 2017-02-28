@@ -112,7 +112,6 @@ class LocalesController extends AppController
             'contain' => [
                 'Images',
                 'Communications',
-                'Images',
                 'Tags',
                 'Addresses',
                 'Contacts',
@@ -120,27 +119,45 @@ class LocalesController extends AppController
             ]
         ]);
 
+        //Control de la tab:
+        if (isset($this->request->query['tab']) && !empty($this->request->query['tab'])){
+            $tab = $this->request->query['tab'];
+        }else{
+            $tab = 'settings'; //Primera pesataña de la vista edit.ctp
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $locale = $this->Locales->patchEntity($local, $this->request->data,[
+            $local = $this->Locales->patchEntity($local, $this->request->data,[
                 'associated' => [
                     'Images',
                     'Communications',
-                    'Images',
                     'Tags',
                     'Addresses',
                     'Contacts',
                     'Contacts.Communications'
                 ]
             ]);
-            if ($this->Locales->save($locale)) {
-                $this->Flash->success(__('The {0} has been saved.', 'Locale'));
-                return $this->redirect(['action' => 'index']);
+
+
+            $message = true;
+            $message = $local->dirty('images')?false:true;
+            foreach ($local->communications as $communication) {
+                if ($communication->_joinData->isNew()){
+                    $message = false;
+                }
+            }
+
+            if ($this->Locales->save($local)) {
+                if ($message){
+                    $this->Flash->success(__('The {0} has been saved.', 'Local'));
+                }
+                return $this->redirect(['action' => 'edit', $id, 'tab' => $tab]);
             } else {
-                $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Locale'));
+                $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Local'));
             }
         }
 
-        $tab = 'settings';
+
 
         $superficies = Configure::read('Superficies');
         $communications = $this->Locales->Communications->find('list', ['limit' => 200]);

@@ -118,7 +118,7 @@
             <!-- About Me Box -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= __('About') ?></h3>
+                    <h3 class="box-title"><?= __('Resumen') ?></h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -279,23 +279,18 @@
                             <?php
                             echo $this->Form->create($local,
                                 [
-                                    'url' => [
-                                        'action' => 'edit',
-                                        'tab' => 'communications'
-                                    ],
                                     'role' => 'form',
-                                    'class' => 'form-horizontal',
-                                    'novalidate' => true
+                                    'class' => 'form-horizontal'
                                 ]
                             );
 
-                            echo $this->Form->input('communications_locales.0.communication_id', [
+                            echo $this->Form->input('communications.99.id', [
                                 'label' => 'Tipo',
                                 'type' => 'select',
                                 'options' => $communications
                             ]);
-                            echo $this->Form->input('communications_locales.0.value');
 
+                            echo $this->Form->input('communications.99._joinData.value');
                             ?>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
@@ -303,29 +298,32 @@
                                 </div>
                             </div>
                             <?php
-                            echo  $this->Form->end();
+
                             ?>
                         </div>
                         <hr>
                         <ul class="todo-list">
                             <?php
-                            foreach ($local->communications as $communication) {
+                            foreach ($local->communications as $key => $communication) {
                                 echo '<li>';
+                                echo $this->Form->hidden('communications.' . $key . '.id', ['value' => $communication->id]);
+                                echo $this->Form->hidden('communications.' . $key . '._joinData.id', ['value' => $communication->_joinData->id]);
+                                echo $this->Form->hidden('communications.' . $key . '._joinData.value', ['value' => $communication->_joinData->value]);
                                 echo '<i class="fa ' . $communication->class . '"></i> ' . $communication->name;
                                 echo '<span class="text">' . $communication->_joinData->value . '</span>';
                                 echo '<div class="tools">';
-                                echo $this->Form->PostLink(
+                                echo $this->Html->Link(
                                     '<i class="fa fa-trash-o"></i>',
                                     [
                                         'controller' => 'communications_locales',
                                         'action' => 'delete',
                                         $communication->_joinData->id,
-                                        $communication->_joinData->company_id,
+                                        $communication->_joinData->local_id
                                     ],
                                     [
                                         'escape' => false,
-                                        'confirm' => __('Confirm to delete this communication?'),
-                                        'class'=>'btn btn-danger btn-xs'
+                                        'class'=>'btn btn-danger btn-xs',
+                                        'confirm' => __('Confirm to delete this communication?')
                                     ]
                                 );
                                 echo '</div>';
@@ -333,6 +331,7 @@
                             }
                             ?>
                         </ul>
+                        <?php echo  $this->Form->end(); ?>
                     </div>
                     <!-- /.tab-pane -->
 
