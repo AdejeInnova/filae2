@@ -33,6 +33,9 @@ switch ($controller) {
                 <!-- plugin select2 -->
                 <?php echo $this->Html->css('/plugins/select2/select2.css'); ?>
 
+                <!-- Bootstrap 3.3.5 -->
+                <?php echo $this->Html->css('fileinput'); ?>
+
             <?php
             break;
         }

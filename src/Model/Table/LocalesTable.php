@@ -93,11 +93,24 @@ class LocalesTable extends Table
         return $validator;
     }
 
-    /**
-     * Returns a rules checker object that will be used for validating
-     * application integrity.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
-     * @return \Cake\ORM\RulesChecker
-     */
+
+    // In a table or behavior class
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        if (isset($data['file_data'])) {
+            $data['images'] = [0 =>['photo' => $data['file_data']]];
+        }
+    }
+
+    public function afterSave($event, $entity, $options){
+        if (isset($entity['images'][0]['profile']) && ($entity['images'][0]['profile'] == '1')) {
+            $q = $this->Locales->Images->query();
+            $q->update()
+                ->set(['profile' => false])
+                ->where(['companie_id' => $entity['id'], 'id !=' => $entity['images'][0]['id']])
+                ->execute();
+        }
+    }
+
+
 }

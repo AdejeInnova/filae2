@@ -110,6 +110,7 @@ class LocalesController extends AppController
     {
         $local = $this->Locales->get($id, [
             'contain' => [
+                'Images',
                 'Communications',
                 'Images',
                 'Tags',
@@ -118,8 +119,19 @@ class LocalesController extends AppController
                 'Contacts.Communications'
             ]
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $locale = $this->Locales->patchEntity($locale, $this->request->data);
+            $locale = $this->Locales->patchEntity($local, $this->request->data,[
+                'associated' => [
+                    'Images',
+                    'Communications',
+                    'Images',
+                    'Tags',
+                    'Addresses',
+                    'Contacts',
+                    'Contacts.Communications'
+                ]
+            ]);
             if ($this->Locales->save($locale)) {
                 $this->Flash->success(__('The {0} has been saved.', 'Locale'));
                 return $this->redirect(['action' => 'index']);
@@ -143,7 +155,45 @@ class LocalesController extends AppController
 
         $ubicaciones = Configure::read('Ubicaciones');
 
-        $this->set(compact('local', 'superficies', 'communications', 'tags', 'ubicaciones', 'tab'));
+        //tab: Media
+        $images = [];
+        $captions = [];
+
+        $profile = 0;
+
+        foreach ($local->images as $image):
+            $file = '/files/images/photo/' . $image->get('photo_dir') . '/' . $image->get('photo');
+
+            array_push($captions, [
+                'caption' => $image->get('photo'),
+                'size' => filesize(WWW_ROOT . $file),
+                'width' => '120px',
+                'key' => $image->get('id'),
+                'extra' => [
+                    'id' => $image->get('id')
+                ]
+            ]);
+
+            array_push($images, '/filae2' . $file);
+
+            if ($image->profile){
+                $profile = $image->id;
+            }
+        endforeach;
+
+
+        $this->set('images', $images);
+        $this->set('profile_id', $profile);
+        $this->set('captions', $captions);
+
+        $this->set(compact(
+            'local',
+            'superficies',
+            'communications',
+            'tags',
+            'ubicaciones',
+            'tab'
+        ));
         $this->set('_serialize', ['locale']);
     }
 
