@@ -13,17 +13,17 @@ class MapsController extends AppController
 {
 
     //Visualizamos todas las direcciones que hayan sido geolocalizadas.
-    public function view($id = null){
+    public function view($id = null, $model = null){
         $this->viewBuilder()->layout('map');
 
-        //Cargamos el Modelo de Direcciones
-        $this->loadModel('Companies');
+        //Cargamos el Modelo de Direcciones o Locales, según establezca el parámetro $model
+        $modelo = $this->loadModel($model);
 
         //Obtenemos los datos de Companies según su id
-
-        $company = $this->Companies->get($id,[
+        $dir = $modelo->get($id,[
             'contain' => ['Addresses']
         ]);
+
 
         /*if ($address_id){
             foreach ($company->addresses as $addr){
@@ -33,7 +33,7 @@ class MapsController extends AppController
             }
         }*/
 
-        $this->set(compact('company'));
+        $this->set(compact('dir'));
     }
 
 

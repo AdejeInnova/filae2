@@ -126,6 +126,7 @@ class LocalesController extends AppController
             $tab = 'settings'; //Primera pesataña de la vista edit.ctp
         }
 
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $local = $this->Locales->patchEntity($local, $this->request->data,[
                 'associated' => [

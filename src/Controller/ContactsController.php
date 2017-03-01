@@ -70,20 +70,6 @@ class ContactsController extends AppController
      */
 
     public function savejoin(){
-        $data = [
-            'title' => 'My great blog post',
-            'body' => 'Some content that goes on for a bit.',
-            'tags' => [
-                [
-                    'id' => 10,
-                    '_joinData' => [
-                        'tagComment' => 'Great article!',
-                    ]
-                ],
-            ]
-        ];
-
-        //$articlesTable->newEntity($data, ['associated' => ['Tags']]);
 
         $data = [
             'name' => 'Rubén García',
@@ -100,7 +86,8 @@ class ContactsController extends AppController
                 ],
                 [
                     'id' => '2',
-                    '_joinData' => [
+                    '_joinData' =>
+                    [
                         'id' => '9',
                         'value' => '654634532',
                         'delete' => '0'
@@ -108,10 +95,10 @@ class ContactsController extends AppController
                 ],
                 [
                     'id' => '2',
-                    '_joinData' => [
-                        'value' => '667665663',
-                        'delete' => '0'
-                    ]
+                    '_joinData' =>
+                        [
+                            'value' => '620967270'
+                        ]
                 ]
             ]
         ];
@@ -120,11 +107,11 @@ class ContactsController extends AppController
         $id = 4;
         $contact = $this->Contacts->get($id, ['contain' => ['Communications']]);
 
-        $contact = $this->Contacts->patchEntity($contact, $this->request->data, ['associated' => ['Communications._joinData']]);
+        $contact = $this->Contacts->patchEntity($contact, $data, ['associated' => ['Communications']]);
 
+        debug($data);
         debug($contact);
         die();
-
     }
 
 
@@ -165,9 +152,9 @@ class ContactsController extends AppController
                 ]);
 
 
-            debug($this->request->data);
+            /*debug($this->request->data);
             debug($contact);
-            die();
+            die();*/
 
             if ($this->Contacts->save($contact)) {
                 return $this->redirect(['controller' => $table,'action' => 'edit', $table_id, 'tab' => 'contacts']);

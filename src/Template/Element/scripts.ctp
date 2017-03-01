@@ -504,7 +504,7 @@ switch ($controller){
                     ?>
                     <script>
 
-                        var addresses = <?php echo json_encode($company->addresses, JSON_FORCE_OBJECT); ?>;
+                        var addresses = <?php echo json_encode($dir->addresses, JSON_FORCE_OBJECT); ?>;
 
                         function initMap() {
                             var myLatLng = {lat: <?= $address->lat; ?>, lng: <?= $address->lon; ?>};
@@ -516,8 +516,7 @@ switch ($controller){
 
                             var marker = new google.maps.Marker({
                                 position: myLatLng,
-                                map: map,
-                                title: '<?= $company->tradename; ?>'
+                                map: map
                             });
                         }
                     </script>

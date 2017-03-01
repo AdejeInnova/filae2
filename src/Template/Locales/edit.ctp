@@ -279,6 +279,11 @@
                             <?php
                             echo $this->Form->create($local,
                                 [
+                                    'url' => [
+                                        'action' => 'edit',
+                                        'tab' => 'communications',
+                                        $local->id
+                                    ],
                                     'role' => 'form',
                                     'class' => 'form-horizontal'
                                 ]
@@ -556,7 +561,7 @@
                                         </div>
                                         <div class="box-body">
                                             <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'view', $local->id]); ?>"></iframe>
+                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'view', $local->id, 'locales']); ?>"></iframe>
                                             </div>
                                         </div>
                                     </div>

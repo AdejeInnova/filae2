@@ -55,7 +55,7 @@ class ContactsTable extends Table
             'foreignKey' => 'contact_id',
             'targetForeignKey' => 'communication_id',
             'joinTable' => 'communications_contacts',
-            'through' => 'communications_contacts'
+            'through' => 'CommunicationsContacts'
         ]);
     }
 
