@@ -77,26 +77,26 @@ class ContactsController extends AppController
             'email' => 'srubengt@gmail.com',
             'communications' => [
                 [
-                    'id' => '1',
                     '_joinData' => [
                         'id' => '8',
+                        'communication_id' => 1,
                         'value' => '987987685',
                         'delete' => '0'
                     ]
                 ],
                 [
-                    'id' => '2',
-                    '_joinData' =>
-                    [
-                        'id' => '9',
-                        'value' => '654634532',
-                        'delete' => '0'
-                    ]
-                ],
-                [
-                    'id' => '2',
                     '_joinData' =>
                         [
+                            'id' => '9',
+                            'communication_id' => 2,
+                            'value' => '654634532',
+                            'delete' => '0'
+                        ]
+                ],
+                [
+                    '_joinData' =>
+                        [
+                            'communication_id' => 2,
                             'value' => '620967270'
                         ]
                 ]

@@ -47,13 +47,11 @@ class AddressesTable extends Table
             'foreignKey' => 'person_id'
         ]);
         $this->belongsTo('Companies', [
-            'foreignKey' => 'companie_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'companie_id'
         ]);
 
         $this->belongsTo('Locales', [
-            'foreignKey' => 'local_id',
-            'joinType' => 'INNER'
+            'foreignKey' => 'local_id'
         ]);
 
         $this->hasMany('Sedes', [

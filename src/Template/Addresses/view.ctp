@@ -35,7 +35,14 @@
 
             <hr/>
             <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $address->companie_id, $address->id]); ?>"></iframe>
+                <iframe class="embed-responsive-item" src="<?php
+                    switch ($model){
+                        case 'Companies':
+                            echo $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $address->companie_id, $address->id, $model]);
+                        case 'Locales':
+                            echo $this->Url->build(['controller' => 'maps', 'action' => 'vermapa', $address->local_id, $address->id, $model]);
+                    }
+                ?>"></iframe>
             </div>
         </div>
     </div>

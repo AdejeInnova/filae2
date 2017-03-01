@@ -34,13 +34,14 @@ class AddressesController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($model = null, $id = null)
     {
         $address = $this->Addresses->get($id, [
-            'contain' => ['Persons', 'Companies', 'Sedes']
+            'contain' => ['Persons', 'Companies', 'Sedes', 'Locales']
         ]);
 
         $this->set('address', $address);
+        $this->set('model', $model);
         $this->set('_serialize', ['address']);
     }
 

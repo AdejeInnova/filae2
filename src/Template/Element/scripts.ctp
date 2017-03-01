@@ -53,7 +53,7 @@ switch ($controller){
                                 //Contenido modal-body
                                 $.ajax({
                                     type: 'GET',
-                                    url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view'])?>/" + address,
+                                    url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view','Companies'])?>/" + address,
                                     //data: { id: exercise },
                                     error:function(data){
                                     },
@@ -386,17 +386,16 @@ switch ($controller){
                                 modal.find('.modal-title').text('Localización');
 
                                 //Contenido modal-body
-                                /*$.ajax({
+                                $.ajax({
                                     type: 'GET',
-                                    url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view'])?>/" + address,
-                                    //data: { id: exercise },
+                                    url: "<?= $this->Url->build(['controller' => 'Addresses', 'action' => 'view','Locales'])?>/" + address,
                                     error:function(data){
                                     },
                                     success: function(data){
                                         //Cargamos data en el body de la ventana modal
                                         modal.find('.modal-body').html(data);
                                     }
-                                });*/
+                                });
 
                                 //modal.find('.modal-body').html(html);
 
@@ -499,36 +498,12 @@ switch ($controller){
     case 'Maps':
         switch ($action){
             case 'view':
-                //Mostramos el código de la carga de mapas
-                if($address->lat && $address->lon){
-                    ?>
-                    <script>
-
-                        var addresses = <?php echo json_encode($dir->addresses, JSON_FORCE_OBJECT); ?>;
-
-                        function initMap() {
-                            var myLatLng = {lat: <?= $address->lat; ?>, lng: <?= $address->lon; ?>};
-
-                            var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 16,
-                                center: myLatLng
-                            });
-
-                            var marker = new google.maps.Marker({
-                                position: myLatLng,
-                                map: map
-                            });
-                        }
-                    </script>
-
-                    <?php
-                }else{
                     ?>
                     <script>
                         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                         var labelIndex = 0;
                         //Obtenemos las direcciones de la empresa
-                        var addresses = <?php echo json_encode($company->addresses, JSON_FORCE_OBJECT); ?>;
+                        var addresses = <?php echo json_encode($dir->addresses, JSON_FORCE_OBJECT); ?>;
                         var map;
                         function initMap() {
                             map = new google.maps.Map(document.getElementById('map'), {
@@ -553,9 +528,7 @@ switch ($controller){
 
                         }
                     </script>
-                    <?
-                }
-
+                    <?php
                 break;
             case 'vermapa':
                 //Mostramos el código de la carga de mapas

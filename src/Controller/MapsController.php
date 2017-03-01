@@ -37,27 +37,25 @@ class MapsController extends AppController
     }
 
 
-    public function vermapa($id = null, $address_id = null){
+    public function vermapa($id = null, $address_id = null, $model = null){
         $this->viewBuilder()->layout('map');
 
         //Cargamos el Modelo de Direcciones
-        $this->loadModel('Companies');
+        $modelo = $this->loadModel($model);
 
         //Obtenemos los datos de Companies según su id
-
-        $company = $this->Companies->get($id,[
+        $dir = $modelo->get($id,[
             'contain' => ['Addresses']
         ]);
 
         if ($address_id){
-            foreach ($company->addresses as $addr){
+            foreach ($dir->addresses as $addr){
                 if ($addr->id == $address_id){
                     $address = $addr;
                 }
             }
         }
-
-        $this->set(compact('company', 'address'));
+        $this->set(compact('dir', 'address'));
     }
 
     public function geolocalizar($id = null, $address_id = null){
