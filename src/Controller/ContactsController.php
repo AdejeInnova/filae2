@@ -68,6 +68,66 @@ class ContactsController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
+
+    public function savejoin(){
+        $data = [
+            'title' => 'My great blog post',
+            'body' => 'Some content that goes on for a bit.',
+            'tags' => [
+                [
+                    'id' => 10,
+                    '_joinData' => [
+                        'tagComment' => 'Great article!',
+                    ]
+                ],
+            ]
+        ];
+
+        //$articlesTable->newEntity($data, ['associated' => ['Tags']]);
+
+        $data = [
+            'name' => 'Rubén García',
+            'position' => 'Programador',
+            'email' => 'srubengt@gmail.com',
+            'communications' => [
+                [
+                    'id' => '1',
+                    '_joinData' => [
+                        'id' => '8',
+                        'value' => '987987685',
+                        'delete' => '0'
+                    ]
+                ],
+                [
+                    'id' => '2',
+                    '_joinData' => [
+                        'id' => '9',
+                        'value' => '654634532',
+                        'delete' => '0'
+                    ]
+                ],
+                [
+                    'id' => '2',
+                    '_joinData' => [
+                        'value' => '667665663',
+                        'delete' => '0'
+                    ]
+                ]
+            ]
+        ];
+
+
+        $id = 4;
+        $contact = $this->Contacts->get($id, ['contain' => ['Communications']]);
+
+        $contact = $this->Contacts->patchEntity($contact, $this->request->data, ['associated' => ['Communications._joinData']]);
+
+        debug($contact);
+        die();
+
+    }
+
+
     public function edit($id = null)
     {
         $contact = $this->Contacts->get($id, [
