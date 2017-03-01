@@ -10,7 +10,8 @@ if (($address->lat) && ($address->lon)){
                 'controller' => 'Maps',
                 'action' => 'geolocalizar',
                 $dir->id,
-                $address->id
+                $address->id,
+                $model
             ],[
                 'class' => 'btn'
             ]
@@ -29,7 +30,8 @@ if (($address->lat) && ($address->lon)){
                     'controller' => 'Maps',
                     'action' => 'geolocalizar',
                     $dir->id,
-                    $address->id
+                    $address->id,
+                    $model
                 ],[
                     'class' => 'btn'
                 ]

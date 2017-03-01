@@ -55,18 +55,18 @@ class MapsController extends AppController
                 }
             }
         }
-        $this->set(compact('dir', 'address'));
+        $this->set(compact('dir', 'address', 'model'));
     }
 
-    public function geolocalizar($id = null, $address_id = null){
+    public function geolocalizar($id = null, $address_id = null, $model = null){
         $this->viewBuilder()->layout('map');
 
         //Cargamos el Modelo de Direcciones
-        $this->loadModel('Companies');
+        $modelo = $this->loadModel($model);
 
         //Obtenemos los datos de Companies según su id
 
-        $company = $this->Companies->get($id,[
+        $dir = $modelo->get($id,[
             'contain' => ['Addresses']
         ]);
 
@@ -78,20 +78,20 @@ class MapsController extends AppController
             $a = $this->Addresses->patchEntity($a, $this->request->data);
 
             if ($this->Addresses->save($a)) {
-                return $this->redirect(['controller' => 'maps', 'action' => 'vermapa', $id, $address_id]);
+                return $this->redirect(['controller' => 'maps', 'action' => 'vermapa', $id, $address_id, $model]);
             } else {
                 $this->Flash->error(__('Error al guardar'));
             }
         }
 
         if ($address_id){
-            foreach ($company->addresses as $addr){
+            foreach ($dir->addresses as $addr){
                 if ($addr->id == $address_id){
                     $address = $addr;
                 }
             }
         }
 
-        $this->set(compact('company', 'address'));
+        $this->set(compact('dir', 'address', 'model'));
     }
 }

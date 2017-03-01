@@ -4,6 +4,16 @@
 
 <div id="toolsMap">
     <?php
+        echo $this->Form->create(null,
+            [
+                'url' => [
+                    'action' => 'geolocalizar',
+                    $dir->id,
+                    $address->id,
+                    $model
+                ]
+            ]
+        );
         echo $this->Form->create(null);
             echo $this->Form->input('lat',[
                     'label' => false,
