@@ -4,3 +4,7 @@
 /logs/*
 /.idea/*
 .DS_Store
+/nbproject/private/
+filae.sql
+/webroot/files/images/*
+/nbproject/
