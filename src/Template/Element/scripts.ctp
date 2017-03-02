@@ -645,7 +645,7 @@ switch ($controller){
                 </script>
                 <?php
                 break;
-        }
+            }
         break;
+    }
 }
-?>
