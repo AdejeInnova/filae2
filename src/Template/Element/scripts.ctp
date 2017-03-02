@@ -545,8 +545,7 @@ switch ($controller){
 
                         var marker = new google.maps.Marker({
                             position: myLatLng,
-                            map: map,
-                            title: '<?= $company->tradename; ?>'
+                            map: map
                         });
                     }
                     </script>

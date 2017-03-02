@@ -65,13 +65,11 @@ class MapsController extends AppController
         $modelo = $this->loadModel($model);
 
         //Obtenemos los datos de Companies según su id
-
         $dir = $modelo->get($id,[
             'contain' => ['Addresses']
         ]);
 
         if ($this->request->is('post')) {
-
             $this->loadModel('Addresses');
             $a = $this->Addresses->get($address_id);
 

@@ -384,7 +384,6 @@
                                             <?php
                                             if ($contact->communications) {
                                                 echo $contact->communications['0']['_joinData']['value'];
-
                                                 echo sizeof($contact->communications)>1?' +':'';
                                             }
                                             ?>
@@ -533,7 +532,8 @@
                                                                     'confirm' => __('¿Establecer como principal?'),
                                                                     'class' => 'btn btn-xs',
                                                                     'escape' => false
-                                                                ]);
+                                                                ]
+                                                            );
                                                         }else{
                                                             echo $this->Html->link(
                                                                 '<i class="fa fa-check"></i>',

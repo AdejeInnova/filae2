@@ -122,6 +122,7 @@ class AddressesController extends AppController
     }
 
     public function setdefault($id = null){
+
         $address = $this->Addresses->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
 
@@ -135,7 +136,10 @@ class AddressesController extends AppController
                 $this->Flash->error(__('The {0} could not be saved. Please, try again.', 'Address'));
             }
 
-            return $this->redirect(['controller' => 'companies', 'action' => 'edit', $address->companie_id, 'tab' => 'addresses']);
+            $model= $address->companie_id?'companies':'locales';
+            $model_id = $address->companie_id?$address->companie_id:$address->local_id;
+
+            return $this->redirect(['controller' => $model, 'action' => 'edit', $model_id, 'tab' => 'addresses']);
 
         }
     }
