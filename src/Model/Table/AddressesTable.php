@@ -94,7 +94,8 @@ class AddressesTable extends Table
         $validator
             ->allowEmpty('latlon');
 
-        $validator
+        //Comentario temporal para migrar los datos de impymeadj
+        /*$validator
             ->requirePresence('CCOM', 'create')
             ->notEmpty('CCOM');
 
@@ -144,7 +145,7 @@ class AddressesTable extends Table
 
         $validator
             ->requirePresence('TVIA', 'create')
-            ->notEmpty('TVIA');
+            ->notEmpty('TVIA');*/
 
         $validator
             ->allowEmpty('ubicacion_id')

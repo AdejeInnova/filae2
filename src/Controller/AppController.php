@@ -77,7 +77,7 @@ class AppController extends Controller
             /*
              * Cuando hay hay error llamamos al método authError que nos redirigirá a la accion Home
              * */
-            'authError'=>'Ingrese bien los datos',
+            'authError'=>'Error!!',
             'loginError' => [
                 'controller' => 'Users',
                 'action' => 'home'

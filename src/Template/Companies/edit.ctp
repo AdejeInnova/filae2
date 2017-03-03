@@ -911,7 +911,7 @@
                                         </div>
                                         <div class="box-body">
                                             <div class="embed-responsive embed-responsive-16by9">
-                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'view', $company->id]); ?>"></iframe>
+                                                <iframe class="embed-responsive-item" src="<?= $this->Url->build(['controller' => 'maps', 'action' => 'view', $company->id, 'Companies']); ?>"></iframe>
                                             </div>
                                         </div>
                                     </div>

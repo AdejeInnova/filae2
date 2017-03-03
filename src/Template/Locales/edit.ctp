@@ -227,6 +227,7 @@
                         }
 
                         echo $this->Form->input('tags',[
+                            'id' => 'tags',
                             'options' => $tags,
                             'label' => 'Tags Actividad',
                             'class' => 'select2',

@@ -1,25 +1,42 @@
+<?php
+
+$user = $this->request->session()->read('Auth.User');
+$rol = $user['role'];
+
+?>
+
+
 <ul class="sidebar-menu">
     <li class="header">Menú Principal</li>
+
+    <?php
+    //Menú Configuración
+    //debug($user);
+
+    if (($user['active']) && ((in_array($rol, ['Administrador']) ) || ($user['is_superuser']))){
+    ?>
     <li class="treeview">
         <a href="#">
             <i class="fa fa-gears"></i> <span><?= __('Configuración')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><a href="<?php echo $this->Url->build('/users'); ?>"><i class="fa fa-circle-o"></i> <?= __('Usuarios')?></a></li>
+
             <li><a href="<?php echo $this->Url->build('/regions'); ?>"><i class="fa fa-circle-o"></i> <?= __('Regiones')?></a></li>
             <li><a href="<?php echo $this->Url->build('/provinces'); ?>"><i class="fa fa-circle-o"></i> <?= __('Provincias')?></a></li>
             <li><a href="<?php echo $this->Url->build('/idcards'); ?>"><i class="fa fa-circle-o"></i> <?= __('Documentos')?></a></li>
             <li><a href="<?php echo $this->Url->build('/networks'); ?>"><i class="fa fa-circle-o"></i> <?= __('Redes')?></a></li>
             <li><a href="<?php echo $this->Url->build('/communications'); ?>"><i class="fa fa-circle-o"></i> <?= __('Comunicaciones')?></a></li>
+            <li><a href="<?php echo $this->Url->build('/users'); ?>"><i class="fa fa-circle-o"></i> <?= __('Usuarios')?></a></li>
         </ul>
     </li>
+    <? } ?>
 
     <li class="treeview">
         <a href="#">
             <i class="ion ion-bag"></i> <span><?= __('Empresas')?></span> <i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-            <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('New'), ['controller' => 'companies','action' => 'add'], ['escape'=>false]) ?></li>
+            <li><?= $this->Html->link('<i class="fa fa-circle-o"></i> ' . __('Nueva'), ['controller' => 'companies','action' => 'add'], ['escape'=>false]) ?></li>
             <li><a href="<?php echo $this->Url->build('/companies'); ?>"><i class="fa fa-circle-o"></i> <?= __('Listado')?></a></li>
         </ul>
     </li>
@@ -35,19 +52,17 @@
 
     </li>
 
-    <li class="treeview">
-        <a href="#">
-            <i class="fa fa-users"></i> <span><?= __('Terceros')?></span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i> <?= __('Personas')?></a></li>
-        </ul>
-    </li>
 
 
 
+    <?php
+    //Menú AdminLTE
+    //debug($user);
 
+    if ($user['is_superuser']){
+    ?>
     <li class="header">Menú AdminLTE</li>
+
     <li class="treeview">
         <a href="#">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -189,5 +204,6 @@
     <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
     <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
     <li><a href="<?php echo $this->Url->build('/pages/debug'); ?>"><i class="fa fa-bug"></i> Debug</a></li>
+    <? } ?>
 </ul>
 

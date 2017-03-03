@@ -50,7 +50,9 @@ class CompaniesTable extends Table
         parent::initialize($config);
 
         $this->table('companies');
+
         $this->displayField('tradename');
+
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
@@ -59,6 +61,7 @@ class CompaniesTable extends Table
             'foreignKey' => 'idcard_id',
             'joinType' => 'INNER'
         ]);
+
         $this->belongsTo('Companies', [
             'foreignKey' => 'company_id'
         ]);
@@ -70,22 +73,35 @@ class CompaniesTable extends Table
         $this->hasMany('Cnaes', [
             'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Companies', [
             'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Contacts', [
             'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Sedes', [
             'foreignKey' => 'companie_id'
         ]);
+
         $this->hasMany('Images', [
             'foreignKey' => 'companie_id'
         ]);
+
+        $this->hasMany('CommunicationsCompanies', [
+            'foreignKey' => 'companie_id'
+        ]);
+
         $this->belongsToMany('Communications', [
             'foreignKey' => 'company_id',
             'targetForeignKey' => 'communication_id',
             'joinTable' => 'communications_companies'
+        ]);
+
+        $this->hasMany('CompaniesNetworks', [
+            'foreignKey' => 'company_id'
         ]);
 
         $this->belongsToMany('Networks', [

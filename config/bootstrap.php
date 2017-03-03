@@ -233,13 +233,13 @@ Configure::write('Theme', [
     'title' => 'Filae-2',
     'folder' => ROOT,
     'logo' => [
-        'mini' => '<b>F</b>ilae',
-        'large' => '<b>Filae</b>2'
+        'mini' => '<b>IP</b>A',
+        'large' => '<b>InPyme</b> Adeje'
     ],
     'login' => [
-        'show_remember' => true,
-        'show_register' => true,
-        'show_social' => true
+        'show_remember' => false,
+        'show_register' => false,
+        'show_social' => false
     ]
 ]);
 
