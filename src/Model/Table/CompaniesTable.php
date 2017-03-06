@@ -169,7 +169,7 @@ class CompaniesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['idcard_id'], 'Idcards'));
-        $rules->add($rules->isUnique(['identity_card']));
+        //$rules->add($rules->isUnique(['identity_card'])); //No es única, ya que existen empresas del mismo dueño (NIF, NIE) pero que son empresas distintas.
         $rules->add(function ($entity, $options){
             return $this->validarDocument($entity);
         },'identity_card', [

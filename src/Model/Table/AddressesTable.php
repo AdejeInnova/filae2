@@ -72,16 +72,12 @@ class AddressesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('number')
-            ->requirePresence('number', 'create')
-            ->notEmpty('number');
+            ->allowEmpty('number');
 
         $validator
-            ->integer('block')
             ->allowEmpty('block');
 
         $validator
-            ->integer('floor')
             ->allowEmpty('floor');
 
         $validator

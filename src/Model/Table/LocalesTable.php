@@ -49,6 +49,10 @@ class LocalesTable extends Table
             'through' => 'communications_locales'
         ]);
 
+        $this->hasMany('CommunicationsLocales', [
+            'foreignKey' => 'local_id'
+        ]);
+
         $this->hasMany('Images', [
             'foreignKey' => 'local_id'
         ]);
