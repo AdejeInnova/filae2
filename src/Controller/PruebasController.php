@@ -68,58 +68,6 @@ class PruebasController extends AppController
 
 
     public function impyme(){
-        /**
-         * (int) 0 => [
-        'empresa_id' => '1',
-            'name' => 'Taifa',
-        'name_propietario' => 'Lourdes Galindo Sierra',
-        'name_contacto' => 'Lourdes Galindo Sierra',
-            'documento' => '43791727A',
-            'tipo_documento' => 'NIF',
-        'forma_juridica' => null,
-        'fecha_IAE' => '2013-05-09',
-        'epigrafe_IAE' => null,
-        'cnae' => null,
-        'direccion_comercial' => null,
-        'direccion_tipo_via' => 'CL',
-        'direccion_via' => 'Nueva',
-        'direccion_numero' => '1',
-        'direccion_bloque' => null,
-        'direccion_piso' => null,
-        'direccion_planta' => null,
-        'direccion_puerta' => null,
-        'direccion_cp' => '38670',
-        'direccion_entidad' => 'Adeje',
-        'direccion_nucleo' => 'Adeje Casco',
-        'tipo_ubicacion' => 'AI',
-        'nombre_ubicacion' => 'Adeje',
-            'superficie_venta' => '1',
-        'observaciones' => null,
-        'telefono_comercio' => '922710067',
-        'telefono_movil' => '628567177',
-        'telefono_particular' => null,
-            'email' => 'taifavestimenta@hotmail.com',
-        'web' => null,
-        'facebook' => 'https://www.facebook.com/Taifa-Adeje-1482015098759830/?fref=ts',
-        'twitter' => null,
-        'instagram' => null,
-        'youtube' => null,
-        'pinterest' => null,
-        'redes_otros' => null,
-        'horario' => null,
-        'horario_texto' => 'L-V 10:00-13:00 y 17:00-20:00, S de 10:00-14:00',
-        'creado' => '2016-08-03 11:38:22',
-        'creado_user' => '4',
-        'modificado' => '2016-09-19 02:36:18',
-        'modificado_user' => '4',
-        'lat' => '28.122342192164208',
-        'lon' => '-16.724194566153837',
-        'Actividad' => 'Vestimenta tradicional',
-        'IAE_manual' => 'Comercio al por menor de prendas de vestir y tocados ',
-        'CNAE_manual' => null,
-        'Direccion_manual' => null,
-        'es_vacio' => '0',
-         */
 
         $db = ConnectionManager::get("impyme"); // name of your database connection
         $stmt = $db->execute("SELECT * FROM empresas WHERE es_vacio = 0"); //Query
@@ -127,7 +75,6 @@ class PruebasController extends AppController
         $data = [];
 
         //Import model Companies
-
         $this->loadModel('Companies');
 
         $error = 0;
@@ -346,12 +293,6 @@ class PruebasController extends AppController
             ]);
 
 
-            /*if ($value['horario_texto']) {
-                debug($aux);
-                debug($entity);
-                die();
-            }*/
-
             if ($this->Companies->save($entity)) {
                 $saved++;
             }else{
@@ -372,69 +313,9 @@ class PruebasController extends AppController
     //SELECT * FROM empresas WHERE empresa_id in (57,104,144,281,415,490,541,615,616)
 
     public function locales(){
-
-        /**
-         * (int) 0 => [
-        'empresa_id' => '5',
-        'name' => '',
-        'name_propietario' => null,
-        'name_contacto' => null,
-        'documento' => null,
-        'tipo_documento' => null,
-        'forma_juridica' => null,
-        'fecha_IAE' => null,
-        'epigrafe_IAE' => null,
-        'cnae' => null,
-        'direccion_comercial' => null,
-        'direccion_tipo_via' => 'CL',
-        'direccion_via' => 'Nueva',
-        'direccion_numero' => '35',
-        'direccion_bloque' => null,
-        'direccion_piso' => null,
-        'direccion_planta' => null,
-        'direccion_puerta' => null,
-        'direccion_cp' => '38670',
-        'direccion_entidad' => 'Adeje',
-        'direccion_nucleo' => 'Adeje Casco',
-        'tipo_ubicacion' => 'AI',
-        'nombre_ubicacion' => null,
-        'superficie_venta' => '1',
-        'observaciones' => 'Local vacío.
-        Se alquila.',
-        'telefono_comercio' => '618140081',
-        'telefono_movil' => '618140081',
-        'telefono_particular' => null,
-        'email' => null,
-        'web' => null,
-        'facebook' => null,
-        'twitter' => null,
-        'instagram' => null,
-        'youtube' => null,
-        'pinterest' => null,
-        'redes_otros' => null,
-        'horario' => null,
-        'horario_texto' => null,
-        'creado' => '2016-08-04 11:20:56',
-        'creado_user' => '4',
-        'modificado' => '2017-01-11 01:38:59',
-        'modificado_user' => '4',
-        'lat' => '28.121105826466167',
-        'lon' => '-16.72474786093401',
-        'Actividad' => null,
-        'IAE_manual' => null,
-        'CNAE_manual' => null,
-        'Direccion_manual' => null,
-        'es_vacio' => '1',
-        'IAE_manual_extra' => null,
-        'visitaVirtualRealizada' => null,
-        'embedVisitaVirtual' => null
-        ],
-         */
         $db = ConnectionManager::get("impyme"); // name of your database connection
         $stmt = $db->execute("SELECT * FROM empresas WHERE es_vacio = 1"); //Query
         $values = $stmt->fetchAll('assoc');
-
-
 
         $data = [];
 
@@ -554,7 +435,6 @@ class PruebasController extends AppController
             }
 
 
-
             //Communications
             $communications = [];
 
@@ -574,8 +454,8 @@ class PruebasController extends AppController
                 $aux['communications_locales'] = $communications;
             }
 
-            $entity =    $this->Locales->newEntity();
-            $entity = $this->Locales->patchEntity($entity,$aux,[
+            $entidad =    $this->Locales->newEntity();
+            $entity = $this->Locales->patchEntity($entidad,$aux,[
                 'associated' => [
                     'CommunicationsLocales',
                     'Addresses'
@@ -583,13 +463,7 @@ class PruebasController extends AppController
             ]);
 
 
-            /*if ($value['Actividad']) {
-                debug($aux);
-                debug($entity);
-                die();
-            }*/
-
-            if ($this->Locales->save($entity)) {
+            if ($this->Locales->save($entidad)) {
                 $saved++;
             }else{
 
@@ -608,3 +482,5 @@ class PruebasController extends AppController
 }
 
 
+
+// in ('Adeje Casco', 'La Postura', 'Los Olivos', 'Las Torres', 'Las Nieves', 'El Galeón')

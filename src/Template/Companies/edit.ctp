@@ -149,7 +149,9 @@
                                 '<i class="fa ' . $network->class . '"></i> ',
                                 $network->_joinData->url,
                                 [
-                                    'escape' => false
+                                    'escape' => false,
+                                    'class' => 'btn btn-social-icon',
+                                    'target' => '_blanck'
                                 ]
                             );
                         echo '</span>';
@@ -811,7 +813,6 @@
                                         <table class="table table-hover ">
                                             <tr>
                                                 <th class="visible-xs"><?= __('Dirección') ?></th>
-
                                                 <th class="hidden-xs"><?= __('ID') ?></th>
                                                 <th class="hidden-xs"><?= __('Vía') ?></th>
                                                 <th class="hidden-xs"><?= __('Calle') ?></th>
@@ -827,86 +828,168 @@
 
                                             $labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
                                             $cont = 0;
-                                            foreach ($addresses as $address):?>
-                                                <tr class="<?= $address->principal?'text-success':'';?>">
-                                                    <td class="visible-xs">
-                                                        <?=
-                                                        $labels[$cont] . ' ' .
-                                                        h($address->TVIA) . ' ' .
-                                                        h($address->NVIAC) . ' ' .
-                                                        h($address->number) . ' ' .
-                                                        h($address->NNUCLE50) . ', ' .
-                                                        h($address->CPOS) . ' - ' .
-                                                        h($address->NENTSI50)  . '  ' .
-                                                        h($address->DMUN50)
-                                                        ?>
+                                            foreach ($addresses as $address):
 
-                                                    </td>
+                                                if ($address->is_migrated){
+                                                    ?>
+                                                    <tr class="<?= $address->principal ? 'text-success' : ''; ?>">
+                                                        <td colspan="8" class="hidden-xs">
+                                                            <p class="text-bold">Dirección Migrada: </p>
+                                                            <p>
+                                                                <?= $address->dtipo_via ?>
+                                                                <?= $address->dvia ?>
+                                                                <?= $address->number ?>,
+                                                                <?= $address->dcp ?>,
+                                                                <?= $address->dnucleo ?> -
+                                                                <?= $address->dentidad ?>
+                                                                <?= $address->block?'Bloque: ' . $address->block:''; ?>
+                                                                <?= $address->floor?'Piso: ' . $address->floor:''; ?>
+                                                                <?= $address->door?'Puerta: ' . $address->door:''; ?>
+                                                            </p>
+                                                            <p>
 
-                                                    <td class="hidden-xs"><?= $labels[$cont] ?></td>
-                                                    <td class="hidden-xs"><?= h($address->TVIA) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->NVIAC) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->number) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->NNUCLE50) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->CPOS) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->NENTSI50) ?></td>
-                                                    <td class="hidden-xs"><?= h($address->DMUN50) ?></td>
-                                                    <td class="actions" style="white-space:nowrap">
-                                                        <?= $this->Form->postLink(
-                                                            '<i class="fa fa-trash"></i>',
-                                                            [
-                                                                'controller' => 'addresses',
-                                                                'action' => 'delete',
-                                                                $address->id,
-                                                                $address->companie_id
-                                                            ],
-                                                            [
-                                                                'confirm' => __('¿Eliminar Dirección?'),
-                                                                'class'=>'btn btn-danger btn-xs',
-                                                                'escape' => false
-                                                            ]) ?>
-
-                                                        <?= $this->Form->button(
-                                                            '<i class="fa fa-map-marker"></i>'   ,
-                                                            [
-                                                                'id' => 'btn_map',
-                                                                'class' => 'btn btn-success btn-xs',
-                                                                'data-type' => 'address',
-                                                                'data-toggle' => 'modal',
-                                                                'data-target' => '#myModal',
-                                                                'data-value' => $address->id
-                                                            ]
-                                                        );
-                                                        ?>
-
-                                                        <?php
-                                                        if (!$address->principal) {
-                                                            echo $this->Form->postLink(
-                                                                '<i class="fa fa-check"></i>',
+                                                                <?= $address->lat?'<span class="text-bold">Latitud:</span> ' . $address->lat:''; ?>
+                                                                <?= $address->lon?'<span class="text-bold">Longitud:</span>  ' . $address->lon:''; ?>
+                                                            </p>
+                                                        </td>
+                                                        <td class="actions" style="white-space:nowrap">
+                                                            <?= $this->Form->postLink(
+                                                                '<i class="fa fa-trash"></i>',
                                                                 [
                                                                     'controller' => 'addresses',
-                                                                    'action' => 'setdefault',
-                                                                    $address->id
+                                                                    'action' => 'delete',
+                                                                    $address->id,
+                                                                    $address->companie_id
                                                                 ],
                                                                 [
-                                                                    'confirm' => __('¿Establecer como principal?'),
-                                                                    'class' => 'btn btn-xs',
+                                                                    'confirm' => __('¿Eliminar Dirección?'),
+                                                                    'class' => 'btn btn-danger btn-xs',
                                                                     'escape' => false
-                                                                ]);
-                                                        }else{
-                                                            echo $this->Html->link(
-                                                                '<i class="fa fa-check"></i>',
-                                                                'javascript:void(0)',
+                                                                ]) ?>
+
+                                                            <?= $this->Form->button(
+                                                                '<i class="fa fa-map-marker"></i>',
                                                                 [
-                                                                    'class' => 'btn btn-primary btn-xs',
-                                                                    'escape' => false
+                                                                    'id' => 'btn_map',
+                                                                    'class' => 'btn btn-success btn-xs',
+                                                                    'data-type' => 'address',
+                                                                    'data-toggle' => 'modal',
+                                                                    'data-target' => '#myModal',
+                                                                    'data-value' => $address->id
                                                                 ]
                                                             );
-                                                        }
-                                                        ?>
-                                                    </td>
-                                                </tr>
-                                            <?php
+                                                            ?>
+
+                                                            <?php
+                                                            if (!$address->principal) {
+                                                                echo $this->Form->postLink(
+                                                                    '<i class="fa fa-check"></i>',
+                                                                    [
+                                                                        'controller' => 'addresses',
+                                                                        'action' => 'setdefault',
+                                                                        $address->id
+                                                                    ],
+                                                                    [
+                                                                        'confirm' => __('¿Establecer como principal?'),
+                                                                        'class' => 'btn btn-xs',
+                                                                        'escape' => false
+                                                                    ]);
+                                                            } else {
+                                                                echo $this->Html->link(
+                                                                    '<i class="fa fa-check"></i>',
+                                                                    'javascript:void(0)',
+                                                                    [
+                                                                        'class' => 'btn btn-primary btn-xs',
+                                                                        'escape' => false
+                                                                    ]
+                                                                );
+                                                            }
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }else {
+                                                    ?>
+                                                    <tr class="<?= $address->principal ? 'text-success' : ''; ?>">
+                                                        <td class="visible-xs">
+                                                            <?=
+                                                            $labels[$cont] . ' ' .
+                                                            h($address->TVIA) . ' ' .
+                                                            h($address->NVIAC) . ' ' .
+                                                            h($address->number) . ' ' .
+                                                            h($address->NNUCLE50) . ', ' .
+                                                            h($address->CPOS) . ' - ' .
+                                                            h($address->NENTSI50) . '  ' .
+                                                            h($address->DMUN50)
+                                                            ?>
+
+                                                        </td>
+
+                                                        <td class="hidden-xs"><?= $labels[$cont] ?></td>
+                                                        <td class="hidden-xs"><?= h($address->TVIA) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->NVIAC) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->number) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->NNUCLE50) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->CPOS) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->NENTSI50) ?></td>
+                                                        <td class="hidden-xs"><?= h($address->DMUN50) ?></td>
+                                                        <td class="actions" style="white-space:nowrap">
+                                                            <?= $this->Form->postLink(
+                                                                '<i class="fa fa-trash"></i>',
+                                                                [
+                                                                    'controller' => 'addresses',
+                                                                    'action' => 'delete',
+                                                                    $address->id,
+                                                                    $address->companie_id
+                                                                ],
+                                                                [
+                                                                    'confirm' => __('¿Eliminar Dirección?'),
+                                                                    'class' => 'btn btn-danger btn-xs',
+                                                                    'escape' => false
+                                                                ]) ?>
+
+                                                            <?= $this->Form->button(
+                                                                '<i class="fa fa-map-marker"></i>',
+                                                                [
+                                                                    'id' => 'btn_map',
+                                                                    'class' => 'btn btn-success btn-xs',
+                                                                    'data-type' => 'address',
+                                                                    'data-toggle' => 'modal',
+                                                                    'data-target' => '#myModal',
+                                                                    'data-value' => $address->id
+                                                                ]
+                                                            );
+                                                            ?>
+
+                                                            <?php
+                                                            if (!$address->principal) {
+                                                                echo $this->Form->postLink(
+                                                                    '<i class="fa fa-check"></i>',
+                                                                    [
+                                                                        'controller' => 'addresses',
+                                                                        'action' => 'setdefault',
+                                                                        $address->id
+                                                                    ],
+                                                                    [
+                                                                        'confirm' => __('¿Establecer como principal?'),
+                                                                        'class' => 'btn btn-xs',
+                                                                        'escape' => false
+                                                                    ]);
+                                                            } else {
+                                                                echo $this->Html->link(
+                                                                    '<i class="fa fa-check"></i>',
+                                                                    'javascript:void(0)',
+                                                                    [
+                                                                        'class' => 'btn btn-primary btn-xs',
+                                                                        'escape' => false
+                                                                    ]
+                                                                );
+                                                            }
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
                                                 $cont++;
                                                 endforeach;
                                             ?>
@@ -1105,9 +1188,6 @@
                                             'label' => 'Longitud',
                                             'type' => 'text'
                                         ]);
-
-
-
 
                                         ?>
 

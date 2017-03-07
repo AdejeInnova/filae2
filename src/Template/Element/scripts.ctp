@@ -215,7 +215,7 @@ switch ($controller){
 
                     //Select 2 to Tags
                     $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
-                        if ($(this).text() == "Datos"){
+                        if ($(this).text().trim() == "Datos"){
                             $("#tags").select2({
                                 tags: true
                             });
@@ -478,6 +478,15 @@ switch ($controller){
                         }
                     }
 
+                    //Select 2 to Tags
+                    $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+                        if ($(this).text().trim() == "Datos"){
+                            $("#tags").select2({
+                                tags: true
+                            });
+                        }
+
+                    })
                     $(document).ready(function(){
                         //Añadimos a las imágenes la class img-responsive
                         $('.kv-file-content img').addClass('img-responsive');
