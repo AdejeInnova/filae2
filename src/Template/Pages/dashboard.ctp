@@ -1,7 +1,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        <b>InPyme</b> Adeje
+        <b>ImPyme</b> Adeje
         <small>Control panel</small>
     </h1>
 </section>

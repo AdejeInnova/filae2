@@ -168,8 +168,6 @@ class CompaniesController extends AppController
 
 
 
-
-
         $this->loadModel('Tags_tags');
         $ltags = $this->Tags_tags->find('all');
         $ltags
@@ -179,6 +177,7 @@ class CompaniesController extends AppController
         ;
 
         //Creamos array adaptado para el select2 tags
+        $tags=[];
         foreach ($ltags as $ltag){
             $tags[$ltag->label] = $ltag->label;
         }

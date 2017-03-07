@@ -53,7 +53,7 @@
                                 <td><?= $this->Number->format($local->id) ?></td>
                                 <td><?= h($local->name) ?></td>
                                 <td><?= h($local->email) ?></td>
-                                <td><?= $superficies[$local->superficie_id] ?></td>
+                                <td><?= $local->superficie_id?$superficies[$local->superficie_id]:''; ?></td>
                                 <td><?php
                                         if ($local->communications) {
                                             echo $local->communications['0']['_joinData']['value'];

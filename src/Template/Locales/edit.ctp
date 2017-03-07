@@ -226,6 +226,8 @@
                             array_push($tags_select, $tag->label);
                         }
 
+
+
                         echo $this->Form->input('tags',[
                             'id' => 'tags',
                             'options' => $tags,
@@ -236,6 +238,11 @@
                         ]);
 
                         ?>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10 text-muted">
+                                <?= $local->actividad?'<p>' . h($local->actividad) . '</p>':'' ?>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?= $this->Form->button(__('Save')) ?>

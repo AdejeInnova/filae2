@@ -234,7 +234,7 @@ Configure::write('Theme', [
     'folder' => ROOT,
     'logo' => [
         'mini' => '<b>IP</b>A',
-        'large' => '<b>InPyme</b> Adeje'
+        'large' => '<b>ImPyme</b> Adeje'
     ],
     'login' => [
         'show_remember' => false,

@@ -119,9 +119,6 @@ class PruebasController extends AppController
         'CNAE_manual' => null,
         'Direccion_manual' => null,
         'es_vacio' => '0',
-        'IAE_manual_extra' => null,
-        'visitaVirtualRealizada' => null,
-        'embedVisitaVirtual' => null
          */
 
         $db = ConnectionManager::get("impyme"); // name of your database connection
@@ -166,7 +163,8 @@ class PruebasController extends AppController
                 'tag_count' => null,
                 'created' => $value['creado'],
                 'modified' => $value['modificado'],
-                'empresa_id' => $value['empresa_id']
+                'empresa_id' => $value['empresa_id'],
+                'actividad' => $value['Actividad']
             ];
 
             if ($value['IAE_manual']){
@@ -336,7 +334,6 @@ class PruebasController extends AppController
             }
 
 
-
             $entity =    $this->Companies->newEntity();
             $entity = $this->Companies->patchEntity($entity,$aux,[
                 'associated' => [
@@ -347,6 +344,13 @@ class PruebasController extends AppController
                     'Addresses'
                 ]
             ]);
+
+
+            /*if ($value['horario_texto']) {
+                debug($aux);
+                debug($entity);
+                die();
+            }*/
 
             if ($this->Companies->save($entity)) {
                 $saved++;
@@ -458,7 +462,8 @@ class PruebasController extends AppController
                 'tag_count' => null,
                 'created' => $value['creado'],
                 'modified' => $value['modificado'],
-                'empresa_id' => $value['empresa_id']
+                'empresa_id' => $value['empresa_id'],
+                'actividad' => $value['Actividad']
             ];
 
             //Addresses
@@ -569,9 +574,6 @@ class PruebasController extends AppController
                 $aux['communications_locales'] = $communications;
             }
 
-
-
-
             $entity =    $this->Locales->newEntity();
             $entity = $this->Locales->patchEntity($entity,$aux,[
                 'associated' => [
@@ -581,7 +583,11 @@ class PruebasController extends AppController
             ]);
 
 
-
+            /*if ($value['Actividad']) {
+                debug($aux);
+                debug($entity);
+                die();
+            }*/
 
             if ($this->Locales->save($entity)) {
                 $saved++;

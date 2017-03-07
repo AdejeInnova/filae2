@@ -144,11 +144,13 @@
                     <?php
                     foreach ($company->networks as $network) {
                         echo '<p class="no-margin">';
-                        echo '<i class="fa ' . $network->class . '"></i> ';
                         echo '<span class="text">';
                             echo $this->Html->Link(
-                                strlen($network->_joinData->url)>25?'...'.substr($network->_joinData->url,-25):$network->_joinData->url,
-                                $network->_joinData->url
+                                '<i class="fa ' . $network->class . '"></i> ',
+                                $network->_joinData->url,
+                                [
+                                    'escape' => false
+                                ]
                             );
                         echo '</span>';
                         echo '</p>';
@@ -268,6 +270,12 @@
 
                             ?>
                         <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10 text-muted">
+                                <?= $company->actividad?'<p>' . h($company->actividad) . '</p>':'' ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <?= $this->Form->button(__('Save')) ?>
                             </div>
@@ -355,6 +363,7 @@
                             <div class="form-group">
                                 <div>
                                     <?php
+                                    echo $timetable->horario_texto?'<p class="text-muted">Horario: ' . $timetable->horario_texto . '</p>':'';
                                     //Mostramos el listado de horarios comerciales
                                     $dias = array('Lun','Mar','Mier','Jue','Vier','Sab','Dom');
 
@@ -1087,6 +1096,19 @@
                                                 'inputContainer' =>'<div class="form-group has-warning">{{content}}</div>'
                                             ]
                                         ]);
+
+                                        echo $this->Form->input('addresses.0.lat',[
+                                            'label' => 'Latitud',
+                                            'type' => 'text'
+                                        ]);
+                                        echo $this->Form->input('addresses.0.lon',[
+                                            'label' => 'Longitud',
+                                            'type' => 'text'
+                                        ]);
+
+
+
+
                                         ?>
 
                                         <div class="form-group">
